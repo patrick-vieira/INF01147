@@ -1,0 +1,28 @@
+"String"
+char
+int
+float
+if                                          //
+then 
+else
+while
+goto
+read
+print
+return                                      //
+<=
+>=
+==
+!=                                          //
+identificador
+-identificador
+_ident-f-_-_o-                              //
+123                                         //
+'c'
+"uma string. \n \t \" com scapes \" "       //
+"uma string"
+"uma string errada
+E
+$
+identificador
+int a = 1;

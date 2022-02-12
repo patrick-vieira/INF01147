@@ -1,0 +1,56 @@
+
+Definições
+%{
+O que é adicionado aqui vai para o inicio do codigo gerado pelo lex
+%}
+
+%%
+
+
+REgras
+
+expressão regulares e uma ação para quando encontrar a expressão
+"//".* comentario
+
+
+contextos
+
+"regra" {BEGIN(CONTEXT_NAME)}  
+<CONTEXT_NAME>"nova regra" {}
+
+
+%%
+
+
+Codigo C
+
+yyin = arquivo para leitura.
+
+
+
+
+
+Sempre casa com o maior lexema. ex int e inteiro, identifica inteiro. 
+quando casa em dois lexemas, o primeiro é escolhido.
+Erro caso regra não consiga ser executada.
+. qualquer caracter excluido \n 
+.+ qualquer conjunto de caracter (só pode ser usado no final ou sobrescreve todos)
+
+%% não gera main pois é feito para ser usado como "escravo", 
+a _yywrap é chamada quando encontra o final do arquivo. 
+como é usado em arquivos que contem includes, precisa retornar o ponteiro para outro  arquivo
+
+o default é imprimir na saida quando não tem regra 
+
+*para sair CTRL+D = EOF
+
+
+
+
+Hashtable.
+registra os lexemas gerados no programa compilado.
+nome e valores de variaveis.
+
+sempre que usar o mesmo nome referencia a mesma variavel.
+achar string pela chave.
+arvore balanceada ou estrutura hash.
