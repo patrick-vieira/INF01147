@@ -1,3 +1,18 @@
+%{
+
+    #include "hash.h"
+
+    void yyerror(const char *s);  
+    int getLineNumber(void);  
+
+%}
+
+%union 
+{
+    int value; 
+    HASH_NODE *symbol;
+}
+
 
 %token KW_CHAR           
 %token KW_INT            
@@ -19,11 +34,13 @@
 
 %token TK_IDENTIFIER     
 
-%token LIT_INTEGER       
-%token LIT_CHAR          
+%token<value> LIT_INTEGER      
+%token<value> LIT_CHAR          
 %token LIT_STRING   
 
 %token TOKEN_ERROR        
+
+%type<value> expression
 
 
 %left '<' '>' OPERATOR_LE OPERATOR_GE OPERATOR_EQ OPERATOR_DIF
@@ -140,28 +157,28 @@ command_list:   command ';' command_list
     ;
 
 
-attribution: TK_IDENTIFIER '=' expression
+attribution: TK_IDENTIFIER '=' expression       { fprintf(stderr, "EXPRESSION parser int %d \n", $3); }
     | array_element '=' expression
     ;
 
 
-expression: LIT_INTEGER
-    | LIT_CHAR
-    | TK_IDENTIFIER
-    | KW_READ
-    | array_element
-    | expression '+' expression
-    | expression '-' expression
-    | expression '*' expression
-    | expression '/' expression
-    | expression '<' expression
-    | expression '>' expression
+expression: LIT_INTEGER                         { fprintf(stderr, "TAG parser int %d \n", $1); }
+    | LIT_CHAR                                  { fprintf(stderr, "TAG parser char %d \n", $1); }
+    | TK_IDENTIFIER                             { $$ = 0; }
+    | KW_READ                                   { $$ = 0; }
+//    | array_element
+    | expression '+' expression                 { $$ = $1 + $3; }
+    | expression '-' expression                 { $$ = $1 - $3; }
+    | expression '*' expression                 { $$ = $1 * $3; }
+    | expression '/' expression                 { $$ = $1 / $3; }
+    | expression '<' expression                 { $$ = $1 < $3; }
+    | expression '>' expression                 { $$ = $1 > $3; }
     | expression OPERATOR_LE expression
     | expression OPERATOR_GE expression
     | expression OPERATOR_EQ expression
     | expression OPERATOR_DIF expression
-    | '(' expression ')'    
-    | function_call
+    | '(' expression ')'                        { $$ = $2; }
+//    | function_call
     ; 
 
 array_element: TK_IDENTIFIER '[' expression ']'
@@ -201,6 +218,6 @@ go_to: KW_GOTO TK_IDENTIFIER
 %%
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Syntax error at line %d.\n Error %s \n ", getLineNumber(), s);
+    fprintf(stderr, "%s at line %d.\n", s, getLineNumber());
     exit(3);
 }

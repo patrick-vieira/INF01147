@@ -1,8 +1,8 @@
 
 %{
 
-  #include "y.tab.h"
   #include "hash.h"
+  #include "y.tab.h"
 
   int running = 1;
   int lineNumber = 1;
@@ -10,8 +10,7 @@
   char buf[100]; 
   char *s;
 
-  void yyerror(const char *s);  
-  int getLineNumber(void);  
+
 
 %}
 
@@ -39,8 +38,8 @@ return                      { return KW_RETURN; }
 
 [-+*,;:\(\)\[\]{}/<>=]      { return yytext[0]; }
 
-[0-9]+                      { hashInsert(yytext, LIT_INTEGER); return LIT_INTEGER; }
-'.'                         { hashInsert(yytext, LIT_CHAR); return LIT_CHAR; }
+[0-9]+                      { hashInsert(yytext, LIT_INTEGER); fprintf(stderr, "TAG scanner litint %d \n", atoi(yytext)); yylval.value = atoi(yytext); return LIT_INTEGER; }
+'.'                         { hashInsert(yytext, LIT_CHAR); fprintf(stderr, "TAG scanner litchar %d \n", atoi(yytext)); yylval.value = atoi(yytext); return LIT_CHAR; }
 [-_a-z]+                    { hashInsert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
 
 
