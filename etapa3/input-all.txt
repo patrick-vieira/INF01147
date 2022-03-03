@@ -27,6 +27,11 @@ char arr[1];
 float arr[12];
 char arr[4]: 13;
 
+int fn() {
+  lbl:
+  lbl: a=1;
+  lbl:
+}
 int fn(int a) {
   
 }
@@ -71,7 +76,7 @@ char c: 'x';
 char d: 100;
 int a: 'A';
 
-int i: 1;
+
 int i: 2;
 int v[10]: 'a' 0 0 0 0 0 0 0 0 0;
 char matrix[100]; 

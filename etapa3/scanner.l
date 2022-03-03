@@ -2,6 +2,7 @@
 %{
 
   #include "hash.h"
+  #include "ast.h"
   #include "y.tab.h"
 
   int running = 1;
@@ -31,16 +32,16 @@ read                        { return KW_READ; }
 print                       { return KW_PRINT; }
 return                      { return KW_RETURN; }
 
-"<="                        { return OPERATOR_LE; }
-">="                        { return OPERATOR_GE; }
+"<="                        { return OPERATOR_LTE; }
+">="                        { return OPERATOR_GTE; }
 "=="                        { return OPERATOR_EQ; }
 "!="                        { return OPERATOR_DIF; }
 
 [-+*,;:\(\)\[\]{}/<>=]      { return yytext[0]; }
 
-[0-9]+                      { hashInsert(yytext, LIT_INTEGER); fprintf(stderr, "TAG scanner litint %d \n", atoi(yytext)); yylval.value = atoi(yytext); return LIT_INTEGER; }
-'.'                         { hashInsert(yytext, LIT_CHAR); fprintf(stderr, "TAG scanner litchar %d \n", atoi(yytext)); yylval.value = atoi(yytext); return LIT_CHAR; }
-[-_a-z]+                    { hashInsert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
+[0-9]+                      { yylval.symbol = hashInsert(yytext, LIT_INTEGER); return LIT_INTEGER; }
+'.'                         { yylval.symbol = hashInsert(yytext, LIT_CHAR);    fprintf(stderr, "TAG scanner litchar %d \n", atoi(yytext)); return LIT_CHAR; }
+[-_a-z]+                    { yylval.symbol = hashInsert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
 
 
 \"                { BEGIN(STRING); s = buf; } 
@@ -76,9 +77,6 @@ return                      { return KW_RETURN; }
 
 %%
 
-#include "y.tab.c"
-#include "main.c"
-#include "hash.c"
 
 int isRunning() {
   return running;

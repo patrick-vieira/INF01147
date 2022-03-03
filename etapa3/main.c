@@ -1,3 +1,12 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "hash.h"
+
+extern FILE *yyin;
+int yyparse(void);
+int getLineNumber(void);  
+
 int main(int argc, char** argv) {
   
   // se existe um arquivo lê ele

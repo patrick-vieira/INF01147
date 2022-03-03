@@ -60,8 +60,8 @@ extern int yydebug;
     KW_READ = 266,
     KW_PRINT = 267,
     KW_RETURN = 268,
-    OPERATOR_LE = 269,
-    OPERATOR_GE = 270,
+    OPERATOR_LTE = 269,
+    OPERATOR_GTE = 270,
     OPERATOR_EQ = 271,
     OPERATOR_DIF = 272,
     TK_IDENTIFIER = 273,
@@ -83,8 +83,8 @@ extern int yydebug;
 #define KW_READ 266
 #define KW_PRINT 267
 #define KW_RETURN 268
-#define OPERATOR_LE 269
-#define OPERATOR_GE 270
+#define OPERATOR_LTE 269
+#define OPERATOR_GTE 270
 #define OPERATOR_EQ 271
 #define OPERATOR_DIF 272
 #define TK_IDENTIFIER 273
@@ -97,10 +97,10 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 11 "parser.y"
+#line 13 "parser.y"
 
-    int value; 
     HASH_NODE *symbol;
+    AST *ast;
 
 #line 106 "y.tab.h"
 
