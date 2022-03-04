@@ -2,10 +2,13 @@
 #include <stdlib.h>
 
 #include "hash.h"
+#include "ast.h"
 
 extern FILE *yyin;
 int yyparse(void);
 int getLineNumber(void);  
+AST* getRootNode(void);  
+
 
 int main(int argc, char** argv) {
   
@@ -17,6 +20,8 @@ int main(int argc, char** argv) {
     fprintf(stderr, "missing file argument.");
     exit(1);
   }
+
+  
   
   yyin = fopen(argv[1], "r");
 
@@ -26,8 +31,33 @@ int main(int argc, char** argv) {
   }
   
   int i = yyparse();    
-  hashPrint();
+  
+  if (argc > 2) {
+    AST* rootNode = getRootNode();
+    astPrint(rootNode, 0);
+    char* code = astToCode(rootNode);
+
+    FILE *fp;
+
+    fp = fopen(argv[2], "w+");
+    fputs(code, fp);
+    //fprintf(fp, "%s \n", code);
+    fprintf(stderr, "%s \n", code);
+   
+    fclose(fp);
+    
+
+    
+    //unparse(argv[2]); 
+  }  
+
+  //astToCode(rootNode, fopen(argv[1], "w"));
+
+  //hashPrint();
+  
+  
   printf("Numero de linhas: %d.\n", getLineNumber());    
   printf("Compilation Success.\n");    
+  
   exit(0);
 }

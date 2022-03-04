@@ -1,0 +1,12 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3",
+            "binaryPath": "/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3/etapa3",
+            "binaryArgs": ["input.txt"]
+        }
+    ],
+    "files.associations": {
+        "type_traits": "c"
+    }
+}

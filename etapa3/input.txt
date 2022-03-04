@@ -4,14 +4,9 @@
 
 
 
-int fn() {
-  
-  gt = a + b > c - d;
-  
-  {
-    a = b + c - 1;
-    a = b - c;
-  };
-
-
+int fn(int a, int b) {
+  a = 1;
+  b = a;
+  c = a + (1 + 2);
 }
+

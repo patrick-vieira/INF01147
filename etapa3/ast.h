@@ -1,5 +1,7 @@
 // AST
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "hash.h"
 
 #ifndef ASH_HEADER
@@ -35,13 +37,33 @@
 #define AST_COMMAND_LIST    222
 
 
-#define AST_DECLARATION_FUNCTION_BODY    1000
+#define AST_DECLARATION_FUNCTION                    1000
+#define AST_DECLARATION_FUNCTION_INT                1001
+#define AST_DECLARATION_FUNCTION_CHAR               1002
+#define AST_DECLARATION_FUNCTION_FLOAT              1003
+
+#define AST_DECLARATION_FUNCTION_ARGS               1100
+#define AST_DECLARATION_FUNCTION_ARGS_INT           1101
+#define AST_DECLARATION_FUNCTION_ARGS_CHAR          1102
+#define AST_DECLARATION_FUNCTION_ARGS_FLOAT         1103
+#define AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY      1200
+#define AST_DECLARATION_FUNCTION_BODY               1300
+
+
+#define AST_DECLARATION               5000
+#define AST_DECLARATION_LIST          5001
+
+#define AST_PROGRAM          21
+
+
+
+#define AST_LABEL               2000
 
 
 
 typedef struct astnode
 {
-    int type;
+    int type;    
     HASH_NODE *symbol;
     struct astnode *son[MAX_SONS];
 } AST;
@@ -49,6 +71,8 @@ typedef struct astnode
 
 AST *astCreate(int type, HASH_NODE *symbol, AST* s0, AST* s1, AST* s2, AST* s3);
 void astPrint(AST *node, int level);
+char* testtt();
+char* astToCode(AST *node);
 
 #endif
 
