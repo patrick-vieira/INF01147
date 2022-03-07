@@ -6,7 +6,6 @@
 
 int fn()
 
-\*
 int fn(int v)  
   return fn('1', b, (1/1) + (2*3), c)
 

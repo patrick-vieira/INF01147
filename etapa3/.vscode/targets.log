@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Mar  6 18:26:24 2022
+# Make data base, printed on Mon Mar  7 08:49:21 2022
 
 # Variables
 
@@ -17,7 +17,7 @@ make: *** No rule to make target 'all'.  Stop.
 # automatic
 ?F = $(notdir $?)
 # environment
-WSLENV = VSCODE_WSL_EXT_LOCATION/up:VSCODE_SERVER_TAR/up
+WSLENV = VSCODE_WSL_EXT_LOCATION/up
 # default
 .SHELLFLAGS := -c
 # environment
@@ -55,9 +55,7 @@ PATH = /home/patrick/.vscode-server/bin/b5205cc8eb4fbaa726835538cd82372cc0222d43
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-e223badc-e97f-4dd5-a85f-0216ae69f0ed.sock
-# environment
-VSCODE_SERVER_TAR = /mnt/c/Users/vieir/AppData/Local/Temp/vscode-remote-wsl/b5205cc8eb4fbaa726835538cd82372cc0222d43/vscode-server-stable-linux-x64.tar.gz
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-95b99d2d-d890-44f7-938e-c153687b5aea.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -71,7 +69,7 @@ PWD = /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/18462_interop
+WSL_INTEROP = /run/WSL/14_interop
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -81,7 +79,7 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 LOGNAME = patrick
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
@@ -146,10 +144,8 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu
-# environment
-MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=68/1024=7%, Rehash=0, Collisions=4/93=4%
+# Load=66/1024=6%, Rehash=0, Collisions=4/91=4%
 
 # Pattern-specific Variable Values
 
@@ -157,9 +153,9 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 60, inode 844424930480585): 26 files, no impossibilities.
+# . (device 47, inode 844424930480585): 29 files, no impossibilities.
 
-# 26 files, no impossibilities in 1 directories.
+# 29 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -202,13 +198,13 @@ lex.yy.o: lex.yy.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 26):
+#  recipe to execute (from 'Makefile', line 22):
 	gcc -c lex.yy.c
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-06 18:26:12.099699
+#  Last modified 2022-03-07 01:10:48.4885085
 #  File has been updated.
 #  Successfully updated.
 
@@ -216,14 +212,14 @@ y.tab.o: y.tab.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 23):
+#  recipe to execute (from 'Makefile', line 19):
 	gcc -c y.tab.c
 
 lex.yy.c: scanner.l y.tab.c ast.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 32):
+#  recipe to execute (from 'Makefile', line 28):
 	lex scanner.l
 
 # Not a target:
@@ -242,7 +238,7 @@ ast.o: ast.c y.tab.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 17):
+#  recipe to execute (from 'Makefile', line 13):
 	gcc -c ast.c
 	
 
@@ -250,36 +246,35 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 36):
+#  recipe to execute (from 'Makefile', line 32):
 	rm lex.yy.c y.tab.c y.tab.h *.o etapa3
 
 y.tab.c: parser.y
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 29):
+#  recipe to execute (from 'Makefile', line 25):
 	yacc -d parser.y
 
 hash.o: hash.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
+#  recipe to execute (from 'Makefile', line 16):
 	gcc -c hash.c
 
 main.o: main.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 14):
+#  recipe to execute (from 'Makefile', line 10):
 	gcc -c main.c
 
 etapa3: main.o lex.yy.o y.tab.o hash.o ast.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
- 
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 11):
+#  recipe to execute (from 'Makefile', line 7):
 	gcc main.o lex.yy.o y.tab.o hash.o ast.o -o etapa3
 
 # files hash-table stats:
@@ -290,12 +285,13 @@ etapa3: main.o lex.yy.o y.tab.o hash.o ast.o
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 34 / storage = 284 B / avg = 8 B
-# current buf: size = 8162 B / used = 284 B / count = 34 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 35 / storage = 299 B / avg = 8 B
+# current buf: size = 8162 B / used = 299 B / count = 35 / avg = 8 B
+ 
 
-# strcache performance: lookups = 68 / hit rate = 50%
+# strcache performance: lookups = 71 / hit rate = 50%
 # hash-table stats:
-# Load=34/8192=0%, Rehash=0, Collisions=1/68=1%
-# Finished Make data base on Sun Mar  6 18:26:24 2022
+# Load=35/8192=0%, Rehash=0, Collisions=1/71=1%
+# Finished Make data base on Mon Mar  7 08:49:21 2022
 
  

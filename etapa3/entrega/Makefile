@@ -1,11 +1,7 @@
 #
 # UFRGS - Compiladores B - Marcelo Johann - 2021/2 - Etapa 3
 #
-# Makefile for single compiler call
-# All source files must be included from code embedded in scanner.l
-# In our case, you probably need #include "hash.c" at the beginning
-# and #include "main.c" in the last part of the scanner.l
-#
+
 
 etapa3: main.o lex.yy.o y.tab.o hash.o ast.o
 	gcc main.o lex.yy.o y.tab.o hash.o ast.o -o etapa3

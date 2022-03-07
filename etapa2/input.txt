@@ -1,6 +1,9 @@
 \\ UFRGS - Compiladores - Marcelo Johann - 2021/2
 
 \*  pode uma função não ter {} e ser apenas um comando simples como no exemplo abaixo? *\
+char fn(int a, float b, char c){
+    if a then v = v == b;
+}
 
 
 float fn(char a, int b) 

@@ -1,5 +1,23 @@
 
 
+
+
+
+
+
+
+
+
+
+
+int arr[10]: 1 2 3;
+
+\*
+char fn(int a, float b, char c){
+    if (a>1)then v=v == b;
+}
+
+\*
 float f: 2/3;
 int main ()
   {

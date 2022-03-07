@@ -1,6 +1,5 @@
 make etapa3 --dry-run --keep-going --print-directory
 make: Entering directory '/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3'
-gcc -c ast.c
-gcc main.o lex.yy.o y.tab.o hash.o ast.o -o etapa3
+make: 'etapa3' is up to date.
 make: Leaving directory '/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3'
  
