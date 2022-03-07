@@ -33,12 +33,17 @@
 %token KW_PRINT          
 %token KW_RETURN      
 
+%token<symbol> OPERATOR_ADD   
 %token<symbol> OPERATOR_SUB    
+%token<symbol> OPERATOR_MULT  
+%token<symbol> OPERATOR_DIV    
 
 %token<symbol> OPERATOR_LTE       
-%token OPERATOR_GTE       
-%token OPERATOR_EQ       
-%token OPERATOR_DIF   
+%token<symbol> OPERATOR_LT       
+%token<symbol> OPERATOR_GTE       
+%token<symbol> OPERATOR_GT
+%token<symbol> OPERATOR_EQ       
+%token<symbol> OPERATOR_DIF   
 
 %token<symbol> TK_IDENTIFIER     
 
@@ -88,9 +93,9 @@
 %type<ast> expression
 
 
-%left '<' '>' OPERATOR_LTE OPERATOR_GTE OPERATOR_EQ OPERATOR_DIF
-%left '+' '-' 
-%left '*' '/'
+%left OPERATOR_LTE OPERATOR_LT OPERATOR_GTE OPERATOR_GT OPERATOR_EQ OPERATOR_DIF
+%left OPERATOR_ADD OPERATOR_SUB
+%left OPERATOR_MULT OPERATOR_DIV
 
 %%
 
@@ -130,7 +135,7 @@ declaration_global_char: KW_CHAR TK_IDENTIFIER ':' expression ';'       { $$ = a
     | KW_CHAR TK_IDENTIFIER '[' LIT_INTEGER ']' ':' array_val ';'       { AST* lit_arr_size = astCreate(AST_SYMBOL, $4, 0,0,0,0); $$ = astCreate(AST_DECLARATION_GLOBAL_ARRAY_CHAR, $2, lit_arr_size,$7,0,0); }    
     ;
 
-declaration_global_float: KW_FLOAT TK_IDENTIFIER ':' LIT_INTEGER '/' LIT_INTEGER ';'    { AST* lit1 = astCreate(AST_SYMBOL, $4, 0,0,0,0); AST* lit2 = astCreate(AST_SYMBOL, $6, 0,0,0,0); $$ = astCreate(AST_DECLARATION_GLOBAL_FLOAT, $2, lit1,lit2,0,0); }
+declaration_global_float: KW_FLOAT TK_IDENTIFIER ':' LIT_INTEGER OPERATOR_DIV LIT_INTEGER ';'    { AST* lit1 = astCreate(AST_SYMBOL, $4, 0,0,0,0); AST* lit2 = astCreate(AST_SYMBOL, $6, 0,0,0,0); $$ = astCreate(AST_DECLARATION_GLOBAL_FLOAT, $2, lit1,lit2,0,0); }
     | KW_FLOAT TK_IDENTIFIER '[' LIT_INTEGER ']' ';'                                    { AST* lit_arr_size = astCreate(AST_SYMBOL, $4, 0,0,0,0); $$ = astCreate(AST_DECLARATION_GLOBAL_ARRAY_FLOAT, $2, lit_arr_size,0,0,0); }   
     ;
 
@@ -208,17 +213,17 @@ expression: LIT_INTEGER                         { $$ = astCreate(AST_SYMBOL, $1,
     | TK_IDENTIFIER                             { $$ = astCreate(AST_SYMBOL, $1, 0,0,0,0); }
     | KW_READ                                   { $$ = astCreate(AST_READ, 0, 0,0,0,0); }
     | array_element                             { $$ = $1; }
-    | expression '+' expression                 { $$ = astCreate(AST_ADD, 0, $1,$3,0,0); }
+    | expression OPERATOR_ADD expression        { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_ADD, 0, $1,$3,0,0); }
     | expression OPERATOR_SUB expression        { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_SUB, 0, $1,$3,0,0); }
-    | expression '*' expression                 { $$ = astCreate(AST_MULT, 0, $1,$3,0,0); }
-    | expression '/' expression                 { $$ = astCreate(AST_DIV, 0, $1,$3,0,0); }
+    | expression OPERATOR_MULT expression       { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_MULT, 0, $1,$3,0,0); }
+    | expression OPERATOR_DIV expression        { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_DIV, 0, $1,$3,0,0); }
     
-    | expression '<' expression                 { $$ = astCreate(AST_LT, 0, $1,$3,0,0); } //{ $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); }
-    | expression OPERATOR_LTE expression        { $$ = astCreate(AST_LTE, 0, $1,$3,0,0); } //{ $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); }    
-    | expression '>' expression                 { $$ = astCreate(AST_GT, 0, $1,$3,0,0); }    
-    | expression OPERATOR_GTE expression        { $$ = astCreate(AST_GTE, 0, $1,$3,0,0); }
-    | expression OPERATOR_EQ expression         { $$ = astCreate(AST_EQ, 0, $1,$3,0,0); }
-    | expression OPERATOR_DIF expression        { $$ = astCreate(AST_DIF, 0, $1,$3,0,0); }
+    | expression OPERATOR_LT expression         { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_LT, 0, $1,$3,0,0); } 
+    | expression OPERATOR_LTE expression        { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_LTE, 0, $1,$3,0,0); }
+    | expression OPERATOR_GT expression         { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_GT, 0, $1,$3,0,0); }    
+    | expression OPERATOR_GTE expression        { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_GTE, 0, $1,$3,0,0); }
+    | expression OPERATOR_EQ expression         { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_EQ, 0, $1,$3,0,0); }
+    | expression OPERATOR_DIF expression        { $$ = astCreate(AST_EXPRESSION_BINARY, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_DIF, 0, $1,$3,0,0); }
     
     | '(' expression ')'                        { $$ = astCreate(AST_EXPRESSION_BLOCK, 0, $2,0,0,0); }
     | function_call                             { $$ = $1;}

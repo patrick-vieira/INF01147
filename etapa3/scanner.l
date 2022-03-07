@@ -33,16 +33,19 @@ print                       { return KW_PRINT; }
 return                      { return KW_RETURN; }
 
 "<="                        { yylval.symbol = hashInsert(yytext, OPERATOR_LTE); return OPERATOR_LTE; }
-">="                        { return OPERATOR_GTE; }
-"=="                        { return OPERATOR_EQ; }
-"!="                        { return OPERATOR_DIF; }
+">="                        { yylval.symbol = hashInsert(yytext, OPERATOR_GTE); return OPERATOR_GTE; }
+"=="                        { yylval.symbol = hashInsert(yytext, OPERATOR_EQ); return OPERATOR_EQ; }
+"!="                        { yylval.symbol = hashInsert(yytext, OPERATOR_DIF); return OPERATOR_DIF; }
 
+"<"                         { yylval.symbol = hashInsert(yytext, OPERATOR_LT); return OPERATOR_LT; }
+">"                         { yylval.symbol = hashInsert(yytext, OPERATOR_GT); return OPERATOR_GT; }
+ 
+"+"                         { yylval.symbol = hashInsert(yytext, OPERATOR_ADD); return OPERATOR_ADD; }
+"-"                         { yylval.symbol = hashInsert(yytext, OPERATOR_SUB); return OPERATOR_SUB; }
+"*"                         { yylval.symbol = hashInsert(yytext, OPERATOR_MULT); return OPERATOR_MULT; }
+"/"                         { yylval.symbol = hashInsert(yytext, OPERATOR_DIV); return OPERATOR_DIV; }
 
-"-"                        { yylval.symbol = hashInsert(yytext, OPERATOR_SUB); return OPERATOR_SUB; }
-
-[+*/]                       { return yytext[0]; }
-[<>=]                       { return yytext[0]; }
-[,;:\(\)\[\]{}]             { return yytext[0]; }
+[=,;:\(\)\[\]{}]             { return yytext[0]; }
 
 [0-9]+                      { yylval.symbol = hashInsert(yytext, LIT_INTEGER); return LIT_INTEGER; }
 '.'                         { yylval.symbol = hashInsert(yytext, LIT_CHAR); return LIT_CHAR; }

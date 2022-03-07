@@ -1,8 +1,9 @@
 
 %{
 
-  #include "y.tab.h"
   #include "hash.h"
+  #include "ast.h"
+  #include "y.tab.h"
 
   int running = 1;
   int lineNumber = 1;
@@ -10,8 +11,7 @@
   char buf[100]; 
   char *s;
 
-  void yyerror(const char *s);  
-  int getLineNumber(void);  
+
 
 %}
 
@@ -32,27 +32,35 @@ read                        { return KW_READ; }
 print                       { return KW_PRINT; }
 return                      { return KW_RETURN; }
 
-"<="                        { return OPERATOR_LE; }
-">="                        { return OPERATOR_GE; }
-"=="                        { return OPERATOR_EQ; }
-"!="                        { return OPERATOR_DIF; }
+"<="                        { yylval.symbol = hashInsert(yytext, OPERATOR_LTE); return OPERATOR_LTE; }
+">="                        { yylval.symbol = hashInsert(yytext, OPERATOR_GTE); return OPERATOR_GTE; }
+"=="                        { yylval.symbol = hashInsert(yytext, OPERATOR_EQ); return OPERATOR_EQ; }
+"!="                        { yylval.symbol = hashInsert(yytext, OPERATOR_DIF); return OPERATOR_DIF; }
 
-[-+*,;:\(\)\[\]{}/<>=]      { return yytext[0]; }
+"<"                         { yylval.symbol = hashInsert(yytext, OPERATOR_LT); return OPERATOR_LT; }
+">"                         { yylval.symbol = hashInsert(yytext, OPERATOR_GT); return OPERATOR_GT; }
+ 
+"+"                         { yylval.symbol = hashInsert(yytext, OPERATOR_ADD); return OPERATOR_ADD; }
+"-"                         { yylval.symbol = hashInsert(yytext, OPERATOR_SUB); return OPERATOR_SUB; }
+"*"                         { yylval.symbol = hashInsert(yytext, OPERATOR_MULT); return OPERATOR_MULT; }
+"/"                         { yylval.symbol = hashInsert(yytext, OPERATOR_DIV); return OPERATOR_DIV; }
 
-[0-9]+                      { hashInsert(yytext, LIT_INTEGER); return LIT_INTEGER; }
-'.'                         { hashInsert(yytext, LIT_CHAR); return LIT_CHAR; }
-[-_a-z]+                    { hashInsert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
+[=,;:\(\)\[\]{}]             { return yytext[0]; }
+
+[0-9]+                      { yylval.symbol = hashInsert(yytext, LIT_INTEGER); return LIT_INTEGER; }
+'.'                         { yylval.symbol = hashInsert(yytext, LIT_CHAR); return LIT_CHAR; }
+[-_a-z]+                    { yylval.symbol = hashInsert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
 
 
 \"                { BEGIN(STRING); s = buf; } 
-<STRING>\\n       { *s++ = '\n'; } 
-<STRING>\\t       { *s++ = '\t'; } 
-<STRING>\\\"      { *s++ = '\"'; } 
+<STRING>\\n       { *s++ = '\\'; *s++ = 'n'; } 
+<STRING>\\t       { *s++ = '\\'; *s++ = 't'; } 
+<STRING>\\\"      { *s++ = '\\'; *s++ = '\"'; } 
 <STRING>\"        { 
                     *s = 0; 
                     BEGIN(INITIAL);               
-                    hashInsert(buf, LIT_STRING);      
-                    printf("found '%s'\n", buf);
+                    yylval.symbol = hashInsert(buf, LIT_STRING);      
+                    // printf("found '%s'\n", buf);
                     return LIT_STRING;
                   } 
 <STRING>\n        { 
@@ -77,9 +85,6 @@ return                      { return KW_RETURN; }
 
 %%
 
-#include "y.tab.c"
-#include "main.c"
-#include "hash.c"
 
 int isRunning() {
   return running;

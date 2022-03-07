@@ -1,7 +1,6 @@
 /***
 **** UFRGS - INF01147 - COMPILADORES - TURMA B - Marcelo Johann - 2021/2 - Etapa 1
 ***/
-
 #include "hash.h"
 
 HASH_NODE *Table[HASH_SIZE];
