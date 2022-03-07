@@ -206,7 +206,7 @@ int main ()
     
   if (i==100) then
     {
-    print "Nao tem como isso...\n";
+    print "Nao tem como isso... \n";
     }
   else
     print "OK!\n";

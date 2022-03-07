@@ -1,16 +1,27 @@
 Terminals unused in grammar
 
     TOKEN_ERROR
+    '-'
 
 
+State 76 conflicts: 10 shift/reduce
+State 77 conflicts: 2 shift/reduce
+State 78 conflicts: 2 shift/reduce
+State 79 conflicts: 2 shift/reduce
+State 80 conflicts: 10 shift/reduce
+State 81 conflicts: 2 shift/reduce
+State 82 conflicts: 2 shift/reduce
+State 83 conflicts: 2 shift/reduce
+State 84 conflicts: 2 shift/reduce
+State 85 conflicts: 2 shift/reduce
 State 152 conflicts: 1 shift/reduce
 
 
 Grammar
 
-    0 $accept: programa $end
+    0 $accept: program $end
 
-    1 programa: declaration_list
+    1 program: declaration_list
 
     2 declaration_list: declaration declaration_list
     3                 | %empty
@@ -54,13 +65,13 @@ Grammar
 
    32 declaration_function_body: command
 
-   33 function_call: TK_IDENTIFIER '(' function_args_or_empty ')'
+   33 function_call: TK_IDENTIFIER '(' function_call_args_or_empty ')'
 
-   34 function_args_or_empty: function_args
-   35                       | %empty
+   34 function_call_args_or_empty: function_call_args
+   35                            | %empty
 
-   36 function_args: expression
-   37              | expression ',' function_args
+   36 function_call_args: expression
+   37                   | expression ',' function_call_args
 
    38 command: attribution
    39        | flux_control
@@ -84,7 +95,7 @@ Grammar
    53           | KW_READ
    54           | array_element
    55           | expression '+' expression
-   56           | expression '-' expression
+   56           | expression OPERATOR_SUB expression
    57           | expression '*' expression
    58           | expression '/' expression
    59           | expression '<' expression
@@ -125,7 +136,7 @@ Terminals, with rules where they appear
     '*' (42) 57
     '+' (43) 55
     ',' (44) 26 27 28 37 70 72
-    '-' (45) 56
+    '-' (45)
     '/' (47) 15 58
     ':' (58) 9 11 12 14 15 78
     ';' (59) 9 10 11 12 13 14 15 16 45
@@ -137,9 +148,9 @@ Terminals, with rules where they appear
     '{' (123) 44
     '}' (125) 44
     error (256)
-    KW_CHAR (258) 12 13 14 22 27 30
-    KW_INT (259) 9 10 11 21 26 29
-    KW_FLOAT (260) 15 16 23 28 31
+    KW_CHAR <symbol> (258) 12 13 14 22 27 30
+    KW_INT <symbol> (259) 9 10 11 21 26 29
+    KW_FLOAT <symbol> (260) 15 16 23 28 31
     KW_IF (261) 74 75
     KW_THEN (262) 74 75
     KW_ELSE (263) 75
@@ -148,107 +159,108 @@ Terminals, with rules where they appear
     KW_READ (266) 53
     KW_PRINT (267) 68
     KW_RETURN (268) 73
-    OPERATOR_LTE (269) 60
-    OPERATOR_GTE (270) 62
-    OPERATOR_EQ (271) 63
-    OPERATOR_DIF (272) 64
-    TK_IDENTIFIER <symbol> (273) 9 10 11 12 13 14 15 16 21 22 23 26 27 28 29 30 31 33 48 52 67 78 79
-    LIT_INTEGER <symbol> (274) 10 11 13 14 15 16 17 18 50
-    LIT_CHAR <symbol> (275) 19 20 51
-    LIT_STRING (276) 69 70
-    TOKEN_ERROR (277)
+    OPERATOR_SUB <symbol> (269) 56
+    OPERATOR_LTE <symbol> (270) 60
+    OPERATOR_GTE (271) 62
+    OPERATOR_EQ (272) 63
+    OPERATOR_DIF (273) 64
+    TK_IDENTIFIER <symbol> (274) 9 10 11 12 13 14 15 16 21 22 23 26 27 28 29 30 31 33 48 52 67 78 79
+    LIT_INTEGER <symbol> (275) 10 11 13 14 15 16 17 18 50
+    LIT_CHAR <symbol> (276) 19 20 51
+    LIT_STRING <symbol> (277) 69 70
+    TOKEN_ERROR (278)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (39)
+    $accept (40)
         on left: 0
-    programa (40)
+    program <ast> (41)
         on left: 1
         on right: 0
-    declaration_list (41)
+    declaration_list <ast> (42)
         on left: 2 3
         on right: 1 2
-    declaration (42)
+    declaration <ast> (43)
         on left: 4 5
         on right: 2
-    declaration_global (43)
+    declaration_global <ast> (44)
         on left: 6 7 8
         on right: 5
-    declaration_global_int (44)
+    declaration_global_int <ast> (45)
         on left: 9 10 11
         on right: 6
-    declaration_global_char (45)
+    declaration_global_char <ast> (46)
         on left: 12 13 14
         on right: 7
-    declaration_global_float (46)
+    declaration_global_float <ast> (47)
         on left: 15 16
         on right: 8
-    array_val (47)
+    array_val <ast> (48)
         on left: 17 18 19 20
         on right: 11 14 17 19
-    declaration_function <ast> (48)
+    declaration_function <ast> (49)
         on left: 21 22 23
         on right: 4
-    declaration_function_args_or_empty (49)
+    declaration_function_args_or_empty <ast> (50)
         on left: 24 25
         on right: 21 22 23
-    declaration_function_args (50)
+    declaration_function_args <ast> (51)
         on left: 26 27 28 29 30 31
         on right: 24 26 27 28
-    declaration_function_body <ast> (51)
+    declaration_function_body <ast> (52)
         on left: 32
         on right: 21 22 23
-    function_call (52)
+    function_call <ast> (53)
         on left: 33
         on right: 66
-    function_args_or_empty (53)
+    function_call_args_or_empty <ast> (54)
         on left: 34 35
         on right: 33
-    function_args (54)
+    function_call_args <ast> (55)
         on left: 36 37
         on right: 34 37
-    command <ast> (55)
+    command <ast> (56)
         on left: 38 39 40 41 42 43
         on right: 32 45 74 75 76
-    command_block <ast> (56)
+    command_block <ast> (57)
         on left: 44
         on right: 42
-    command_list <ast> (57)
+    command_list <ast> (58)
         on left: 45 46 47
         on right: 44 45 46
-    attribution <ast> (58)
+    attribution <ast> (59)
         on left: 48 49
         on right: 38
-    expression <ast> (59)
+    expression <ast> (60)
         on left: 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66
         on right: 9 12 36 37 48 49 55 56 57 58 59 60 61 62 63 64 65 67 71 72 73 74 75 76
-    array_element (60)
+    array_element <ast> (61)
         on left: 67
         on right: 49 54
-    print (61)
+    print <ast> (62)
         on left: 68
         on right: 40
-    print_rest (62)
+    print_rest <ast> (63)
         on left: 69 70 71 72
         on right: 68 70 72
-    return (63)
+    return <ast> (64)
         on left: 73
         on right: 41
-    flux_control (64)
+    flux_control <ast> (65)
         on left: 74 75 76 77
         on right: 39
-    label (65)
+    label <ast> (66)
         on left: 78
         on right: 46
-    go_to (66)
+    go_to <ast> (67)
         on left: 79
         on right: 77
 
 
 State 0
 
-    0 $accept: . programa $end
+    0 $accept: . program $end
 
     KW_CHAR   shift, and go to state 1
     KW_INT    shift, and go to state 2
@@ -256,7 +268,7 @@ State 0
 
     $default  reduce using rule 3 (declaration_list)
 
-    programa                  go to state 4
+    program                   go to state 4
     declaration_list          go to state 5
     declaration               go to state 6
     declaration_global        go to state 7
@@ -297,16 +309,16 @@ State 3
 
 State 4
 
-    0 $accept: programa . $end
+    0 $accept: program . $end
 
     $end  shift, and go to state 15
 
 
 State 5
 
-    1 programa: declaration_list .
+    1 program: declaration_list .
 
-    $default  reduce using rule 1 (programa)
+    $default  reduce using rule 1 (program)
 
 
 State 6
@@ -400,7 +412,7 @@ State 14
 
 State 15
 
-    0 $accept: programa $end .
+    0 $accept: program $end .
 
     $default  accept
 
@@ -523,7 +535,7 @@ State 26
 
 State 27
 
-   33 function_call: TK_IDENTIFIER . '(' function_args_or_empty ')'
+   33 function_call: TK_IDENTIFIER . '(' function_call_args_or_empty ')'
    52 expression: TK_IDENTIFIER .
    67 array_element: TK_IDENTIFIER . '[' expression ']'
 
@@ -573,7 +585,7 @@ State 32
 
    12 declaration_global_char: KW_CHAR TK_IDENTIFIER ':' expression . ';'
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -583,14 +595,14 @@ State 32
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
     ';'           shift, and go to state 59
@@ -653,7 +665,7 @@ State 40
 
     9 declaration_global_int: KW_INT TK_IDENTIFIER ':' expression . ';'
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -663,14 +675,14 @@ State 40
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
     ';'           shift, and go to state 65
@@ -729,7 +741,7 @@ State 46
 
 State 47
 
-   33 function_call: TK_IDENTIFIER '(' . function_args_or_empty ')'
+   33 function_call: TK_IDENTIFIER '(' . function_call_args_or_empty ')'
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -737,19 +749,19 @@ State 47
     LIT_CHAR       shift, and go to state 29
     '('            shift, and go to state 30
 
-    $default  reduce using rule 35 (function_args_or_empty)
+    $default  reduce using rule 35 (function_call_args_or_empty)
 
-    function_call           go to state 31
-    function_args_or_empty  go to state 72
-    function_args           go to state 73
-    expression              go to state 74
-    array_element           go to state 33
+    function_call                go to state 31
+    function_call_args_or_empty  go to state 72
+    function_call_args           go to state 73
+    expression                   go to state 74
+    array_element                go to state 33
 
 
 State 48
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -760,14 +772,14 @@ State 48
    64           | expression . OPERATOR_DIF expression
    65           | '(' expression . ')'
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
     ')'           shift, and go to state 75
@@ -775,7 +787,7 @@ State 48
 
 State 49
 
-   60 expression: expression OPERATOR_LTE . expression
+   56 expression: expression OPERATOR_SUB . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -790,7 +802,7 @@ State 49
 
 State 50
 
-   62 expression: expression OPERATOR_GTE . expression
+   60 expression: expression OPERATOR_LTE . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -805,7 +817,7 @@ State 50
 
 State 51
 
-   63 expression: expression OPERATOR_EQ . expression
+   62 expression: expression OPERATOR_GTE . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -820,7 +832,7 @@ State 51
 
 State 52
 
-   64 expression: expression OPERATOR_DIF . expression
+   63 expression: expression OPERATOR_EQ . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -835,7 +847,7 @@ State 52
 
 State 53
 
-   59 expression: expression '<' . expression
+   64 expression: expression OPERATOR_DIF . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -850,7 +862,7 @@ State 53
 
 State 54
 
-   61 expression: expression '>' . expression
+   59 expression: expression '<' . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -865,7 +877,7 @@ State 54
 
 State 55
 
-   55 expression: expression '+' . expression
+   61 expression: expression '>' . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -880,7 +892,7 @@ State 55
 
 State 56
 
-   56 expression: expression '-' . expression
+   55 expression: expression '+' . expression
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -1077,7 +1089,7 @@ State 70
 State 71
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1088,14 +1100,14 @@ State 71
    64           | expression . OPERATOR_DIF expression
    67 array_element: TK_IDENTIFIER '[' expression . ']'
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
     ']'           shift, and go to state 113
@@ -1103,24 +1115,24 @@ State 71
 
 State 72
 
-   33 function_call: TK_IDENTIFIER '(' function_args_or_empty . ')'
+   33 function_call: TK_IDENTIFIER '(' function_call_args_or_empty . ')'
 
     ')'  shift, and go to state 114
 
 
 State 73
 
-   34 function_args_or_empty: function_args .
+   34 function_call_args_or_empty: function_call_args .
 
-    $default  reduce using rule 34 (function_args_or_empty)
+    $default  reduce using rule 34 (function_call_args_or_empty)
 
 
 State 74
 
-   36 function_args: expression .
-   37              | expression . ',' function_args
+   36 function_call_args: expression .
+   37                   | expression . ',' function_call_args
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1130,19 +1142,19 @@ State 74
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
     ','           shift, and go to state 115
 
-    $default  reduce using rule 36 (function_args)
+    $default  reduce using rule 36 (function_call_args)
 
 
 State 75
@@ -1155,7 +1167,45 @@ State 75
 State 76
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
+   56           | expression OPERATOR_SUB expression .
+   57           | expression . '*' expression
+   58           | expression . '/' expression
+   59           | expression . '<' expression
+   60           | expression . OPERATOR_LTE expression
+   61           | expression . '>' expression
+   62           | expression . OPERATOR_GTE expression
+   63           | expression . OPERATOR_EQ expression
+   64           | expression . OPERATOR_DIF expression
+
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
+
+    OPERATOR_SUB  [reduce using rule 56 (expression)]
+    OPERATOR_LTE  [reduce using rule 56 (expression)]
+    OPERATOR_GTE  [reduce using rule 56 (expression)]
+    OPERATOR_EQ   [reduce using rule 56 (expression)]
+    OPERATOR_DIF  [reduce using rule 56 (expression)]
+    '<'           [reduce using rule 56 (expression)]
+    '>'           [reduce using rule 56 (expression)]
+    '+'           [reduce using rule 56 (expression)]
+    '*'           [reduce using rule 56 (expression)]
+    '/'           [reduce using rule 56 (expression)]
+    $default      reduce using rule 56 (expression)
+
+
+State 77
+
+   55 expression: expression . '+' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1166,18 +1216,21 @@ State 76
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    '+'  shift, and go to state 55
-    '-'  shift, and go to state 56
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+    '+'           shift, and go to state 56
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
 
-    $default  reduce using rule 60 (expression)
+    OPERATOR_SUB  [reduce using rule 60 (expression)]
+    OPERATOR_DIF  [reduce using rule 60 (expression)]
+    $default      reduce using rule 60 (expression)
 
 
-State 77
+State 78
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1188,18 +1241,21 @@ State 77
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    '+'  shift, and go to state 55
-    '-'  shift, and go to state 56
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+    '+'           shift, and go to state 56
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
 
-    $default  reduce using rule 62 (expression)
+    OPERATOR_SUB  [reduce using rule 62 (expression)]
+    OPERATOR_DIF  [reduce using rule 62 (expression)]
+    $default      reduce using rule 62 (expression)
 
 
-State 78
+State 79
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1210,18 +1266,21 @@ State 78
    63           | expression OPERATOR_EQ expression .
    64           | expression . OPERATOR_DIF expression
 
-    '+'  shift, and go to state 55
-    '-'  shift, and go to state 56
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+    '+'           shift, and go to state 56
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
 
-    $default  reduce using rule 63 (expression)
+    OPERATOR_SUB  [reduce using rule 63 (expression)]
+    OPERATOR_DIF  [reduce using rule 63 (expression)]
+    $default      reduce using rule 63 (expression)
 
 
-State 79
+State 80
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1232,18 +1291,34 @@ State 79
    64           | expression . OPERATOR_DIF expression
    64           | expression OPERATOR_DIF expression .
 
-    '+'  shift, and go to state 55
-    '-'  shift, and go to state 56
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
 
-    $default  reduce using rule 64 (expression)
+    OPERATOR_SUB  [reduce using rule 64 (expression)]
+    OPERATOR_LTE  [reduce using rule 64 (expression)]
+    OPERATOR_GTE  [reduce using rule 64 (expression)]
+    OPERATOR_EQ   [reduce using rule 64 (expression)]
+    OPERATOR_DIF  [reduce using rule 64 (expression)]
+    '<'           [reduce using rule 64 (expression)]
+    '>'           [reduce using rule 64 (expression)]
+    '+'           [reduce using rule 64 (expression)]
+    '*'           [reduce using rule 64 (expression)]
+    '/'           [reduce using rule 64 (expression)]
+    $default      reduce using rule 64 (expression)
 
 
-State 80
+State 81
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1254,18 +1329,21 @@ State 80
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    '+'  shift, and go to state 55
-    '-'  shift, and go to state 56
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+    '+'           shift, and go to state 56
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
 
-    $default  reduce using rule 59 (expression)
+    OPERATOR_SUB  [reduce using rule 59 (expression)]
+    OPERATOR_DIF  [reduce using rule 59 (expression)]
+    $default      reduce using rule 59 (expression)
 
 
-State 81
+State 82
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1276,39 +1354,22 @@ State 81
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    '+'  shift, and go to state 55
-    '-'  shift, and go to state 56
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+    '+'           shift, and go to state 56
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
 
-    $default  reduce using rule 61 (expression)
-
-
-State 82
-
-   55 expression: expression . '+' expression
-   55           | expression '+' expression .
-   56           | expression . '-' expression
-   57           | expression . '*' expression
-   58           | expression . '/' expression
-   59           | expression . '<' expression
-   60           | expression . OPERATOR_LTE expression
-   61           | expression . '>' expression
-   62           | expression . OPERATOR_GTE expression
-   63           | expression . OPERATOR_EQ expression
-   64           | expression . OPERATOR_DIF expression
-
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
-
-    $default  reduce using rule 55 (expression)
+    OPERATOR_SUB  [reduce using rule 61 (expression)]
+    OPERATOR_DIF  [reduce using rule 61 (expression)]
+    $default      reduce using rule 61 (expression)
 
 
 State 83
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
-   56           | expression '-' expression .
+   55           | expression '+' expression .
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1318,16 +1379,20 @@ State 83
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    '*'  shift, and go to state 57
-    '/'  shift, and go to state 58
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+    '*'           shift, and go to state 57
+    '/'           shift, and go to state 58
 
-    $default  reduce using rule 56 (expression)
+    OPERATOR_SUB  [reduce using rule 55 (expression)]
+    OPERATOR_DIF  [reduce using rule 55 (expression)]
+    $default      reduce using rule 55 (expression)
 
 
 State 84
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    57           | expression '*' expression .
    58           | expression . '/' expression
@@ -1338,13 +1403,18 @@ State 84
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    $default  reduce using rule 57 (expression)
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+
+    OPERATOR_SUB  [reduce using rule 57 (expression)]
+    OPERATOR_DIF  [reduce using rule 57 (expression)]
+    $default      reduce using rule 57 (expression)
 
 
 State 85
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    58           | expression '/' expression .
@@ -1355,7 +1425,12 @@ State 85
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    $default  reduce using rule 58 (expression)
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_DIF  shift, and go to state 53
+
+    OPERATOR_SUB  [reduce using rule 58 (expression)]
+    OPERATOR_DIF  [reduce using rule 58 (expression)]
+    $default      reduce using rule 58 (expression)
 
 
 State 86
@@ -1631,14 +1706,14 @@ State 113
 
 State 114
 
-   33 function_call: TK_IDENTIFIER '(' function_args_or_empty ')' .
+   33 function_call: TK_IDENTIFIER '(' function_call_args_or_empty ')' .
 
     $default  reduce using rule 33 (function_call)
 
 
 State 115
 
-   37 function_args: expression ',' . function_args
+   37 function_call_args: expression ',' . function_call_args
 
     KW_READ        shift, and go to state 26
     TK_IDENTIFIER  shift, and go to state 27
@@ -1646,10 +1721,10 @@ State 115
     LIT_CHAR       shift, and go to state 29
     '('            shift, and go to state 30
 
-    function_call  go to state 31
-    function_args  go to state 137
-    expression     go to state 74
-    array_element  go to state 33
+    function_call       go to state 31
+    function_call_args  go to state 137
+    expression          go to state 74
+    array_element       go to state 33
 
 
 State 116
@@ -1709,7 +1784,7 @@ State 121
 State 122
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1722,14 +1797,14 @@ State 122
    75             | KW_IF expression . KW_THEN command KW_ELSE command
 
     KW_THEN       shift, and go to state 141
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
 
@@ -1737,7 +1812,7 @@ State 122
 State 123
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1753,15 +1828,15 @@ State 123
     KW_GOTO        shift, and go to state 93
     KW_PRINT       shift, and go to state 94
     KW_RETURN      shift, and go to state 95
-    OPERATOR_LTE   shift, and go to state 49
-    OPERATOR_GTE   shift, and go to state 50
-    OPERATOR_EQ    shift, and go to state 51
-    OPERATOR_DIF   shift, and go to state 52
+    OPERATOR_SUB   shift, and go to state 49
+    OPERATOR_LTE   shift, and go to state 50
+    OPERATOR_GTE   shift, and go to state 51
+    OPERATOR_EQ    shift, and go to state 52
+    OPERATOR_DIF   shift, and go to state 53
     TK_IDENTIFIER  shift, and go to state 96
-    '<'            shift, and go to state 53
-    '>'            shift, and go to state 54
-    '+'            shift, and go to state 55
-    '-'            shift, and go to state 56
+    '<'            shift, and go to state 54
+    '>'            shift, and go to state 55
+    '+'            shift, and go to state 56
     '*'            shift, and go to state 57
     '/'            shift, and go to state 58
     '{'            shift, and go to state 97
@@ -1798,7 +1873,7 @@ State 125
 State 126
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1810,14 +1885,14 @@ State 126
    71 print_rest: expression .
    72           | expression . ',' print_rest
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
     ','           shift, and go to state 144
@@ -1835,7 +1910,7 @@ State 127
 State 128
 
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -1846,14 +1921,14 @@ State 128
    64           | expression . OPERATOR_DIF expression
    73 return: KW_RETURN expression .
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
 
@@ -1958,9 +2033,9 @@ State 136
 
 State 137
 
-   37 function_args: expression ',' function_args .
+   37 function_call_args: expression ',' function_call_args .
 
-    $default  reduce using rule 37 (function_args)
+    $default  reduce using rule 37 (function_call_args)
 
 
 State 138
@@ -2054,7 +2129,7 @@ State 145
 
    48 attribution: TK_IDENTIFIER '=' expression .
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -2064,14 +2139,14 @@ State 145
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
 
@@ -2130,7 +2205,7 @@ State 150
 
    49 attribution: array_element '=' expression .
    55 expression: expression . '+' expression
-   56           | expression . '-' expression
+   56           | expression . OPERATOR_SUB expression
    57           | expression . '*' expression
    58           | expression . '/' expression
    59           | expression . '<' expression
@@ -2140,14 +2215,14 @@ State 150
    63           | expression . OPERATOR_EQ expression
    64           | expression . OPERATOR_DIF expression
 
-    OPERATOR_LTE  shift, and go to state 49
-    OPERATOR_GTE  shift, and go to state 50
-    OPERATOR_EQ   shift, and go to state 51
-    OPERATOR_DIF  shift, and go to state 52
-    '<'           shift, and go to state 53
-    '>'           shift, and go to state 54
-    '+'           shift, and go to state 55
-    '-'           shift, and go to state 56
+    OPERATOR_SUB  shift, and go to state 49
+    OPERATOR_LTE  shift, and go to state 50
+    OPERATOR_GTE  shift, and go to state 51
+    OPERATOR_EQ   shift, and go to state 52
+    OPERATOR_DIF  shift, and go to state 53
+    '<'           shift, and go to state 54
+    '>'           shift, and go to state 55
+    '+'           shift, and go to state 56
     '*'           shift, and go to state 57
     '/'           shift, and go to state 58
 

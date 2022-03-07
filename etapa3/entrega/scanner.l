@@ -52,7 +52,7 @@ return                      { return KW_RETURN; }
                     *s = 0; 
                     BEGIN(INITIAL);               
                     hashInsert(buf, LIT_STRING);      
-                    // printf("found '%s'\n", buf);
+                    printf("found '%s'\n", buf);
                     return LIT_STRING;
                   } 
 <STRING>\n        { 

@@ -3,6 +3,33 @@
 \*  pode uma função não ter {} e ser apenas um comando simples como no exemplo abaixo? *\
 
 
+float fn(char a, int b) 
+  if len(
+    a) - b == 1
+    then 
+      if a then
+        return a
+      else
+        return ( a[b] / 2 + fn( s[ ( s > 2 ) ] ) )
+    else 
+      if a then else
+        if a then else
+          if a then else
+            if a then return a else 
+              if a then else a = a+1
+\\float fn(char a, int b)if  then if a then return a else return (a[b]/2+fn(s[()])) else if a then  else if a then  else if a then  else if a then return a else if a then  else a=a+1
+
+
+\*
+int fn(int a) {
+  ;
+}
+\*
+int alalalalalalal() {
+  
+  a[read] = fn(1+1);
+}
+
 int fn() {
   print "ahoy";
   return 1;

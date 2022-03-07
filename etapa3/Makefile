@@ -13,7 +13,7 @@ etapa3: main.o lex.yy.o y.tab.o hash.o ast.o
 main.o: main.c
 	gcc -c main.c
 
-ast.o: ast.c
+ast.o: ast.c y.tab.o
 	gcc -c ast.c
 	
 hash.o: hash.c

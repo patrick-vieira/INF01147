@@ -32,26 +32,31 @@ read                        { return KW_READ; }
 print                       { return KW_PRINT; }
 return                      { return KW_RETURN; }
 
-"<="                        { return OPERATOR_LTE; }
+"<="                        { yylval.symbol = hashInsert(yytext, OPERATOR_LTE); return OPERATOR_LTE; }
 ">="                        { return OPERATOR_GTE; }
 "=="                        { return OPERATOR_EQ; }
 "!="                        { return OPERATOR_DIF; }
 
-[-+*,;:\(\)\[\]{}/<>=]      { return yytext[0]; }
+
+"-"                        { yylval.symbol = hashInsert(yytext, OPERATOR_SUB); return OPERATOR_SUB; }
+
+[+*/]                       { return yytext[0]; }
+[<>=]                       { return yytext[0]; }
+[,;:\(\)\[\]{}]             { return yytext[0]; }
 
 [0-9]+                      { yylval.symbol = hashInsert(yytext, LIT_INTEGER); return LIT_INTEGER; }
-'.'                         { yylval.symbol = hashInsert(yytext, LIT_CHAR);    fprintf(stderr, "TAG scanner litchar %d \n", atoi(yytext)); return LIT_CHAR; }
+'.'                         { yylval.symbol = hashInsert(yytext, LIT_CHAR); return LIT_CHAR; }
 [-_a-z]+                    { yylval.symbol = hashInsert(yytext, TK_IDENTIFIER); return TK_IDENTIFIER; }
 
 
 \"                { BEGIN(STRING); s = buf; } 
-<STRING>\\n       { *s++ = '\n'; } 
-<STRING>\\t       { *s++ = '\t'; } 
-<STRING>\\\"      { *s++ = '\"'; } 
+<STRING>\\n       { *s++ = '\\'; *s++ = 'n'; } 
+<STRING>\\t       { *s++ = '\\'; *s++ = 't'; } 
+<STRING>\\\"      { *s++ = '\\'; *s++ = '\"'; } 
 <STRING>\"        { 
                     *s = 0; 
                     BEGIN(INITIAL);               
-                    hashInsert(buf, LIT_STRING);      
+                    yylval.symbol = hashInsert(buf, LIT_STRING);      
                     // printf("found '%s'\n", buf);
                     return LIT_STRING;
                   } 

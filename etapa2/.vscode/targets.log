@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Mar  6 18:26:24 2022
+# Make data base, printed on Sun Mar  6 17:44:39 2022
 
 # Variables
 
@@ -29,7 +29,7 @@ VSCODE_LOG_NATIVE = false
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3
+CURDIR := /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa2
 # makefile
 SHELL = /bin/sh
 # environment
@@ -55,7 +55,7 @@ PATH = /home/patrick/.vscode-server/bin/b5205cc8eb4fbaa726835538cd82372cc0222d43
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-e223badc-e97f-4dd5-a85f-0216ae69f0ed.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-f5fa5b5b-d1c1-41ec-a8a7-c7f5499e9aae.sock
 # environment
 VSCODE_SERVER_TAR = /mnt/c/Users/vieir/AppData/Local/Temp/vscode-remote-wsl/b5205cc8eb4fbaa726835538cd82372cc0222d43/vscode-server-stable-linux-x64.tar.gz
 # default
@@ -67,7 +67,7 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-PWD = /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3
+PWD = /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa2
 # default
 .LOADED := 
 # environment
@@ -81,7 +81,7 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 LOGNAME = patrick
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
@@ -99,7 +99,7 @@ MAKE_VERSION := 4.2.1
 # environment
 USER = patrick
 # makefile
-.DEFAULT_GOAL := etapa3
+.DEFAULT_GOAL := etapa2
 # environment
 NAME = DESKTOP-5MBUUP8
 # automatic
@@ -157,21 +157,15 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 60, inode 844424930480585): 26 files, no impossibilities.
+# . (device 60, inode 91479367430982868): 17 files, no impossibilities.
 
-# 26 files, no impossibilities in 1 directories.
+# 17 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 # No implicit rules.
 
 # Files
-
-# Not a target:
-ast.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
 
 # Not a target:
 scanner.l:
@@ -187,44 +181,18 @@ all:
 #  File has not been updated.
 
 # Not a target:
-hash.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-main.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-lex.yy.o: lex.yy.c
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 26):
-	gcc -c lex.yy.c
-
-# Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-06 18:26:12.099699
+#  Last modified 2022-02-17 11:52:16.0024848
 #  File has been updated.
 #  Successfully updated.
 
-y.tab.o: y.tab.c
+etapa2: yacc lex
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 23):
-	gcc -c y.tab.c
-
-lex.yy.c: scanner.l y.tab.c ast.c
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 32):
-	lex scanner.l
+#  recipe to execute (from 'Makefile', line 11):
+	gcc -o etapa2 lex.yy.c
 
 # Not a target:
 .DEFAULT:
@@ -232,70 +200,41 @@ lex.yy.c: scanner.l y.tab.c ast.c
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-parser.y:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-ast.o: ast.c y.tab.o
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 17):
-	gcc -c ast.c
-	
-
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 36):
-	rm lex.yy.c y.tab.c y.tab.h *.o etapa3
+#  recipe to execute (from 'Makefile', line 18):
+	rm lex.yy.c etapa2 y.tab.c y.tab.h
 
-y.tab.c: parser.y
+lex: scanner.l
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 29):
-	yacc -d parser.y
+#  recipe to execute (from 'Makefile', line 15):
+	lex scanner.l
 
-hash.o: hash.c
+yacc:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
-	gcc -c hash.c
-
-main.o: main.c
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 14):
-	gcc -c main.c
-
-etapa3: main.o lex.yy.o y.tab.o hash.o ast.o
-#  Implicit rule search has not been done.
-#  Modification time never checked.
- 
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 11):
-	gcc main.o lex.yy.o y.tab.o hash.o ast.o -o etapa3
+#  recipe to execute (from 'Makefile', line 13):
+	yacc -d parser.y	
 
 # files hash-table stats:
-# Load=18/1024=2%, Rehash=0, Collisions=0/50=0%
+# Load=9/1024=1%, Rehash=0, Collisions=0/24=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 34 / storage = 284 B / avg = 8 B
-# current buf: size = 8162 B / used = 284 B / count = 34 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 25 / storage = 198 B / avg = 7 B
+# current buf: size = 8162 B / used = 198 B / count = 25 / avg = 7 B
 
-# strcache performance: lookups = 68 / hit rate = 50%
+# strcache performance: lookups = 37 / hit rate = 32%
 # hash-table stats:
-# Load=34/8192=0%, Rehash=0, Collisions=1/68=1%
-# Finished Make data base on Sun Mar  6 18:26:24 2022
+# Load=25/8192=0%, Rehash=0, Collisions=1/37=3%
+# Finished Make data base on Sun Mar  6 17:44:39 2022
 
  

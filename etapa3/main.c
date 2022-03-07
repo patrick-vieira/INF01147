@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
   if (argc > 2) {
     AST* rootNode = getRootNode();
     astPrint(rootNode, 0);
-    char* code = astToCode(rootNode);
+    char* code = astToCode(rootNode, 0);
 
     FILE *fp;
 
@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 
   //astToCode(rootNode, fopen(argv[1], "w"));
 
-  //hashPrint();
+  hashPrint();
   
   
   printf("Numero de linhas: %d.\n", getLineNumber());    

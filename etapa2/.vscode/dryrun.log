@@ -1,0 +1,7 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa2'
+yacc -d parser.y	
+lex scanner.l
+gcc -o etapa2 lex.yy.c
+make: Leaving directory '/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa2'
+ 
