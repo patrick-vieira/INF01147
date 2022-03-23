@@ -4,17 +4,12 @@ int fn-a(){
 
 }
 char b: 2;
-char arr-b[2]: 'a' 'b';
+char arr-b[2]: 'r' 's';
 char fn-b(){
 
 }
-float c: 2/1;
-float arr-c[2];
-float fn-c(){
-
-}
-int z: 9;
 int fn(){
-a=arr-a[1 + 1 * a] + a;
+a=1 + fn-a();
+a=arr-a[1 + 1 + a * fn-a()] + a;
 
 }

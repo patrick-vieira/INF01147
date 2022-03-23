@@ -4,25 +4,25 @@
 
 
 etapa4: main.o lex.yy.o y.tab.o hash.o ast.o semantic.o
-	gcc main.o lex.yy.o y.tab.o hash.o ast.o semantic.o -o etapa4
+	gcc main.o lex.yy.o y.tab.o hash.o ast.o semantic.o -g -o etapa4
 
 main.o: main.c 
-	gcc -c main.c
+	gcc -c -g main.c
 
 semantic.o: semantic.c ast.o
-	gcc -c semantic.c
+	gcc -c -g  semantic.c
 
 ast.o: ast.c y.tab.o
-	gcc -c ast.c
+	gcc -c -g  ast.c
 	
 hash.o: hash.c
-	gcc -c hash.c
+	gcc -c -g  hash.c
 
 y.tab.o: y.tab.c
-	gcc -c y.tab.c
+	gcc -c -g  y.tab.c
 
 lex.yy.o: lex.yy.c
-	gcc -c lex.yy.c
+	gcc -c -g  lex.yy.c
 
 y.tab.c: parser.y
 	yacc -d parser.y

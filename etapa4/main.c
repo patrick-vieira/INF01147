@@ -39,14 +39,16 @@ int main(int argc, char** argv) {
   fprintf(stderr, "\n\nhash before Semantics\n\n");
   hashPrint();
 
-  fprintf(stderr, "Semantics start \n\n");
+  fprintf(stderr, "\n\nSemantics start \n\n");
   check_and_set_declarations(rootNode);      
 
   fprintf(stderr, "\nhash after Semantics\n\n");    
   hashPrint();
 
   check_undeclared();
+
   check_operands(rootNode);
+  check_attibuition(rootNode);
     
   if (argc > 2) {  //write output
     FILE *fp;

@@ -130,7 +130,7 @@ char* getSpaces(int level){
     return spaces;
 }
 
-char* astToCode(AST* node, int level) {
+char* astToCodePrint(AST* node, int level) {
 	if(node == 0)
 		return "";
 
@@ -769,6 +769,645 @@ char* astToCode(AST* node, int level) {
         default: fprintf(stderr, "AST_UNKNOWN\n"); return ""; break;
         
         
+    }
+}
+
+char* astToCode(AST* node, int level) {
+    if(node == 0)
+        return "";
+
+    switch (node->type) {
+        case AST_SYMBOL: {
+
+
+
+            char* buffer = (char*)calloc(1 + strlen(node->symbol->text) + 1, sizeof(char));
+
+            switch (node->symbol->type){
+                case LIT_INTEGER:
+                case LIT_CHAR:
+                case TK_IDENTIFIER: sprintf(buffer, "%s", node->symbol->text); break;
+                case LIT_STRING: sprintf(buffer, "\"%s\"", node->symbol->text); break;
+            }
+            return buffer;
+            break;
+        }
+        case AST_PROGRAM: {
+
+            char* prog = astToCode(node->son[0],level+1);
+
+            return prog;
+            break;
+        }
+
+        case AST_READ: {
+
+
+            char* buffer = (char*)calloc(4 + 1, sizeof(char));
+            sprintf(buffer, "read");
+
+            return buffer;
+            break;
+        }
+        case AST_ADD: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s+%s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+        }
+        case AST_SUB: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s - %s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+        }
+        case AST_DIV: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+
+            char* add = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(add, "%s/%s", valueLeft, valueRight);
+
+            return add;
+            break;
+        }
+        case AST_MULT: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+
+            char* add = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(add, "%s*%s", valueLeft, valueRight);
+
+            return add;
+            break;
+        }
+
+        case AST_LT: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s<%s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+        }
+        case AST_LTE: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s<=%s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+
+        }
+        case AST_GT: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s>%s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+
+        }
+        case AST_GTE: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s>=%s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+
+        }
+        case AST_EQ: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s==%s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+
+        }
+        case AST_DIF: {
+
+
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+            char* buffer = (char*)calloc(1 + strlen(valueLeft) + 1 + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s!=%s", valueLeft, valueRight);
+
+            return buffer;
+            break;
+
+        }
+
+        case AST_EXPRESSION_BINARY_ARITHMETIC:
+        case AST_EXPRESSION_BINARY_BOOLEAN: {
+
+
+            char* operator = node->symbol->text;
+            char* valueLeft = astToCode(node->son[0],level);
+            char* valueRight = astToCode(node->son[1],level);
+
+
+            char* buffer = (char*)calloc(2 + strlen(valueLeft) + strlen(operator) + strlen(valueRight) + 1, sizeof(char));
+            sprintf(buffer, "%s %s %s", valueLeft, operator, valueRight);
+
+            return buffer;
+            break;
+        }
+
+        case AST_COMMAND_BLOCK: {
+
+            char* block_content = astToCode(node->son[0],level);
+
+            char* block = (char*)calloc(4 + strlen(block_content) + 1, sizeof(char));
+            sprintf(block, "{\n%s\n}", block_content);
+
+            return block;
+            break;
+        }
+        case AST_PRINT: {
+
+
+            char* stringContent = astToCode(node->son[0],level);
+
+
+            char* buffer = (char*)calloc(6 + strlen(stringContent) + 1, sizeof(char));
+            sprintf(buffer, "print %s", stringContent);
+
+            return buffer;
+            break;
+        }
+        case AST_PRINT_REST: {
+
+
+            char* stringContent1 = astToCode(node->son[0],level);
+            char* stringContent2 = astToCode(node->son[1],level);
+            char* stringContent3 = astToCode(node->son[2],level);
+
+
+
+
+            char* buffer = (char*)calloc(5 + strlen(stringContent1) + strlen(stringContent2) + strlen(stringContent3) + 1, sizeof(char));
+
+            if (stringContent3[0] != '\0')
+                sprintf(buffer, "%s, %s, %s", stringContent1, stringContent2, stringContent3);
+            else if (stringContent2[0] != '\0')
+                sprintf(buffer, "%s, %s", stringContent1, stringContent2);
+            else
+                sprintf(buffer, "%s", stringContent1);
+
+            return buffer;
+            break;
+        }
+        case AST_ATTRIBUITION: {
+
+
+            char* varName = node->symbol->text;
+            char* value = astToCode(node->son[0],level);
+
+            char* attribuition = (char*)calloc(1 + strlen(varName) + strlen(value) + 1, sizeof(char));
+            sprintf(attribuition, "%s=%s", varName, value);
+
+            return attribuition;
+            break;
+        }
+        case AST_RETURN: {
+
+
+            char* value = astToCode(node->son[0],level);
+
+            char* buffer = (char*)calloc(7 + strlen(value) + 1, sizeof(char));
+            sprintf(buffer, "return %s", value);
+
+            return buffer;
+            break;
+        }
+
+        case AST_LABEL: {
+
+
+            char* label = node->symbol->text;
+
+            char* buffer = (char*)calloc(1 + strlen(label) + 1, sizeof(char));
+            sprintf(buffer, "%s:", label);
+
+            return buffer;
+            break;
+        }
+        case AST_EXPRESSION_BLOCK: {
+
+
+            char* expression = astToCode(node->son[0],level);
+
+            char* buffer = (char*)calloc(2 + strlen(expression) + 1, sizeof(char));
+            sprintf(buffer, "(%s)", expression);
+
+            return buffer;
+            break;
+        }
+
+        case AST_COMMAND_LIST: {
+
+
+            char* cmd = astToCode(node->son[0],level);
+            char* cmdListRest = astToCode(node->son[1],level);
+
+            char* buffer = (char*)calloc(2 + strlen(cmd) + strlen(cmdListRest) + 1, sizeof(char));
+
+            if (node->son[0] != 0)
+                if (node->son[0]->type == AST_LABEL)
+                    sprintf(buffer, "%s \n%s", cmd, cmdListRest);
+                else
+                    sprintf(buffer, "%s;\n%s", cmd, cmdListRest);
+            else
+                sprintf(buffer, ";\n%s", cmdListRest);
+
+
+
+            return buffer;
+            break;
+        }
+
+        case AST_FLUX_CONTROLL_IF: {
+
+
+            char* condition = astToCode(node->son[0], level);
+            char* body_if = astToCode(node->son[1], level);
+            char* body_else = astToCode(node->son[2], level);
+
+            fprintf(stderr, "condition: %s body_if: %s body_else:%s\n\n.", condition, body_if, body_else);
+
+            char* buffer = (char*)calloc(15 + strlen(condition) + strlen(body_if) + strlen(body_else) +1, sizeof(char));
+
+            if (body_else[0] != '\0')
+                sprintf(buffer, "if %s then %s else %s", condition, body_if, body_else);
+            else
+                sprintf(buffer, "if %s then %s", condition, body_if);
+            return buffer;
+            break;
+
+        }
+        case AST_FLUX_CONTROLL_WHILE: {
+
+
+            char* condition = astToCode(node->son[0], level);
+            char* body = astToCode(node->son[1], level);
+
+            char* buffer = (char*)calloc(7 + strlen(condition) + strlen(body) +1, sizeof(char));
+
+            sprintf(buffer, "while %s %s", condition, body);
+
+            return buffer;
+            break;
+
+        }
+        case AST_FLUX_CONTROLL_GOTO: {
+
+
+            char* label = node->symbol->text;
+
+            char* buffer = (char*)calloc(5 + strlen(label) +1, sizeof(char));
+
+            sprintf(buffer, "goto %s", label);
+
+            return buffer;
+            break;
+
+        }
+
+        case AST_DECLARATION_LIST: {
+
+
+            char* left = astToCode(node->son[0], level);
+            char* right = astToCode(node->son[1], level);
+
+            char* declaration_list = (char*)calloc(1 + strlen(left) + strlen(right) +1, sizeof(char));
+
+            sprintf(declaration_list, "%s\n%s", left, right);
+
+            return declaration_list;
+            break;
+        }
+
+        case AST_DECLARATION_FUNCTION_INT: {
+
+
+            char* args = astToCode(node->son[0],level);
+            char* body = astToCode(node->son[1],level);
+
+            char* fn_name = node->symbol->text;
+            char* fn_declaration = (char*)calloc(7+ strlen(fn_name) + strlen(args) + strlen(body) +1, sizeof(char));
+
+            sprintf(fn_declaration, "int %s(%s)%s", fn_name, args, body);
+
+            return fn_declaration;
+            break;
+        }
+        case AST_DECLARATION_FUNCTION_CHAR: {
+
+
+            char* args = astToCode(node->son[0],level);
+            char* body = astToCode(node->son[1],level);
+
+            char* fn_name = node->symbol->text;
+            char* fn_declaration = (char*)calloc(8 + strlen(fn_name) + strlen(args) + strlen(body) +1, sizeof(char));
+
+            sprintf(fn_declaration, "char %s(%s)%s", fn_name, args, body);
+
+            return fn_declaration;
+            break;
+        }
+        case AST_DECLARATION_FUNCTION_FLOAT: {
+
+
+            char* args = astToCode(node->son[0],level);
+            char* body = astToCode(node->son[1],level);
+
+            char* fn_declaration = (char*)calloc(9 + strlen(node->symbol->text) + strlen(args) + strlen(body) +1, sizeof(char));
+            char* fn_name = node->symbol->text;
+
+            sprintf(fn_declaration, "float %s(%s)%s", fn_name, args, body);
+
+            return fn_declaration;
+            break;
+        }
+
+        case AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY: {
+
+
+            char* args = astToCode(node->son[0],level);
+            return args;
+
+            break;
+        }
+        case AST_DECLARATION_FUNCTION_ARGS_INT: {
+
+
+            char* fn_args_rest = astToCode(node->son[0],level);
+
+            char* fn_args = (char*)calloc(4 + strlen(node->symbol->text) + strlen(fn_args_rest) +1, sizeof(char));
+
+            if (fn_args_rest[0] != '\0') {
+                sprintf(fn_args, "int %s, %s", node->symbol->text, fn_args_rest);
+            } else {
+                sprintf(fn_args, "int %s", node->symbol->text);
+            }
+
+            return fn_args;
+            break;
+        }
+        case AST_DECLARATION_FUNCTION_ARGS_CHAR: {
+
+
+            char* fn_args_rest = astToCode(node->son[0],level);
+
+            char* fn_args = (char*)calloc(5 + strlen(node->symbol->text) + strlen(fn_args_rest) +1, sizeof(char));
+
+            if (fn_args_rest[0] != '\0') {
+                sprintf(fn_args, "char %s, %s", node->symbol->text, fn_args_rest);
+            } else {
+                sprintf(fn_args, "char %s", node->symbol->text);
+            }
+
+            return fn_args;
+            break;
+        }
+        case AST_DECLARATION_FUNCTION_ARGS_FLOAT: {
+
+
+            char* fn_args_rest = astToCode(node->son[0],level);
+
+            char* fn_args = (char*)calloc(6 + strlen(node->symbol->text) + strlen(fn_args_rest) +1, sizeof(char));
+
+            if (fn_args_rest[0] != '\0') {
+                sprintf(fn_args, "float %s, %s", node->symbol->text, fn_args_rest);
+            } else {
+                sprintf(fn_args, "float %s", node->symbol->text);
+            }
+
+            return fn_args;
+            break;
+        }
+
+        case AST_DECLARATION_FUNCTION_BODY: {
+
+            char* body = astToCode(node->son[0],level);
+
+            char* buffer = (char*)calloc(strlen(body) + 1, sizeof(char));
+            sprintf(buffer, "%s", body);
+
+            return buffer;
+            break;
+        }
+        case AST_FUNCTION_CALL: {
+
+            char* name = node->symbol->text;
+            char* args = astToCode(node->son[0],level);
+
+            char* buffer = (char*)calloc(2 + strlen(name) + strlen(args) + 1, sizeof(char));
+            sprintf(buffer, "%s(%s)", name, args);
+
+            return buffer;
+            break;
+        }
+        case AST_FUNCTION_CALL_ARGS: {
+
+            char* args = astToCode(node->son[0],level);
+            char* args_rest = astToCode(node->son[1],level);
+
+            char* buffer = (char*)calloc(2 + strlen(args) + strlen(args_rest) + 1, sizeof(char));
+            if(args_rest[0] != '\0')
+                sprintf(buffer, "%s, %s", args, args_rest);
+            else
+                sprintf(buffer, "%s", args);
+
+            return buffer;
+            break;
+        }
+
+        case AST_DECLARATION_GLOBAL_INT: {
+
+
+            char* name = node->symbol->text;
+            char* value = astToCode(node->son[0], level);
+
+            char* declaration_global = (char*)calloc(7 + strlen(name) + strlen(value) +1, sizeof(char));
+
+            sprintf(declaration_global, "int %s: %s;", name, value);
+
+            return declaration_global;
+            break;
+        }
+        case AST_DECLARATION_GLOBAL_CHAR: {
+
+
+            char* name = node->symbol->text;
+            char* value = astToCode(node->son[0], level);
+
+            char* declaration_global = (char*)calloc(8 + strlen(name) + strlen(value) +1, sizeof(char));
+
+            sprintf(declaration_global, "char %s: %s;", name, value);
+
+            return declaration_global;
+            break;
+        }
+        case AST_DECLARATION_GLOBAL_FLOAT: {
+
+
+            char* name = node->symbol->text;
+            char* value1 = astToCode(node->son[0], level);
+            char* value2 = astToCode(node->son[1], level);
+
+            char* declaration_global = (char*)calloc(9 + strlen(name) + strlen(value1) + strlen(value2) +1, sizeof(char));
+
+            sprintf(declaration_global, "float %s: %s/%s;", name, value1, value2);
+
+            return declaration_global;
+            break;
+        }
+
+        case AST_DECLARATION_GLOBAL_ARRAY_INT: {
+
+
+            char* name = node->symbol->text;
+            char* size = astToCode(node->son[0], level);
+
+            char* values = astToCode(node->son[1], level);
+            fprintf(stderr, "values: %s\n", values);
+
+            char* declaration_global = (char*)calloc(9 + strlen(name) + strlen(size) + strlen(values) +1, sizeof(char));
+
+            if (values[0] != '\0')
+                sprintf(declaration_global, "int %s[%s]: %s;", name, size, values);
+            else
+                sprintf(declaration_global, "int %s[%s];", name, size);
+
+
+            return declaration_global;
+            break;
+        }
+        case AST_DECLARATION_GLOBAL_ARRAY_CHAR: {
+
+
+            char* name = node->symbol->text;
+            char* size = astToCode(node->son[0], level);
+
+            char* values = astToCode(node->son[1], level);
+            fprintf(stderr, "values: %s\n", values);
+
+            char* declaration_global = (char*)calloc(9 + strlen(name) + strlen(size) + strlen(values) +1, sizeof(char));
+
+            if (values[0] != '\0')
+                sprintf(declaration_global, "char %s[%s]: %s;", name, size, values);
+            else
+                sprintf(declaration_global, "char %s[%s];", name, size);
+
+
+            return declaration_global;
+            break;
+        }
+        case AST_DECLARATION_GLOBAL_ARRAY_FLOAT: {
+
+
+            char* name = node->symbol->text;
+            char* size = astToCode(node->son[0], level);
+
+            char* declaration_global = (char*)calloc(9 + strlen(name) + strlen(size) +1, sizeof(char));
+
+            sprintf(declaration_global, "float %s[%s];", name, size);
+
+            return declaration_global;
+            break;
+        }
+
+        case AST_ARRAY_VAL: {
+
+
+            char* arr_val = node->symbol->text;
+            char* arr_val_rest = astToCode(node->son[0],level);
+
+            char* buffer = (char*)calloc(1 + strlen(arr_val) + strlen(arr_val_rest) +1, sizeof(char));
+
+            if (arr_val_rest[0] != '\0') {
+                sprintf(buffer, "%s %s", arr_val, arr_val_rest);
+            } else {
+                sprintf(buffer, "%s", arr_val);
+            }
+
+            return buffer;
+            break;
+        }
+        case AST_ARRAY_ATTRIBUITION: {
+
+
+            char* arrayElement = astToCode(node->son[0],level);
+            char* value = astToCode(node->son[1],level);
+
+            char* attribuition = (char*)calloc(1 + strlen(arrayElement) + strlen(value) + 1, sizeof(char));
+            sprintf(attribuition, "%s=%s", arrayElement, value);
+
+            return attribuition;
+            break;
+        }
+        case AST_ARRAY_ELEMENT: {
+
+
+            char* varName = node->symbol->text;
+            char* value = astToCode(node->son[0],level);
+
+            char* buffer = (char*)calloc(1 + strlen(varName) + strlen(value) + 1, sizeof(char));
+            sprintf(buffer, "%s[%s]", varName, value);
+
+            return buffer;
+            break;
+        }
+
+        default: fprintf(stderr, "AST_UNKNOWN\n"); return ""; break;
+
+
     }
 }
 
