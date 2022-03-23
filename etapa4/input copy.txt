@@ -1,0 +1,153 @@
+\\ UFRGS - Compiladores - Marcelo Johann - 2021/2
+
+\*  pode uma função não ter {} e ser apenas um comando simples como no exemplo abaixo? 
+
+*\
+
+int fn()
+
+int fn(int v)  
+  return fn('1', b, (1/1) + (2*3), c)
+
+int fn(){
+  print "as\nd\"t", "pppp", 1+1, "pp", read;
+  a[read] = fn('1');
+  a[read] = fn(1+1);
+}
+
+char fnnnnnn(){
+  a[a+1] = 1+c+c;
+  a = a[1+b+c];
+}
+
+int fn(int a) a=1+1
+int alalalalalalal() a=1+1
+
+int fn() {
+  a-label: 
+  while 1+1 {
+    a=a+1;
+    b=b+b;
+    goto a-label;
+  };
+
+}
+
+
+float ggn(int a, char b, float c) {
+
+  if (a+1) then
+    a = b
+    else 
+    c=a
+  ;
+
+  if (a+1) then { 
+    a = 1+1; 
+    a = 1+1; 
+    a = 1+1; 
+    a = 1+1; 
+    c = 3+2; 
+  };
+  if (a+1) then { 
+    a = 1+1; 
+    a = 1+1; 
+    a = 1+1; 
+    a = 1+1; 
+    c = 3+2; 
+  } else  a = 99
+  ;
+
+}
+
+int fn()
+    if exp then else
+      if exp then else
+        if exp then else
+
+
+int fn() {
+  if a then {} else {};
+  if a then else if a then {} else {};
+}
+
+
+int fn() {
+  print "ahoy";
+  return 1;
+  {
+    a = 1;
+    b = a;
+  };
+  if a then {} else {};
+  if a then else if a then {} else {};
+}
+
+
+\*
+int fn(int a) {
+  
+}
+int fn(int a) {
+ ; 
+}
+
+
+
+\*
+char arr: a;
+char arr[2]: 1 2 3 'a' 2;
+char arr[2]: 1 2 3 'a' 2;
+
+float f: 2/3;
+int i: 3;
+char c: '3';
+
+char arr[1];
+float arr[12];
+char arr[4]: 13;
+
+char c: 'x';
+char d: 100;
+int a: 'A';
+
+int i: 2;
+int v[10]: 'a' 0 0 0 0 0 0 0 0 0;
+char matrix[100]; 
+int matrix[100]; 
+float matrix[100]; 
+float f: 2/3;
+
+float f: 2/3;
+int i: 3;
+char c: '3';
+char arr[1];
+float arr[12];
+char arr[4]: 13;
+
+
+int i: 2;
+int v[10]: 'a' 0 0 0 0 0 0 0 0 0;
+char matrix[100]; 
+int matrix[100]; 
+float matrix[100]; 
+float f: 2/3;
+
+int fn(int a, int b) {
+  comando_comando_comando = comando_comando_comando + comando_b + comando_c + comando_d + 1;
+  {
+    a = 1;
+    b = a;
+  };
+}
+int fn(int a, int b) {
+  comando_comando_comando = comando_comando_comando + comando_b + comando_c + comando_d + 1;
+}
+
+int i: 2;
+char i: 2;
+float i: 2/1;
+
+int fn(int a, int b) {
+  comando_comando_comando = comando_comando_comando + comando_b + comando_c + comando_d + 1;
+}

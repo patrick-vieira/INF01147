@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Mar 10 19:05:32 2022
+# Make data base, printed on Tue Mar 22 18:06:51 2022
 
 # Variables
 
@@ -29,13 +29,13 @@ VSCODE_LOG_NATIVE = false
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3
+CURDIR := /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa4
 # makefile
 SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en","availableLanguages":{}}
 # environment
-_ = /home/patrick/.vscode-server/bin/b5205cc8eb4fbaa726835538cd82372cc0222d43/node
+_ = /home/patrick/.vscode-server/bin/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1/node
 # makefile (from 'Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
 # 'override' directive
@@ -51,11 +51,11 @@ VSCODE_CWD = /mnt/c/Users/vieir/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/patrick/.vscode-server/bin/b5205cc8eb4fbaa726835538cd82372cc0222d43/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Microsoft/jdk-11.0.12.7-hotspot/bin:/mnt/c/Python/Python310/Scripts/:/mnt/c/Python/Python310/:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/Streamlink/bin:/mnt/c/Program Files/PowerShell/7/:/mnt/c/Program Files/swipl/bin:/mnt/c/Program Files/Amazon/AWSCLIV2/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/c/Users/vieir/AppData/Roaming/local/bin:/mnt/c/Users/vieir/AppData/Local/Microsoft/WindowsApps:/mnt/c/flutter/bin:/mnt/c/Users/vieir/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/CodeBlocks/MinGW/bin:/mnt/c/Julia-1.6.2/bin:/mnt/c/Program Files (x86)/GnuWin32/bin:/mnt/c/Users/vieir/AppData/Roaming/cabal/bin:/mnt/c/tools/ghc-9.0.1/bin:/mnt/c/tools/msys64:/mnt/c/Users/vieir/AppData/Roaming/Python/Python310/Scripts:/mnt/c/Program Files/heroku/bin:/mnt/c/Users/vieir/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/vieir/.dotnet/tools:/snap/bin
+PATH = /home/patrick/.vscode-server/bin/c722ca6c7eed3d7987c0d5c3df5c45f6b15e77d1/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Microsoft/jdk-11.0.12.7-hotspot/bin:/mnt/c/Python/Python310/Scripts/:/mnt/c/Python/Python310/:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Git/cmd:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/Streamlink/bin:/mnt/c/Program Files/PowerShell/7/:/mnt/c/Program Files/swipl/bin:/mnt/c/Program Files/Amazon/AWSCLIV2/:/mnt/c/Program Files/Microsoft SQL Server/150/Tools/Binn/:/mnt/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/c/Users/vieir/AppData/Roaming/local/bin:/mnt/c/Users/vieir/AppData/Local/Microsoft/WindowsApps:/mnt/c/flutter/bin:/mnt/c/Users/vieir/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Program Files/CodeBlocks/MinGW/bin:/mnt/c/Julia-1.6.2/bin:/mnt/c/Program Files (x86)/GnuWin32/bin:/mnt/c/Users/vieir/AppData/Roaming/cabal/bin:/mnt/c/tools/ghc-9.0.1/bin:/mnt/c/tools/msys64:/mnt/c/Users/vieir/AppData/Roaming/Python/Python310/Scripts:/mnt/c/Program Files/heroku/bin:/mnt/c/Users/vieir/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/vieir/.dotnet/tools:/snap/bin
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-bba55db1-3411-4453-bfdd-bd5625ec9932.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-cae2e5db-3c3b-45a8-aa61-f48f4c182288.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -65,11 +65,11 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-PWD = /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa3
+PWD = /mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa4
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/2018_interop
+WSL_INTEROP = /run/WSL/17_interop
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -97,7 +97,7 @@ MAKE_VERSION := 4.2.1
 # environment
 USER = patrick
 # makefile
-.DEFAULT_GOAL := etapa3
+.DEFAULT_GOAL := etapa4
 # environment
 NAME = DESKTOP-5MBUUP8
 # automatic
@@ -144,8 +144,10 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu
+# environment
+MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=66/1024=6%, Rehash=0, Collisions=4/91=4%
+# Load=67/1024=7%, Rehash=0, Collisions=4/92=4%
 
 # Pattern-specific Variable Values
 
@@ -153,9 +155,9 @@ WSL_DISTRO_NAME = Ubuntu
 
 # Directories
 
-# . (device 47, inode 844424930480585): 29 files, no impossibilities.
+# . (device 47, inode 43910096366975746): 31 files, no impossibilities.
 
-# 29 files, no impossibilities in 1 directories.
+# 31 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -198,13 +200,13 @@ lex.yy.o: lex.yy.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 22):
+#  recipe to execute (from 'Makefile', line 25):
 	gcc -c lex.yy.c
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-03-07 01:10:48.4885085
+#  Last modified 2022-03-22 18:06:49.2893458
 #  File has been updated.
 #  Successfully updated.
 
@@ -212,14 +214,21 @@ y.tab.o: y.tab.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 19):
+#  recipe to execute (from 'Makefile', line 22):
 	gcc -c y.tab.c
+
+semantic.o: semantic.c ast.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 13):
+	gcc -c semantic.c
 
 lex.yy.c: scanner.l y.tab.c ast.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 28):
+#  recipe to execute (from 'Makefile', line 31):
 	lex scanner.l
 
 # Not a target:
@@ -238,7 +247,7 @@ ast.o: ast.c y.tab.o
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 13):
+#  recipe to execute (from 'Makefile', line 16):
 	gcc -c ast.c
 	
 
@@ -246,21 +255,35 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 32):
-	rm lex.yy.c y.tab.c y.tab.h *.o etapa3
+#  recipe to execute (from 'Makefile', line 35):
+	rm lex.yy.c y.tab.c y.tab.h *.o etapa4
+
+etapa4: main.o lex.yy.o y.tab.o hash.o ast.o semantic.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 7):
+	gcc main.o lex.yy.o y.tab.o hash.o ast.o semantic.o -o etapa4
 
 y.tab.c: parser.y
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 25):
+#  recipe to execute (from 'Makefile', line 28):
 	yacc -d parser.y
 
+# Not a target:
+semantic.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
 hash.o: hash.c
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 16):
+#  recipe to execute (from 'Makefile', line 19):
 	gcc -c hash.c
 
 main.o: main.c
@@ -270,28 +293,20 @@ main.o: main.c
 #  recipe to execute (from 'Makefile', line 10):
 	gcc -c main.c
 
-etapa3: main.o lex.yy.o y.tab.o hash.o ast.o
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 7):
-	gcc main.o lex.yy.o y.tab.o hash.o ast.o -o etapa3
-
 # files hash-table stats:
-# Load=18/1024=2%, Rehash=0, Collisions=0/50=0%
+# Load=20/1024=2%, Rehash=0, Collisions=0/56=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
- 
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 35 / storage = 299 B / avg = 8 B
-# current buf: size = 8162 B / used = 299 B / count = 35 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 37 / storage = 320 B / avg = 8 B
+# current buf: size = 8162 B / used = 320 B / count = 37 / avg = 8 B
 
-# strcache performance: lookups = 71 / hit rate = 50%
+# strcache performance: lookups = 78 / hit rate = 52%
 # hash-table stats:
-# Load=35/8192=0%, Rehash=0, Collisions=1/71=1%
-# Finished Make data base on Thu Mar 10 19:05:32 2022
+# Load=37/8192=0%, Rehash=0, Collisions=1/78=1%
+# Finished Make data base on Tue Mar 22 18:06:51 2022
 
  

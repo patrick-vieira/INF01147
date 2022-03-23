@@ -1,0 +1,5 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa4'
+make: 'etapa4' is up to date.
+make: Leaving directory '/mnt/d/UFRGS/2021-2/compiladores/Aulas/Trabalho/etapa4'
+ 

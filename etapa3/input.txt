@@ -1,49 +1,7 @@
 
-
-
-
-
-
-
-
-
-
-
-
-int arr[10]: 1 2 3;
-
-\*
-char fn(int a, float b, char c){
-    if (a>1)then v=v == b;
-}
-
-\*
-float f: 2/3;
-int main ()
-  {
-    a = 1 + 2;
-    a = 1 - 2;
-    a = 1 * 2;
-    a = 1 / 2;
-    a = 1 > 2;
-    a = 1 < 2;
-    a = 1 >= 2;
-    a = 1 <= 2;
-    a = 1 == 2;
-    a = 1 != 2;
-  }
-  
-
-\*
-
   int main ()
   {
-    a = 1/2;
-    print "Nao tem como isso...\n";
-    print "qwewasdwaxczwrfrtdrwes";
-    print "Nao tem como isso..s.\n", ".\n";
-  
-        
+    print "Nao tem como isso..\n", "outra string", "outra string", 1+1;  \\ OK
+    print "Nao tem como isso...\n", "outra string", "outra string", 1+1; \\ NOK
+    print "Nao tem como isso....\n", "outra string", "outra string", 1+1; \\ OK
   }
-  
-  int a()print "Nao tem como isso...\n"

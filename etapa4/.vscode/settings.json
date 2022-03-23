@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "type_traits": "c",
+        "typeinfo": "c",
+        "semantic.h": "c",
+        "ast.h": "c",
+        "hash.h": "c",
+        "stdlib.h": "c"
+    }
+}

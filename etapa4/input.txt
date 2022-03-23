@@ -1,0 +1,15 @@
+\\ UFRGS - Compiladores - Marcelo Johann - 2021/2
+
+\*  pode uma função não ter {} e ser apenas um comando simples como no exemplo abaixo? *\
+
+
+int a: 2;
+int b: 2;
+int c: 2;
+
+int fn() {
+  a = 1;
+  b = a + a + b;
+}
+
+
