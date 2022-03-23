@@ -41,3 +41,12 @@ yacc -v parser.y
  etapa 4.
 
  definições 
+
+
+ duvidas:
+era para dar erro?
+
+int fn-b() {}
+int fn() {  
+  a = a + fn-b; 
+}

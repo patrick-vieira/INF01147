@@ -58,9 +58,10 @@ int main(int argc, char** argv) {
     fclose(fp);
   }  
   
-  if(get_semantic_errors() > 0) 
-    printf("Compilation Fail. Semantic errors count %d\n", get_semantic_errors());      
+  if(get_semantic_errors() > 0) {
+    printf("\n\nCompilation Fail! Semantic errors count %d\n", get_semantic_errors());      
     exit(4);
+  }
   
   printf("Numero de linhas: %d.\n", getLineNumber());    
   printf("Compilation Success.\n");    

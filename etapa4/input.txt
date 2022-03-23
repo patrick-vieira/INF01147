@@ -3,13 +3,35 @@
 \*  pode uma função não ter {} e ser apenas um comando simples como no exemplo abaixo? *\
 
 
-int a: 2;
-int b: 2;
-int c: 2;
+int a: '2';
+int arr-a[2]: 1 2;
+int fn-a() {}
+
+char b: 2;
+char arr-b[2]: 'a' 'b';
+char fn-b() {}
+
+float c: 2/1;
+float arr-c[2];
+float fn-c() {}
+
+int z: 9;
 
 int fn() {
-  a = 1;
-  b = a + a + b;
+  \\a = arr-a[1] + a; 
+  \\a = arr-a[a] + a; 
+  \\a = arr-a[fn-a()] + a; 
+  a = arr-a[1 + 1 * a] + a; 
+
+
+
+  \\a = arr-a[a[1]] + a; \\nok
+  \*a = 1 + 1; 
+  a = a + arr-a[1]; 
+  a = a + a;
+  a = a + a * arr-a['a']; 
+  *\
+  \\c = fn-b;
 }
 
 

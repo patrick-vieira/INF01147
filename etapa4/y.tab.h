@@ -51,63 +51,65 @@ extern int yydebug;
   {
     SYMBOL_VARIABLE = 258,
     SYMBOL_FUNCTION = 259,
-    KW_CHAR = 260,
-    KW_INT = 261,
-    KW_FLOAT = 262,
-    KW_IF = 263,
-    KW_THEN = 264,
-    KW_ELSE = 265,
-    KW_WHILE = 266,
-    KW_GOTO = 267,
-    KW_READ = 268,
-    KW_PRINT = 269,
-    KW_RETURN = 270,
-    OPERATOR_ADD = 271,
-    OPERATOR_SUB = 272,
-    OPERATOR_MULT = 273,
-    OPERATOR_DIV = 274,
-    OPERATOR_LTE = 275,
-    OPERATOR_LT = 276,
-    OPERATOR_GTE = 277,
-    OPERATOR_GT = 278,
-    OPERATOR_EQ = 279,
-    OPERATOR_DIF = 280,
-    TK_IDENTIFIER = 281,
-    LIT_INTEGER = 282,
-    LIT_CHAR = 283,
-    LIT_STRING = 284,
-    TOKEN_ERROR = 285
+    SYMBOL_VECTOR = 260,
+    KW_CHAR = 261,
+    KW_INT = 262,
+    KW_FLOAT = 263,
+    KW_IF = 264,
+    KW_THEN = 265,
+    KW_ELSE = 266,
+    KW_WHILE = 267,
+    KW_GOTO = 268,
+    KW_READ = 269,
+    KW_PRINT = 270,
+    KW_RETURN = 271,
+    OPERATOR_ADD = 272,
+    OPERATOR_SUB = 273,
+    OPERATOR_MULT = 274,
+    OPERATOR_DIV = 275,
+    OPERATOR_LTE = 276,
+    OPERATOR_LT = 277,
+    OPERATOR_GTE = 278,
+    OPERATOR_GT = 279,
+    OPERATOR_EQ = 280,
+    OPERATOR_DIF = 281,
+    TK_IDENTIFIER = 282,
+    LIT_INTEGER = 283,
+    LIT_CHAR = 284,
+    LIT_STRING = 285,
+    TOKEN_ERROR = 286
   };
 #endif
 /* Tokens.  */
 #define SYMBOL_VARIABLE 258
 #define SYMBOL_FUNCTION 259
-#define KW_CHAR 260
-#define KW_INT 261
-#define KW_FLOAT 262
-#define KW_IF 263
-#define KW_THEN 264
-#define KW_ELSE 265
-#define KW_WHILE 266
-#define KW_GOTO 267
-#define KW_READ 268
-#define KW_PRINT 269
-#define KW_RETURN 270
-#define OPERATOR_ADD 271
-#define OPERATOR_SUB 272
-#define OPERATOR_MULT 273
-#define OPERATOR_DIV 274
-#define OPERATOR_LTE 275
-#define OPERATOR_LT 276
-#define OPERATOR_GTE 277
-#define OPERATOR_GT 278
-#define OPERATOR_EQ 279
-#define OPERATOR_DIF 280
-#define TK_IDENTIFIER 281
-#define LIT_INTEGER 282
-#define LIT_CHAR 283
-#define LIT_STRING 284
-#define TOKEN_ERROR 285
+#define SYMBOL_VECTOR 260
+#define KW_CHAR 261
+#define KW_INT 262
+#define KW_FLOAT 263
+#define KW_IF 264
+#define KW_THEN 265
+#define KW_ELSE 266
+#define KW_WHILE 267
+#define KW_GOTO 268
+#define KW_READ 269
+#define KW_PRINT 270
+#define KW_RETURN 271
+#define OPERATOR_ADD 272
+#define OPERATOR_SUB 273
+#define OPERATOR_MULT 274
+#define OPERATOR_DIV 275
+#define OPERATOR_LTE 276
+#define OPERATOR_LT 277
+#define OPERATOR_GTE 278
+#define OPERATOR_GT 279
+#define OPERATOR_EQ 280
+#define OPERATOR_DIF 281
+#define TK_IDENTIFIER 282
+#define LIT_INTEGER 283
+#define LIT_CHAR 284
+#define LIT_STRING 285
+#define TOKEN_ERROR 286
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -118,7 +120,7 @@ union YYSTYPE
     HASH_NODE *symbol;
     AST *ast;
 
-#line 122 "y.tab.h"
+#line 124 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

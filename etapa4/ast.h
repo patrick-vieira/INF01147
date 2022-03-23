@@ -18,7 +18,8 @@
 #define AST_SUB         102
 #define AST_MULT        103
 #define AST_DIV         104
-#define AST_EXPRESSION_BINARY         109
+#define AST_EXPRESSION_BINARY_ARITHMETIC         109
+#define AST_EXPRESSION_BINARY_BOOLEAN            110
 
 #define AST_LT          111
 #define AST_LTE         112

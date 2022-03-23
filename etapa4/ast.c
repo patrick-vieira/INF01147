@@ -33,7 +33,8 @@ void astPrint(AST *node, int level) {
         case AST_SYMBOL:        fprintf(stderr, "AST_SYMBOL"); break;        
         case AST_PROGRAM:       fprintf(stderr, "AST_PROGRAM"); break;
 
-        case AST_EXPRESSION_BINARY:          fprintf(stderr, "AST_EXPRESSION_BINARY"); break;
+        case AST_EXPRESSION_BINARY_ARITHMETIC:       fprintf(stderr, "AST_EXPRESSION_BINARY_ARITHMETIC"); break;
+        case AST_EXPRESSION_BINARY_BOOLEAN:          fprintf(stderr, "AST_EXPRESSION_BINARY_BOOLEAN"); break;
         
         case AST_READ:          fprintf(stderr, "AST_READ"); break;
         case AST_ADD:           fprintf(stderr, "AST_ADD"); break;
@@ -299,7 +300,8 @@ char* astToCode(AST* node, int level) {
         
         } 
 
-        case AST_EXPRESSION_BINARY: {
+        case AST_EXPRESSION_BINARY_ARITHMETIC:
+        case AST_EXPRESSION_BINARY_BOOLEAN: {
             fprintf(stderr, "AST_EXPRESSION_BINARY\n");            
             
             char* operator = node->symbol->text;      
