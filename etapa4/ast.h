@@ -81,6 +81,18 @@
 
 
 
+#define DATATYPE_UNDEFINED       0
+#define DATATYPE_INT             1
+#define DATATYPE_CHAR            2
+#define DATATYPE_FLOAT           3
+#define DATATYPE_BOOL            4
+#define DATATYPE_STRING          5
+
+#define DATATYPE_ARRAY_INT       10
+#define DATATYPE_ARRAY_CHAR      11
+#define DATATYPE_ARRAY_FLOAT     12
+
+
 typedef struct astnode
 {
     int type;    
@@ -94,7 +106,7 @@ void astPrint(AST *node, int level);
 char* testtt();
 char* astToCodePrint(AST *node, int level);
 char* astToCode(AST *node, int level);
-
+void printType(AST* node);
 #endif
 
 // EOF

@@ -1,0 +1,16 @@
+\*
+int a: 1;
+
+int fn-a(int aa) {
+
+    a = fn-a(a);
+
+    return a;
+}
+*\
+
+int a: 1;
+
+int fn-a(int aa) {
+    a = aa;
+}

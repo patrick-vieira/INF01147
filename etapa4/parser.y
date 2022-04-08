@@ -20,8 +20,18 @@
 }
 
 %token<symbol> SYMBOL_VARIABLE     
-%token<symbol> SYMBOL_FUNCTION     
-%token<symbol> SYMBOL_VECTOR     
+%token<symbol> SYMBOL_FUNCTION
+%token<symbol> SYMBOL_FUNCTION_ARGS
+%token<symbol> SYMBOL_VECTOR
+
+%token<symbol> SYMBOL_LIT_INT
+%token<symbol> SYMBOL_LIT_CHAR
+%token<symbol> SYMBOL_STRING
+%token<symbol> SYMBOL_LABEL
+%token<symbol> SYMBOL_RETURN
+
+%token<symbol> SYMBOL_EXPRESSION_BLOCK
+
 
 
 %token<symbol> KW_CHAR           

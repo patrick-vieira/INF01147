@@ -6,67 +6,56 @@
 #include "semantic.h"
 
 extern FILE *yyin;
+
 int yyparse(void);
-int getLineNumber(void);  
-AST* getRootNode(void);  
-void check_and_set_declarations(AST*);  
+
+int getLineNumber(void);
+
+AST *getRootNode(void);
 
 
-int main(int argc, char** argv) {
-  
-  // se existe um arquivo lê ele
-  // se não lê do console;
-  hashInit();
-  
-  if (argc < 2) { 
-    fprintf(stderr, "missing file argument.");
-    exit(1);
-  }
+int main(int argc, char **argv) {
 
-  yyin = fopen(argv[1], "r");
+    // se existe um arquivo lê ele
+    // se não lê do console;
+    hashInit();
 
-  if (yyin == 0 ) {
-    fprintf(stderr, "Cannot open file %s.\n", argv[1]);
-    exit(2);
-  }
-  
-  int i = yyparse();    
-  
-  AST* rootNode = getRootNode();
-  char* code = astToCode(rootNode, 0);
+    if (argc < 2) {
+        fprintf(stderr, "missing file argument.");
+        exit(1);
+    }
 
-  
-  fprintf(stderr, "\n\nhash before Semantics\n\n");
-  hashPrint();
+    yyin = fopen(argv[1], "r");
 
-  fprintf(stderr, "\n\nSemantics start \n\n");
-  check_and_set_declarations(rootNode);      
+    if (yyin == 0) {
+        fprintf(stderr, "Cannot open file %s.\n", argv[1]);
+        exit(2);
+    }
 
-  fprintf(stderr, "\nhash after Semantics\n\n");    
-  hashPrint();
+    int i = yyparse();
 
-  check_undeclared();
+    AST *rootNode = getRootNode();
+    char *code = astToCode(rootNode, 0);
+    int semanticErrors = get_semantic_errors(rootNode);
 
-  check_operands(rootNode);
-  check_attibuition(rootNode);
-    
-  if (argc > 2) {  //write output
-    FILE *fp;
+    if (semanticErrors > 0) {
+        printf("\n\nCompilation Fail! Semantic errors count %d\n", semanticErrors);
+        exit(4);
+    }
 
-    fp = fopen(argv[2], "w+");
-    fputs(code, fp);
-    // fprintf(stderr, "%s \n", code); //print code output.txt
-   
-    fclose(fp);
-  }  
-  
-  if(get_semantic_errors() > 0) {
-    printf("\n\nCompilation Fail! Semantic errors count %d\n", get_semantic_errors());      
-    exit(4);
-  }
-  
-  printf("Numero de linhas: %d.\n", getLineNumber());    
-  printf("Compilation Success.\n");    
-  
-  exit(0);
+    if (argc > 2) {  //write output
+        FILE *fp;
+
+        fp = fopen(argv[2], "w+");
+        fputs(code, fp);
+        // fprintf(stderr, "%s \n", code); //print code output.txt
+
+        fclose(fp);
+    }
+
+
+    printf("Numero de linhas: %d.\n", getLineNumber());
+    printf("Compilation Success.\n");
+
+    exit(0);
 }

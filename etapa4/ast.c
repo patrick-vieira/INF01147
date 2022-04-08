@@ -784,9 +784,16 @@ char* astToCode(AST* node, int level) {
             char* buffer = (char*)calloc(1 + strlen(node->symbol->text) + 1, sizeof(char));
 
             switch (node->symbol->type){
+                case SYMBOL_VARIABLE:
+                case SYMBOL_FUNCTION:
+                case SYMBOL_VECTOR:
+                case SYMBOL_LIT_CHAR:
+                case SYMBOL_LIT_INT:
                 case LIT_INTEGER:
                 case LIT_CHAR:
                 case TK_IDENTIFIER: sprintf(buffer, "%s", node->symbol->text); break;
+
+                case SYMBOL_STRING:
                 case LIT_STRING: sprintf(buffer, "\"%s\"", node->symbol->text); break;
             }
             return buffer;
@@ -1411,4 +1418,79 @@ char* astToCode(AST* node, int level) {
     }
 }
 
+void printType(AST* node){
+    switch (node->type) {
+        case AST_SYMBOL:        fprintf(stderr, "AST_SYMBOL"); break;
+        case AST_PROGRAM:       fprintf(stderr, "AST_PROGRAM"); break;
+
+        case AST_EXPRESSION_BINARY_ARITHMETIC:       fprintf(stderr, "AST_EXPRESSION_BINARY_ARITHMETIC"); break;
+        case AST_EXPRESSION_BINARY_BOOLEAN:          fprintf(stderr, "AST_EXPRESSION_BINARY_BOOLEAN"); break;
+
+        case AST_READ:          fprintf(stderr, "AST_READ"); break;
+        case AST_ADD:           fprintf(stderr, "AST_ADD"); break;
+        case AST_SUB:           fprintf(stderr, "AST_SUB"); break;
+        case AST_MULT:          fprintf(stderr, "AST_MULT"); break;
+        case AST_DIV:           fprintf(stderr, "AST_DIV"); break;
+
+        case AST_LT:            fprintf(stderr, "AST_LT"); break;
+        case AST_LTE:           fprintf(stderr, "AST_LTE"); break;
+        case AST_GT:            fprintf(stderr, "AST_GT"); break;
+        case AST_GTE:           fprintf(stderr, "AST_GTE"); break;
+        case AST_EQ:            fprintf(stderr, "AST_EQ"); break;
+        case AST_DIF:           fprintf(stderr, "AST_DIF"); break;
+
+        case AST_COMMAND:       fprintf(stderr, "AST_COMMAND"); break;
+        case AST_COMMAND_BLOCK: fprintf(stderr, "AST_COMMAND_BLOCK"); break;
+        case AST_FLUX_CONTROL:  fprintf(stderr, "AST_FLUX_CONTROL"); break;
+        case AST_PRINT:             fprintf(stderr, "AST_PRINT"); break;
+        case AST_PRINT_REST:        fprintf(stderr, "AST_PRINT_REST"); break;
+        case AST_RETURN:        fprintf(stderr, "AST_RETURN"); break;
+        case AST_ATTRIBUITION:  fprintf(stderr, "AST_ATTRIBUITION"); break;
+
+        case AST_LABEL:             fprintf(stderr, "AST_LABEL"); break;
+        case AST_EXPRESSION_BLOCK:      fprintf(stderr, "AST_EXPRESSION_BLOCK"); break;
+
+        case AST_COMMAND_LIST:       fprintf(stderr, "AST_COMMAND_LIST"); break;
+
+        case AST_FLUX_CONTROLL_IF:       fprintf(stderr, "AST_FLUX_CONTROLL_IF"); break;
+        case AST_FLUX_CONTROLL_WHILE:    fprintf(stderr, "AST_FLUX_CONTROLL_WHILE"); break;
+        case AST_FLUX_CONTROLL_GOTO:     fprintf(stderr, "AST_FLUX_CONTROLL_GOTO"); break;
+
+        case AST_DECLARATION:                   fprintf(stderr, "AST_DECLARATION"); break;
+        case AST_DECLARATION_LIST:              fprintf(stderr, "AST_DECLARATION_LIST"); break;
+
+        case AST_DECLARATION_FUNCTION:                  fprintf(stderr, "AST_DECLARATION_FUNCTION"); break;
+        case AST_DECLARATION_FUNCTION_INT:              fprintf(stderr, "AST_DECLARATION_FUNCTION_INT"); break;
+        case AST_DECLARATION_FUNCTION_CHAR:             fprintf(stderr, "AST_DECLARATION_FUNCTION_CHAR"); break;
+        case AST_DECLARATION_FUNCTION_FLOAT:            fprintf(stderr, "AST_DECLARATION_FUNCTION_FLOAT"); break;
+
+        case AST_DECLARATION_FUNCTION_ARGS_INT:             fprintf(stderr, "AST_DECLARATION_FUNCTION_ARGS_INT"); break;
+        case AST_DECLARATION_FUNCTION_ARGS_CHAR:            fprintf(stderr, "AST_DECLARATION_FUNCTION_ARGS_CHAR"); break;
+        case AST_DECLARATION_FUNCTION_ARGS_FLOAT:           fprintf(stderr, "AST_DECLARATION_FUNCTION_ARGS_FLOAT"); break;
+        case AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY:        fprintf(stderr, "AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY"); break;
+        case AST_DECLARATION_FUNCTION_BODY:                 fprintf(stderr, "AST_DECLARATION_FUNCTION_BODY"); break;
+
+        case AST_FUNCTION_CALL:                     fprintf(stderr, "AST_FUNCTION_CALL"); break;
+        case AST_FUNCTION_CALL_ARGS:                fprintf(stderr, "AST_FUNCTION_CALL_ARGS"); break;
+
+
+        case AST_DECLARATION_GLOBAL_INT:             fprintf(stderr, "AST_DECLARATION_GLOBAL_INT"); break;
+        case AST_DECLARATION_GLOBAL_ARRAY_INT:       fprintf(stderr, "AST_DECLARATION_GLOBAL_ARRAY_INT"); break;
+
+        case AST_DECLARATION_GLOBAL_CHAR:               fprintf(stderr, "AST_DECLARATION_GLOBAL_CHAR"); break;
+        case AST_DECLARATION_GLOBAL_ARRAY_CHAR:         fprintf(stderr, "AST_DECLARATION_GLOBAL_ARRAY_CHAR"); break;
+
+        case AST_DECLARATION_GLOBAL_FLOAT:             fprintf(stderr, "AST_DECLARATION_GLOBAL_FLOAT"); break;
+        case AST_DECLARATION_GLOBAL_ARRAY_FLOAT:       fprintf(stderr, "AST_DECLARATION_GLOBAL_ARRAY_FLOAT"); break;
+
+        case AST_ARRAY_VAL:                 fprintf(stderr, "AST_ARRAY_VAL"); break;
+        case AST_ARRAY_ELEMENT:             fprintf(stderr, "AST_ARRAY_ELEMENT"); break;
+        case AST_ARRAY_ATTRIBUITION:        fprintf(stderr, "AST_ARRAY_ATTRIBUITION"); break;
+
+
+
+
+        default: fprintf(stderr, " \n\n\n ------------>>>> AST_UNKNOWN [%d] <<<<------------ \n\n\n", node->type); break;
+    }
+}
 // EOF

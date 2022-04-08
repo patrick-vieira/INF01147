@@ -52,7 +52,7 @@ HASH_NODE *hashFind(char *text) {
 
     return 0;
 }
-
+//TODO add line??
 HASH_NODE *hashInsert(char *text, int type) {
     HASH_NODE *newnode;
     int address = hashAddress(text);
