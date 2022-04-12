@@ -21,6 +21,7 @@
 
 %token<symbol> SYMBOL_VARIABLE     
 %token<symbol> SYMBOL_FUNCTION
+%token<symbol> SYMBOL_FUNCTION_ARGS
 %token<symbol> SYMBOL_VECTOR
 
 %token<symbol> SYMBOL_LIT_INT

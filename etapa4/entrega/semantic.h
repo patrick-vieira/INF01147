@@ -9,6 +9,8 @@
 
 
 int SemanticErrors;
+AST* rootNode;
+
 int get_semantic_errors(AST* node);
 
 void check_and_set_declarations(AST* node);
@@ -42,6 +44,10 @@ int is_lit_of_type(AST* node, int of_type);
 int is_function_call_of_type(AST* node, int of_type);
 int check_return_aux(AST* node, int type, int errors);
 
+void check_func_call_args(AST* func_call_node);
+
+int get_func_args_size(char* func_name, AST* rootNode);
+int get_func_call_args_size(AST* func_call_node);
 
 #endif
 

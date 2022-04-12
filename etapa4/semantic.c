@@ -5,8 +5,10 @@
 int SemanticErrors = 0;
 
 
-int get_semantic_errors(AST* rootNode) {
 
+int get_semantic_errors(AST* startNode) {
+
+    rootNode = startNode;
 
     fprintf(stderr, "\n\nhash before Semantics\n\n");
     hashPrint();
@@ -14,8 +16,8 @@ int get_semantic_errors(AST* rootNode) {
     fprintf(stderr, "\n\nSemantics start \n\n");
     check_and_set_declarations(rootNode);
 
-    //fprintf(stderr, "\nhash after Semantics\n\n");
-    //hashPrint();
+    fprintf(stderr, "\nhash after Semantics\n\n");
+    hashPrint();
 
     check_undeclared();
     check_expressions(rootNode);
@@ -238,6 +240,7 @@ void check_function_call(AST* node){
     switch (node->type) {
 
         case AST_FUNCTION_CALL:
+            check_func_call_args(node);
             break;
         case AST_FUNCTION_CALL_ARGS:
             break;
@@ -248,6 +251,82 @@ void check_function_call(AST* node){
 
     for (int i=0; i<MAX_SONS; ++i)
         check_function_call(node->son[i]);
+}
+
+void check_func_call_args(AST* func_call_node) {
+    if (func_call_node==0) return;
+
+    if (func_call_node->type == AST_FUNCTION_CALL) {
+        int args_size = get_func_args_size(func_call_node->symbol->text, rootNode);
+        if (args_size < 0) args_size = 0;
+
+        int args_size_call = get_func_call_args_size(func_call_node);
+        if (args_size_call < 0) args_size = 0;
+
+        if (args_size != args_size_call) {
+            fprintf(stderr, "\nSemantic ERROR: [CHECK FUNCTION CALL ARGS SIZE]: \n invalid number of argument function [%s] expected [%d] received [%d]\n\n", func_call_node->symbol->text,args_size, args_size_call);
+            SemanticErrors += 1;
+        }
+    }
+
+    return;
+}
+
+int get_func_call_args_size(AST* node) {
+    if (node==0) return 0;
+
+    int size = 0;
+    AST* args_node;
+
+    if (node->type == AST_FUNCTION_CALL) {
+        if (node->son[0] != 0) {
+            args_node = node->son[0];
+            do {
+                size += 1;
+                args_node = args_node->son[1];
+            } while (args_node != 0);
+        }
+    }
+    return size;
+}
+
+int get_func_args_size(char* func_name, AST* node) {
+
+    if (node==0) return -1;
+
+    int size = 0;
+    AST* args_node;
+
+    switch (node->type){
+        case AST_DECLARATION_FUNCTION_INT:
+        case AST_DECLARATION_FUNCTION_CHAR:
+        case AST_DECLARATION_FUNCTION_FLOAT: {
+
+            args_node = node->son[0];
+            if(args_node && args_node->type == AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY) {
+                args_node = args_node->son[0];
+
+                if (node->symbol->text == func_name && args_node->son[0] != 0) {
+
+                    do {
+                        size += 1;
+                        args_node = args_node->son[0];
+                    } while (args_node != 0);
+                    return size;
+                }
+            }
+            break;
+        }
+        default:
+            break;
+
+    }
+
+    for (int i=0; i<MAX_SONS; ++i) {
+        int returned_size = get_func_args_size(func_name, node->son[i]);
+        if (returned_size >= 0)
+            return returned_size;
+    }
 }
 
 void check_array_acess(AST* node) {
@@ -651,3 +730,4 @@ int is_function_call_of_type(AST* node, int of_type){
         return 1;
     return 0;
 }
+

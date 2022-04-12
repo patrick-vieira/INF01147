@@ -11,6 +11,10 @@ int fn-a(int aa) {
 
 int a: 1;
 
-int fn-a(int aa) {
-    a = aa;
+int fn-b(){
+
+}
+int fn-a(int aa, char c) {
+    a = fn-a(aa, aa);
+    a = fn-b();
 }

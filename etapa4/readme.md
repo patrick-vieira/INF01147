@@ -1,23 +1,16 @@
-Para executar via VSCode.
-
-Adicionar as seguintes tasks no arquivo tasks.json
+To run
 
 ```
-    {
-        "type": "shell",
-        "label": "lex",
-        "command": "/usr/bin/lex",
-        "args": ["./scanner.l"]
-    },
-    {
-        "label": "build",
-        "dependsOn": [
-            "lex", 
-            "C/C++: gcc build active file"
-        ]
-    }
+make clean && make && echo && ./etapa4 input.txt output.txt
+```
+
+To debug with GDB server
 
 ```
+make clean && make && gdbserver localhost:1234 ./etapa4 input-1.txt output.txt
+```
+
+
 
 To execute open the file lex
 
@@ -28,25 +21,9 @@ yacc parser.y -d
 
 -d gera o arquivo .h contendo as definições dos tokens
 
-para rodar no terminal 
-
- ``make clean && make && echo && ./etapa2 input.txt``
 
 
 
 
 verificar conflitos;
 yacc -v parser.y
-
- etapa 4.
-
- definições 
-
-
- duvidas:
-era para dar erro?
-
-int fn-b() {}
-int fn() {  
-  a = a + fn-b; 
-}
