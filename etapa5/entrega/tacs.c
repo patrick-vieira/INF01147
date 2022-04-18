@@ -24,6 +24,17 @@ void tacPrint(TAC* tac) {
 
         case TAC_MOVE: fprintf(stderr, "TAC_MOVE"); break; // ASSINALAMENTO
 
+        case TAC_DEC_GLOBAL: fprintf(stderr, "TAC_DEC_GLOBAL"); break;
+        case TAC_DEC_GLOBAL_INT: fprintf(stderr, "TAC_DEC_GLOBAL_INT"); break;
+        case TAC_DEC_GLOBAL_CHAR: fprintf(stderr, "TAC_DEC_GLOBAL_CHAR"); break;
+        case TAC_DEC_GLOBAL_FLOAT: fprintf(stderr, "TAC_DEC_GLOBAL_FLOAT"); break;
+
+        case TAC_DEC_GLOBAL_ARR: fprintf(stderr, "TAC_DEC_GLOBAL_ARR"); break;
+        case TAC_DEC_GLOBAL_ARR_VAL: fprintf(stderr, "TAC_DEC_GLOBAL_ARR_VAL"); break;
+
+        case TAC_ARR_GET_ELEMENT: fprintf(stderr, "TAC_ARR_GET_ELEMENT"); break;
+        case TAC_ARR_SET_ELEMENT: fprintf(stderr, "TAC_ARR_SET_ELEMENT"); break;
+
         case TAC_ADD:   fprintf(stderr, "TAC_ADD"); break;
         case TAC_SUB:   fprintf(stderr, "TAC_SUB"); break;
         case TAC_MULT:  fprintf(stderr, "TAC_MULT"); break;
@@ -44,9 +55,13 @@ void tacPrint(TAC* tac) {
         case TAC_ENDFUN:   fprintf(stderr, "TAC_ENDFUN"); break;
 
 
-        case TAC_DEC_FUNC_ARGS_INT  :   fprintf(stderr, "TAC_DEC_FUNC_ARGS_INT  "); break;
-        case TAC_DEC_FUNC_ARGS_CHAR :   fprintf(stderr, "TAC_DEC_FUNC_ARGS_CHAR "); break;
-        case TAC_DEC_FUNC_ARGS_FLOAT:   fprintf(stderr, "TAC_DEC_FUNC_ARGS_FLOAT"); break;
+//        case TAC_DEC_FUNC_ARGS_INT  :   fprintf(stderr, "TAC_DEC_FUNC_ARGS_INT"); break;
+//        case TAC_DEC_FUNC_ARGS_CHAR :   fprintf(stderr, "TAC_DEC_FUNC_ARGS_CHAR"); break;
+//        case TAC_DEC_FUNC_ARGS_FLOAT:   fprintf(stderr, "TAC_DEC_FUNC_ARGS_FLOAT"); break;
+        case TAC_DEC_FUNC_ARGS:   fprintf(stderr, "TAC_DEC_FUNC_ARGS"); break;
+
+        case TAC_FUN_CALL:   fprintf(stderr, "TAC_FUN_CALL"); break;
+        case TAC_FUNC_CALL_ARGS:   fprintf(stderr, "TAC_FUNC_CALL_ARGS"); break;
 
 
         case TAC_JMP: fprintf(stderr, "TAC_JMP"); break;
@@ -90,13 +105,24 @@ TAC* tacJoin(TAC* l1, TAC* l2){
     return l2;
 }
 
+
+TAC* makeGlobalCreate(TAC* code0, TAC* code1, HASH_NODE* symbol, int type);
+
+TAC* makeArrGetElement(TAC* code0, TAC* code1, HASH_NODE* symbol);
+TAC* makeArrSetElement(TAC* code0, TAC* code1, HASH_NODE* symbol);
+
+TAC* makeArrCreate(TAC* code0, TAC* code1, HASH_NODE* symbol);
+TAC* makeArrCreateVal(TAC* code0, TAC* code1, HASH_NODE* symbol);
 TAC* makeBinaryOP(TAC* code0, TAC* code1, int type);
 
 TAC* makePrint(TAC* code0, TAC* code1, int nodeType);
 TAC* makeRead(TAC* code0);
 
 TAC* makeFunctionBody(TAC* code0, TAC* code1, HASH_NODE* symbol);
-TAC* makeFunctionArgs(TAC* code0, HASH_NODE* symbol, int type);
+TAC* makeFunctionArgs(TAC* code0, HASH_NODE* symbol);
+
+TAC* makeCallFunction(TAC* code0, HASH_NODE* symbol, int type);
+TAC* makeCallFunctionArgs(TAC* code0, TAC* code1, AST* node, int type);
 
 TAC* makeLabelTac(AST* node);
 TAC* makeGoto(AST* node);
@@ -123,7 +149,19 @@ TAC* tacGenerateCode(AST* node) {
     switch (node->type) {
         case AST_SYMBOL: result = tacCreate(TAC_SYMBOL, node->symbol, 0, 0); break;
 
+        case AST_DECLARATION_GLOBAL_INT: result = makeGlobalCreate(code[0], code[1], node->symbol, TAC_DEC_GLOBAL_INT); break;
+        case AST_DECLARATION_GLOBAL_CHAR: result = makeGlobalCreate(code[0], code[1], node->symbol, TAC_DEC_GLOBAL_CHAR); break;
+        case AST_DECLARATION_GLOBAL_FLOAT: result = makeGlobalCreate(code[0], code[1], node->symbol, TAC_DEC_GLOBAL_FLOAT); break;
+
+        case AST_DECLARATION_GLOBAL_ARRAY_INT:
+        case AST_DECLARATION_GLOBAL_ARRAY_CHAR:
+        case AST_DECLARATION_GLOBAL_ARRAY_FLOAT: result = makeArrCreate(code[0], code[1], node->symbol);  break;
+        case AST_ARRAY_VAL: result = makeArrCreateVal(code[0], code[1], node->symbol);  break;
+
         case AST_ATTRIBUITION: result = tacJoin(code[0]?code[0]:0, tacCreate(TAC_MOVE, node->symbol, code[0]?code[0]->res:0, 0)); break;
+
+        case AST_ARRAY_ELEMENT: result = makeArrGetElement(code[0], code[1],node->symbol); break;
+        case AST_ARRAY_ATTRIBUITION: result = makeArrSetElement(code[0], code[1],node->symbol); break;
 
         case AST_ADD:   result = makeBinaryOP(code[0], code[1], TAC_ADD); break;
         case AST_SUB:   result = makeBinaryOP(code[0], code[1], TAC_SUB); break;
@@ -146,9 +184,14 @@ TAC* tacGenerateCode(AST* node) {
         case AST_DECLARATION_FUNCTION_CHAR:
         case AST_DECLARATION_FUNCTION_FLOAT:   result = makeFunctionBody(code[0], code[1], node->symbol); break;
 
-        case AST_DECLARATION_FUNCTION_ARGS_INT: result = makeFunctionArgs(code[0], node->symbol, TAC_DEC_FUNC_ARGS_INT);  break;
-        case AST_DECLARATION_FUNCTION_ARGS_CHAR: result = makeFunctionArgs(code[0], node->symbol, TAC_DEC_FUNC_ARGS_CHAR);  break;
-        case AST_DECLARATION_FUNCTION_ARGS_FLOAT: result = makeFunctionArgs(code[0], node->symbol, TAC_DEC_FUNC_ARGS_FLOAT);  break;
+        case AST_DECLARATION_FUNCTION_ARGS_INT:
+        case AST_DECLARATION_FUNCTION_ARGS_CHAR:
+        case AST_DECLARATION_FUNCTION_ARGS_FLOAT: result = makeFunctionArgs(code[0], node->symbol);  break;
+
+        case AST_FUNCTION_CALL: result = makeCallFunction(code[0], node->symbol, TAC_FUN_CALL);  break;
+
+        case AST_FUNCTION_CALL_ARGS: result = makeCallFunctionArgs(code[0],code[1], node->son[0], TAC_FUNC_CALL_ARGS);  break;
+
 
         case AST_LABEL: result = makeLabelTac(node); break;
         case AST_FLUX_CONTROLL_GOTO: result = makeGoto(node); break;
@@ -167,6 +210,54 @@ TAC* tacGenerateCode(AST* node) {
 
     return result;
 }
+
+//
+//TAC* makeGlobalCreate(TAC* code0, HASH_NODE* symbol) {
+//    TAC* tac = 0;
+//
+//    tac = tacJoin(code0?code0:0, tacCreate(TAC_DEC_GLOBAL, symbol, code0?code0->res:0, code1?code1->res:0));
+//
+//    return tac;
+//}
+
+TAC* makeGlobalCreate(TAC* code0, TAC* code1, HASH_NODE* symbol, int type) {
+    TAC* tac = 0;
+
+    tac = tacJoin(code0?code0:0, tacCreate(type, symbol, code0?code0->res:0, code1?code1->res:0));
+
+    return tac;
+}
+
+TAC* makeArrGetElement(TAC* code0, TAC* code1, HASH_NODE* symbol) {
+    TAC* tac = 0;
+    tac = tacJoin(code0?code0:0, tacCreate(TAC_ARR_GET_ELEMENT, makeTemp(), symbol, code0?code0->res:0));
+    return tac;
+}
+
+TAC* makeArrSetElement(TAC* code0, TAC* code1, HASH_NODE* symbol) {
+    TAC* tac = 0;
+    tac = tacJoin(code0?code0:0, tacCreate(TAC_ARR_SET_ELEMENT, code0?code0->res:0, code1?code1->res:0, 0));
+    return tac;
+}
+
+TAC* makeArrCreate(TAC* code0, TAC* code1, HASH_NODE* symbol){
+
+    TAC* args_tac = 0;
+
+    args_tac = tacCreate(TAC_DEC_GLOBAL_ARR, symbol, code0?code0->res:0, code1?code1->res:0);
+    return tacJoin(code1, tacJoin(code0, args_tac));
+}
+
+TAC* makeArrCreateVal(TAC* code0, TAC* code1, HASH_NODE* symbol){
+
+    TAC* args_tac = 0;
+
+    args_tac = tacCreate(TAC_DEC_GLOBAL_ARR_VAL, makeTemp(), symbol, code0?code0->res:0);
+
+    return tacJoin(code0, args_tac);
+
+}
+
 
 TAC* makeBinaryOP(TAC* code0, TAC* code1, int type) {
     return tacJoin(
@@ -205,21 +296,48 @@ TAC* makeFunctionBody(TAC* code0, TAC* code1, HASH_NODE* symbol) {
     TAC* before_tac = 0;
     TAC* after_tac = 0;
 
-    before_tac = tacCreate(TAC_BEGINFUN, symbol, 0, 0);
+    before_tac = tacCreate(TAC_BEGINFUN, symbol, code0?code0->res:0, 0);
     before_tac->prev = code0;
+//    tacJoin(before_tac, code0);
 
     after_tac = tacCreate(TAC_ENDFUN, symbol, 0, 0);
     after_tac->prev = code1;
+//    tacJoin(after_tac, code1 );
+
 
     return tacJoin(before_tac, after_tac);
 }
 
-TAC* makeFunctionArgs(TAC* code0, HASH_NODE* symbol, int type){
+TAC* makeFunctionArgs(TAC* code0, HASH_NODE* symbol){
     TAC* args_tac = 0;
-    args_tac = tacCreate(type, symbol, 0, 0);
+    args_tac = tacCreate(TAC_DEC_FUNC_ARGS, makeTemp(), symbol, code0?code0->res:0);
+    args_tac->prev = code0;
+
+    return args_tac;
+}
+//TAC* makeFunctionArgs(TAC* code0, HASH_NODE* symbol, int type){
+//    TAC* args_tac = 0;
+//    args_tac = tacCreate(type, symbol, 0, 0);
+//
+//    return tacJoin(args_tac, code0);
+//}
+
+TAC* makeCallFunction(TAC* code0, HASH_NODE* symbol, int type){
+    TAC* args_tac = 0;
+    args_tac = tacCreate(type, makeTemp(), symbol, code0?code0->res:0);
     //args_tac->prev = code0;
 
-    return tacJoin(args_tac, code0);
+//    return tacJoin(args_tac, code0);
+    return tacJoin(code0, args_tac);
+}
+
+TAC* makeCallFunctionArgs(TAC* code0, TAC* code1, AST* node, int type){
+    TAC* args_tac = 0;
+    args_tac = tacCreate(type, makeTemp(), code0?code0->res:0, code1?code1->res:0);
+//    args_tac->prev = code0->prev;
+
+    return tacJoin(tacJoin(code0, code1), args_tac);
+//    return args_tac;
 }
 
 TAC* makeGoto(AST* node){

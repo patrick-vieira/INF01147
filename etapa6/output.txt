@@ -1,0 +1,16 @@
+int a: 10;
+int b: 11;
+int c: 111;
+int d: 222;
+int main(){
+print 111, 22;
+if (a==b) then {
+print d;
+
+};
+if (a!=b) then {
+print 2;
+
+};
+
+}

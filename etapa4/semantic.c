@@ -54,25 +54,25 @@ void check_and_set_declarations(AST* node) {
 
 
         case AST_DECLARATION_GLOBAL_ARRAY_INT:
-        case AST_DECLARATION_GLOBAL_ARRAY_CHAR:    
-        case AST_DECLARATION_GLOBAL_ARRAY_FLOAT:    
-            if (node->symbol)  
+        case AST_DECLARATION_GLOBAL_ARRAY_CHAR:
+        case AST_DECLARATION_GLOBAL_ARRAY_FLOAT:
+            if (node->symbol)
                 if(node->symbol->type != TK_IDENTIFIER) {
                     fprintf(stderr, "Semantic ERROR: variable %s already declared \n", node->symbol->text);
-                    ++SemanticErrors;                    
+                    ++SemanticErrors;
                 } else{
                     node->symbol->type = SYMBOL_VECTOR;
                     set_datatype(node);
                 }
-            break;    
-            
-        case AST_DECLARATION_GLOBAL_CHAR:      
-        case AST_DECLARATION_GLOBAL_FLOAT:     
-        case AST_DECLARATION_GLOBAL_INT:           
-            if (node->symbol)  
+            break;
+
+        case AST_DECLARATION_GLOBAL_CHAR:
+        case AST_DECLARATION_GLOBAL_FLOAT:
+        case AST_DECLARATION_GLOBAL_INT:
+            if (node->symbol)
                 if(node->symbol->type != TK_IDENTIFIER) {
                     fprintf(stderr, "\n\nSemantic ERROR [DECLARATION]: variable [%s] already declared \n\n", node->symbol->text);
-                    ++SemanticErrors;                    
+                    ++SemanticErrors;
                 } else{
                     node->symbol->type = SYMBOL_VARIABLE;
                     set_datatype(node);
@@ -97,29 +97,29 @@ void check_and_set_declarations(AST* node) {
         case AST_DECLARATION_FUNCTION_INT:
         case AST_DECLARATION_FUNCTION_CHAR:
         case AST_DECLARATION_FUNCTION_FLOAT:
-            if (node->symbol)  
+            if (node->symbol)
                 if(node->symbol->type != TK_IDENTIFIER) {
                     fprintf(stderr, "Semantic ERROR: function %s already declared \n", node->symbol->text);
                     ++SemanticErrors;
                 } else{
                     node->symbol->type = SYMBOL_FUNCTION;
                     set_datatype(node);
-                }                
-                
+                }
+
             break;
 
         case AST_SYMBOL:
             set_datatype(node);
             break;
 
-        default: 
+        default:
             break;
 
     }
 
-    
+
     for (int i=0; i<MAX_SONS; ++i)
-        check_and_set_declarations(node->son[i]);    
+        check_and_set_declarations(node->son[i]);
 }
 
 void check_undeclared() {
@@ -134,7 +134,7 @@ void check_undeclared() {
                 printf("\nSEMANTIC ERROR: symbol %s undeclared.\n", node->text);
                 ++SemanticErrors;
                 ++undeclered_semantic_errors;
-            } 
+            }
         }
     }
 
@@ -296,24 +296,23 @@ int get_func_args_size(char* func_name, AST* node) {
 
     int size = 0;
     AST* args_node;
+    AST* body_node;
 
     switch (node->type){
         case AST_DECLARATION_FUNCTION_INT:
         case AST_DECLARATION_FUNCTION_CHAR:
         case AST_DECLARATION_FUNCTION_FLOAT: {
 
-            args_node = node->son[0];
-            if(args_node && args_node->type == AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY) {
-                args_node = args_node->son[0];
+            if (node->symbol->text == func_name) {
+                args_node = node->son[0]; // 1200 AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY
+                body_node = node->son[1]; // 1300
 
-                if (node->symbol->text == func_name && args_node->son[0] != 0) {
-
-                    do {
-                        size += 1;
-                        args_node = args_node->son[0];
-                    } while (args_node != 0);
-                    return size;
+                while (args_node && args_node->son[0] != 0) {
+                    size += 1;
+                    args_node = args_node->son[0];
                 }
+
+                return size;
             }
             break;
         }
@@ -604,7 +603,7 @@ int is_valid_expression(AST* node){
         || is_array_of_type(node, DATATYPE_ARRAY_INT)
         || is_variable_of_type(node, DATATYPE_INT)
         || is_function_call_of_type(node, DATATYPE_INT)
-        )
+            )
         return 1;
     return 0;
 }
@@ -624,7 +623,7 @@ int is_number(AST* node) {
 }
 int is_boolean(AST* node) {
     if((node->type == AST_EXPRESSION_BLOCK && is_boolean(node->son[0]))
-        || (is_boolean_operation(node) && is_number(node->son[0]) && is_number(node->son[1]))
+       || (is_boolean_operation(node) && is_number(node->son[0]) && is_number(node->son[1]))
             )
         return 1;
     return 0;
@@ -632,24 +631,24 @@ int is_boolean(AST* node) {
 
 int is_arithmetic_operation(AST* node){
     if(node->symbol && (
-          node->symbol->type == OPERATOR_ADD
-       || node->symbol->type == OPERATOR_SUB
-       || node->symbol->type == OPERATOR_MULT
-       || node->symbol->type == OPERATOR_DIV)
-    )
+            node->symbol->type == OPERATOR_ADD
+            || node->symbol->type == OPERATOR_SUB
+            || node->symbol->type == OPERATOR_MULT
+            || node->symbol->type == OPERATOR_DIV)
+            )
         return 1;
     return 0;
 }
 
 int is_boolean_operation(AST* node){
     if(node->symbol && (
-           node->symbol->type == OPERATOR_LTE
-        || node->symbol->type == OPERATOR_LT
-        || node->symbol->type == OPERATOR_GTE
-        || node->symbol->type == OPERATOR_GT
-        || node->symbol->type == OPERATOR_EQ
-        || node->symbol->type == OPERATOR_DIF)
-    )
+            node->symbol->type == OPERATOR_LTE
+            || node->symbol->type == OPERATOR_LT
+            || node->symbol->type == OPERATOR_GTE
+            || node->symbol->type == OPERATOR_GT
+            || node->symbol->type == OPERATOR_EQ
+            || node->symbol->type == OPERATOR_DIF)
+            )
         return 1;
     return 0;
 }
@@ -672,9 +671,22 @@ int is_expression_of_type_aux(AST* node, int of_type) {
         case AST_ARRAY_ELEMENT:
             match_type = is_array_of_type(node, of_type);
             break;
+
+        case AST_LT:
+        case AST_LTE:
+        case AST_GT:
+        case AST_GTE:
+        case AST_EQ:
+        case AST_DIF:
         case AST_EXPRESSION_BINARY_BOOLEAN:
             match_type = ((of_type == DATATYPE_BOOL) && is_boolean_operation(node));
             break;
+
+
+        case AST_ADD:
+        case AST_SUB:
+        case AST_MULT:
+        case AST_DIV:
         case AST_EXPRESSION_BINARY_ARITHMETIC:
             match_type = is_expression_of_type_aux(node->son[0], of_type) && is_expression_of_type_aux(node->son[1], of_type);
             break;
@@ -707,9 +719,9 @@ int is_valid_array_index(AST* node){
 
 int is_array_of_type(AST* node, int of_type) {
     if(node->symbol
-        && node->symbol->type == SYMBOL_VECTOR
-        && node->symbol->datatype == of_type)
-            return 1;
+       && node->symbol->type == SYMBOL_VECTOR
+       && node->symbol->datatype == of_type)
+        return 1;
     return 0;
 }
 

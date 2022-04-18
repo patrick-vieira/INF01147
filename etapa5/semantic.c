@@ -296,24 +296,23 @@ int get_func_args_size(char* func_name, AST* node) {
 
     int size = 0;
     AST* args_node;
+    AST* body_node;
 
     switch (node->type){
         case AST_DECLARATION_FUNCTION_INT:
         case AST_DECLARATION_FUNCTION_CHAR:
         case AST_DECLARATION_FUNCTION_FLOAT: {
 
-            args_node = node->son[0];
-            if(args_node && args_node->type == AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY) {
-                args_node = args_node->son[0];
+            if (node->symbol->text == func_name) {
+                args_node = node->son[0]; // 1200 AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY
+                body_node = node->son[1]; // 1300
 
-                if (node->symbol->text == func_name && args_node->son[0] != 0) {
-
-                    do {
-                        size += 1;
-                        args_node = args_node->son[0];
-                    } while (args_node != 0);
-                    return size;
+                while (args_node && args_node->son[0] != 0) {
+                    size += 1;
+                    args_node = args_node->son[0];
                 }
+
+                return size;
             }
             break;
         }

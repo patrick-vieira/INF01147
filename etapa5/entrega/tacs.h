@@ -8,6 +8,17 @@
 
 #define TAC_MOVE        10
 
+#define TAC_DEC_GLOBAL        20
+#define TAC_DEC_GLOBAL_INT        21
+#define TAC_DEC_GLOBAL_CHAR        22
+#define TAC_DEC_GLOBAL_FLOAT        23
+
+#define TAC_DEC_GLOBAL_ARR        30
+#define TAC_DEC_GLOBAL_ARR_VAL        31
+
+#define TAC_ARR_GET_ELEMENT        40
+#define TAC_ARR_SET_ELEMENT        41
+
 #define TAC_ADD         201
 #define TAC_SUB         202
 #define TAC_MULT        203
@@ -27,9 +38,13 @@
 #define TAC_BEGINFUN         810
 #define TAC_ENDFUN           820
 
+#define TAC_DEC_FUNC_ARGS               1100
 #define TAC_DEC_FUNC_ARGS_INT           1101
 #define TAC_DEC_FUNC_ARGS_CHAR          1102
 #define TAC_DEC_FUNC_ARGS_FLOAT         1103
+
+#define TAC_FUN_CALL            1150
+#define TAC_FUNC_CALL_ARGS      1151
 
 #define TAC_JMP         1200
 #define TAC_JMPZ        1201
