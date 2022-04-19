@@ -48,7 +48,8 @@ void tacPrint(TAC* tac) {
         case TAC_DIF:   fprintf(stderr, "TAC_DIF"); break;
 
         case TAC_PRINT:   fprintf(stderr, "TAC_PRINT"); break;
-        case TAC_PRINT_CONCAT:   fprintf(stderr, "TAC_PRINT_CONCAT"); break;
+        case TAC_PRINT_STRING:   fprintf(stderr, "TAC_PRINT_STRING"); break;
+        case TAC_PRINT_INT:   fprintf(stderr, "TAC_PRINT_INT"); break;
         case TAC_READ:   fprintf(stderr, "TAC_READ"); break;
 
         case TAC_BEGINFUN:   fprintf(stderr, "TAC_BEGINFUN"); break;
@@ -176,7 +177,9 @@ TAC* tacGenerateCode(AST* node) {
         case AST_DIF:   result = makeBinaryOP(code[0], code[1], TAC_DIF); break;
 
         case AST_PRINT:
-        case AST_PRINT_REST:   result = makePrint(code[0], code[1], node->type); break;
+        //case AST_PRINT_REST:
+        case AST_PRINT_STRING:
+        case AST_PRINT_EXP:    result = makePrint(code[0], code[1], node->type); break;
 
         case AST_READ:   result = makeRead(code[0]); break;
 
@@ -270,16 +273,32 @@ TAC* makeBinaryOP(TAC* code0, TAC* code1, int type) {
 }
 
 TAC* makePrint(TAC* code0, TAC* code1, int nodeType){
-    if(nodeType == AST_PRINT_REST)
+//    if(nodeType == AST_PRINT_REST)
+    if(nodeType == AST_PRINT_STRING) {
+        TAC *string_val = 0;
+        HASH_NODE* node_string = 0;
+        node_string = makeTemp();
+        node_string->datastring = code0?code0->res->text:"";
+        node_string->datatype = DATATYPE_STRING;
+
+        string_val = tacCreate(TAC_SYMBOL_STRING,
+                               node_string,
+                               code0 ? code0->res : 0,
+                               code1 ? code1->res : 0);
+
         return tacJoin(
-                tacJoin(code0?code0:0, code1?code1:0),
-                tacCreate(TAC_PRINT_CONCAT,
-                          makeTemp(),
-                          code0?code0->res:0,
-                          code1?code1->res:0)
+                tacJoin(code0 ? code0 : 0, tacCreate(TAC_PRINT_STRING, string_val->res, 0, 0)),
+                code1 ? code1 : 0
         );
-    else
-        return tacJoin(code0?code0:0, tacCreate(TAC_PRINT, code0?code0->res:0, 0, 0));
+    }
+    if(nodeType == AST_PRINT_EXP)
+        return tacJoin(
+                tacJoin(code0?code0:0, tacCreate(TAC_PRINT_INT, code0?code0->res:0, 0, 0)),
+                code1?code1:0
+        );
+    if(nodeType == AST_PRINT)
+        return tacJoin(  code0?code0:0, tacCreate(TAC_PRINT, code0?code0->res:0, 0, 0));
+
 
 }
 
@@ -344,7 +363,16 @@ TAC* makeGoto(AST* node){
 
     TAC* goto_tac = 0;
 
-    goto_tac = tacCreate(TAC_GOTO, node->symbol, 0, 0);
+    HASH_NODE* label = 0;
+    for(int i = 0 ; i<=serialTempLabel; i++) {
+        char label_to_find[23];
+        sprintf(label_to_find, "%s%d", "_TMP_LABEL_", i);
+        printf("%s", label_to_find);
+
+        label = hashFind(label_to_find);
+        if(label->datastring == node->symbol->text)
+            goto_tac = tacCreate(TAC_GOTO, label, 0, 0);
+    }
 
     return goto_tac;
 }
@@ -352,7 +380,18 @@ TAC* makeGoto(AST* node){
 TAC* makeLabelTac(AST* node){
     TAC* label_tac = 0;
 
-    label_tac = tacCreate(TAC_LABEL, node->symbol, 0, 0);
+    HASH_NODE* node_label = 0;
+    node_label = makeLabel();
+    node_label->datastring = node->symbol->text;
+    node_label->datatype = SYMBOL_LABEL;
+
+
+    label_tac = tacCreate(TAC_LABEL,
+                          node_label,
+                          node->symbol,
+                           0);
+
+//    label_tac = tacCreate(TAC_LABEL, node->symbol, 0, 0);
 
     return label_tac;
 }

@@ -26,9 +26,8 @@ c:
 d:
 	.long	2222
 	.section	.rodata
-	.align 8
 .LC0:
-	.string	"%d maior q %d e %d e %d e %d e %d  \n"
+	.string	"ahoy"
 	.text
 	.globl	main
 	.type	main, @function
@@ -41,23 +40,11 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	movl	b(%rip), %esi
-	movl	a(%rip), %r8d
-	movl	b(%rip), %edi
-	movl	a(%rip), %ecx
-	movl	b(%rip), %edx
-	movl	a(%rip), %eax
-	subq	$8, %rsp
-	pushq	%rsi
-	movl	%r8d, %r9d
-	movl	%edi, %r8d
-	movl	%eax, %esi
 	leaq	.LC0(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
-	addq	$16, %rsp
 	movl	$0, %eax
-	leave
+	popq	%rbp
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc

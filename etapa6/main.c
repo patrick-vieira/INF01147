@@ -43,6 +43,10 @@ int main(int argc, char **argv) {
     astPrint(rootNode, 0);
     TAC* code = tacGenerateCode(rootNode);
 
+    fprintf(stderr, "\nhash after tacGenerateCode\n\n");
+    hashPrint();
+    fprintf(stderr, "\n\n");
+
     tacPrintBackwards(code);
     generateAsm(tacReverseTAC(code));
 

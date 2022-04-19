@@ -52,6 +52,18 @@ HASH_NODE *hashFind(char *text) {
 
     return 0;
 }
+HASH_NODE *hashFindLabel(char *text) {
+    HASH_NODE *node;
+    int address = hashAddress(text);
+
+    for (node=Table[address]; node; node = node->next) {
+        if (node->datastring && strcmp(node->datastring, text) == 0) {
+            return node;
+        }
+    }
+
+    return 0;
+}
 //TODO add line??
 HASH_NODE *hashInsert(char *text, int type) {
     HASH_NODE *newnode;
@@ -81,7 +93,7 @@ void hashPrint(void) {
 
     for (i=0; i<HASH_SIZE; i++){
         for (node=Table[i]; node; node=node->next) {
-            printf("Table[%d] \t has %s    \t type %d    \t datatype %d \t datavalue %d \n", i, node->text, node->type, node->datatype, node->datavalue);
+            printf("Table[%d] \t has %s    \t type %d    \t datatype %d \t datavalue %d \t datastring %s \n", i, node->text, node->type, node->datatype, node->datavalue, node->datastring);
         }
     }
 }
@@ -115,14 +127,26 @@ void hashPrintAsm(FILE* fout) {
         for (node=Table[i]; node; node=node->next) {
 //            printf("Table[%d] \t has %s    \t type %d    \t datatype %d \n", i, node->text, node->type, node->datatype);
             if(node->type == SYMBOL_LIT_INT)
-                fprintf(fout, "_%s: .long\t%s\n", node->text, node->text);
+                fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
+//            if(node->type == SYMBOL_LIT_CHAR)
+//                fprintf(fout, "_%s: .long\t%s\n", node->text, node->text);
+//            if(node->type == SYMBOL_STRING)
+//                fprintf(fout, "_%s: .string\t\"%s\"\n", node->text, node->text);
             if(node->type == SYMBOL_VARIABLE)
                 fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
+
+            if(node->type == SYMBOL_TEMP) {
+                if(node->datatype == DATATYPE_STRING)
+                    fprintf(fout, "_%s: .string\t\"%s\"\n", node->text, node->datastring);
+
+                if(node->datatype != DATATYPE_STRING)
+                    fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
+            }
         }
     }
-    for (i=0; i<serialTempVar; i++){
-        fprintf(fout, "__TMP_VAR_%d: .long\t%d\n", i, 0);
-    }
+    //for (i=0; i<serialTempVar; i++){
+      //  fprintf(fout, "__TMP_VAR_%d: .long\t%d\n", i, 0);
+    //}
 //    for (i=0; i<serialTempLabel; i++){
 //        fprintf(fout, "__TMP_LABEL_%d: .long\t%d\n", i, 0);
 //    }

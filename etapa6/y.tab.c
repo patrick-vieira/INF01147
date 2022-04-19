@@ -1906,25 +1906,25 @@ yyreduce:
 
   case 70:
 #line 252 "parser.y"
-                                        { AST* lit = astCreate(AST_SYMBOL, (yyvsp[0].symbol), 0,0,0,0); (yyval.ast) = astCreate(AST_PRINT_REST, 0, lit,0,0,0); }
+                                        { AST* lit = astCreate(AST_SYMBOL, (yyvsp[0].symbol), 0,0,0,0); (yyval.ast) = astCreate(AST_PRINT_STRING, 0, lit,0,0,0); }
 #line 1911 "y.tab.c"
     break;
 
   case 71:
 #line 253 "parser.y"
-                                        { AST* lit = astCreate(AST_SYMBOL, (yyvsp[-2].symbol), 0,0,0,0); (yyval.ast) = astCreate(AST_PRINT_REST, 0, lit,(yyvsp[0].ast),0,0); }
+                                        { AST* lit = astCreate(AST_SYMBOL, (yyvsp[-2].symbol), 0,0,0,0); (yyval.ast) = astCreate(AST_PRINT_STRING, 0, lit,(yyvsp[0].ast),0,0); }
 #line 1917 "y.tab.c"
     break;
 
   case 72:
 #line 254 "parser.y"
-                                        { (yyval.ast) = (yyvsp[0].ast); }
+                                        { (yyval.ast) = astCreate(AST_PRINT_EXP, 0, (yyvsp[0].ast),0,0,0); }
 #line 1923 "y.tab.c"
     break;
 
   case 73:
 #line 255 "parser.y"
-                                        { (yyval.ast) = astCreate(AST_PRINT_REST, 0, (yyvsp[-2].ast),(yyvsp[0].ast),0,0); }
+                                        { (yyval.ast) = astCreate(AST_PRINT_EXP, 0, (yyvsp[-2].ast),(yyvsp[0].ast),0,0); }
 #line 1929 "y.tab.c"
     break;
 

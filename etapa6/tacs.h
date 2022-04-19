@@ -5,6 +5,7 @@
 #include "ast.h"
 
 #define TAC_SYMBOL 1
+#define TAC_SYMBOL_STRING 2
 
 #define TAC_MOVE        10
 
@@ -32,7 +33,8 @@
 #define TAC_DIF    306
 
 #define TAC_PRINT           601
-#define TAC_PRINT_CONCAT    602
+#define TAC_PRINT_STRING    602
+#define TAC_PRINT_INT       603
 #define TAC_READ            702
 
 #define TAC_BEGINFUN         810

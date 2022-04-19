@@ -433,12 +433,15 @@ void check_print(AST* node){
         case AST_PRINT:
             check_print(node->son[0]);
             break;
-        case AST_PRINT_REST:
+        //case AST_PRINT_REST:
+        case AST_PRINT_STRING:
+        case AST_PRINT_EXP:
             if((node->son[0]->symbol->type == SYMBOL_STRING) && !(node->son[1])) {
                 break; // ok só string
             }
             else if ((node->son[0]->symbol->type == SYMBOL_STRING) && node->son[1]) {
-                if (node->son[1]->type == AST_PRINT_REST)
+                //if (node->son[1]->type == AST_PRINT_REST)
+                if (node->son[1]->type == AST_PRINT_STRING || node->son[1]->type == AST_PRINT_EXP)
                     check_print(node->son[1]);
                 else
                     check_expressions(node->son[1]);

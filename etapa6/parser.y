@@ -249,10 +249,10 @@ array_element: TK_IDENTIFIER '[' expression ']'     { $$ = astCreate(AST_ARRAY_E
 print: KW_PRINT print_rest              { $$ = astCreate(AST_PRINT, 0, $2,0,0,0); }
     ;
 
-print_rest: LIT_STRING                  { AST* lit = astCreate(AST_SYMBOL, $1, 0,0,0,0); $$ = astCreate(AST_PRINT_REST, 0, lit,0,0,0); }
-    | LIT_STRING ',' print_rest         { AST* lit = astCreate(AST_SYMBOL, $1, 0,0,0,0); $$ = astCreate(AST_PRINT_REST, 0, lit,$3,0,0); }
-    | expression                        { $$ = $1; }
-    | expression ',' print_rest         { $$ = astCreate(AST_PRINT_REST, 0, $1,$3,0,0); }
+print_rest: LIT_STRING                  { AST* lit = astCreate(AST_SYMBOL, $1, 0,0,0,0); $$ = astCreate(AST_PRINT_STRING, 0, lit,0,0,0); }
+    | LIT_STRING ',' print_rest         { AST* lit = astCreate(AST_SYMBOL, $1, 0,0,0,0); $$ = astCreate(AST_PRINT_STRING, 0, lit,$3,0,0); }
+    | expression                        { $$ = astCreate(AST_PRINT_EXP, 0, $1,0,0,0); }
+    | expression ',' print_rest         { $$ = astCreate(AST_PRINT_EXP, 0, $1,$3,0,0); }
     ;
 
 return: KW_RETURN expression        { $$ = astCreate(AST_RETURN, 0, $2,0,0,0); }

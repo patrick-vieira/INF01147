@@ -14,7 +14,8 @@ int d = 2222;
 
 int main() {
 
-    printf("%d maior q %d e %d e %d e %d e %d  \n", a, b, a, b,a, b);
+    printf("ahoy");
+    //printf("%d maior q %d e %d e %d e %d e %d  \n", a, b, a, b,a, b);
 
     /*scanf("%d", &a);
 

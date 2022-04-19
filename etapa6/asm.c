@@ -3,7 +3,8 @@
 void asm_TAC_BEGINFUN(FILE* fout, TAC* tac);
 void asm_TAC_ENDFUN(FILE* fout, TAC* tac);
 
-void asm_TAC_PRINT_CONCAT(FILE* fout, TAC* tac);
+void asm_TAC_PRINT_STRING(FILE* fout, TAC* tac);
+void asm_TAC_PRINT_INT(FILE* fout, TAC* tac);
 void asm_TAC_PRINT(FILE* fout, TAC* tac);
 
 void asm_TAC_MOVE(FILE* fout, TAC* tac);
@@ -24,6 +25,7 @@ void asm_TAC_DIF(FILE* fout, TAC* tac);
 
 void asm_TAC_JMP(FILE* fout, TAC* tac);
 void asm_TAC_JMPZ(FILE* fout, TAC* tac);
+void asm_TAC_GOTO(FILE* fout, TAC* tac);
 
 void asm_TAC_READ(FILE* fout, TAC* tac);
 
@@ -44,9 +46,11 @@ void generateAsm(TAC* first) {
 
     fprintf(fout, "\n # PRINT"
                   "\nprint_string_int:\n"
-                  "\t.string\t\"%%d\\n\"\n"
+//                  "\t.string\t\"%%d\\n\"\n"
+                  "\t.string\t\"%%d\"\n"
                   "print_string:\n"
-                  "\t.string\t\"%%s\\n\"\n\n");
+//                  "\t.string\t\"%%s\\n\"\n\n");
+                  "\t.string\t\"%%s\"\n\n");
 
     fprintf(fout, "\n #READ"
                   "\nread:\n"
@@ -62,7 +66,8 @@ void generateAsm(TAC* first) {
             case TAC_BEGINFUN: asm_TAC_BEGINFUN(fout, tac); break;
             case TAC_ENDFUN: asm_TAC_ENDFUN(fout, tac); break;
 
-            case TAC_PRINT_CONCAT: asm_TAC_PRINT_CONCAT(fout, tac); break;
+            case TAC_PRINT_STRING: asm_TAC_PRINT_STRING(fout, tac); break;
+            case TAC_PRINT_INT: asm_TAC_PRINT_INT(fout, tac); break;
             case TAC_PRINT: asm_TAC_PRINT(fout, tac); break;
 
             case TAC_MOVE: asm_TAC_MOVE(fout, tac); break;
@@ -83,6 +88,8 @@ void generateAsm(TAC* first) {
 
             case TAC_JMP: asm_TAC_JMP(fout, tac); break;
             case TAC_JMPZ: asm_TAC_JMPZ(fout, tac); break;
+
+            case TAC_GOTO: asm_TAC_GOTO(fout, tac); break;
 
             case TAC_READ: asm_TAC_READ(fout, tac); break;
 
@@ -112,19 +119,22 @@ void asm_TAC_ENDFUN(FILE* fout, TAC* tac){
                   "\tret\n\n");
 }
 
-void asm_TAC_PRINT_CONCAT(FILE* fout, TAC* tac){
-    fprintf(fout, "\n\n# TAC_PRINT_CONCAT printf(\"%%d\", var_name);\n"
+void asm_TAC_PRINT_STRING(FILE* fout, TAC* tac){
+    fprintf(fout, "\n\n# TAC_PRINT_STRING \n"
+                  "    leaq\t_%s(%%rip), %%rdi\n"
+                  "    movl\t$0, %%eax\n"
+                  "    call\tprintf@PLT\n"
+                  "    movl\t$0, %%eax\n\n", tac->res->text);
+}
+void asm_TAC_PRINT_INT(FILE* fout, TAC* tac){
+    fprintf(fout, "\n\n# TAC_PRINT_INT \n"
                   "    movl\t_%s(%%rip), %%esi   # mov a to reg\n"
                   "    #movl\t%%eax, %%esi\n"
                   "    leaq\tprint_string_int(%%rip), %%rdi\n"
                   "\tcall\tprintf@PLT\n\n", tac->res->text);
 }
 void asm_TAC_PRINT(FILE* fout, TAC* tac){
-    fprintf(fout, "\n\n# TAC_PRINT printf(\"%%d\", var_name);\n"
-                  "    movl\t_%s(%%rip), %%esi   # mov a to reg\n"
-                  "    #movl\t%%eax, %%esi\n"
-                  "    leaq\tprint_string_int(%%rip), %%rdi\n"
-                  "\tcall\tprintf@PLT\n\n", tac->res->text);
+    // ignore, all in tac_print_string and tac_print_int
 }
 
 void asm_TAC_MOVE(FILE* fout, TAC* tac){
@@ -217,8 +227,8 @@ void asm_TAC_DIV(FILE* fout, TAC* tac){
 
 void asm_TAC_LABEL(FILE* fout, TAC* tac){
     fprintf(fout, "\n\n# TAC_LABEL\n"
-                  "    _%s:"
-                  "\n\n", tac->res->text);
+                  "    _%s:\t# %s"
+                  "\n\n", tac->res->text, tac->res->datastring?tac->res->datastring:"AUTO");
 }
 
 void asm_TAC_GT(FILE* fout, TAC* tac){
@@ -351,6 +361,13 @@ void asm_TAC_JMPZ(FILE* fout, TAC* tac){
                   "\tmovl\t$0, %%eax\n"
                   "\tcmpl\t%%eax, %%edx \t# Se condicional anterior for 0 pula o trecho a baixo\n"
                   "    jz _%s\n", tac->op1->text, tac->res->text);
+
+}
+
+void asm_TAC_GOTO(FILE* fout, TAC* tac){
+    fprintf(fout, "\n\n# TAC_GOTO\n"
+                  "\tjmp\t_%s \t# alias for label [%s]"
+                  "\n\n", tac->res->text, tac->res->datastring);
 
 }
 

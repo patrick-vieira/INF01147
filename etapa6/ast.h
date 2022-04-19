@@ -34,8 +34,12 @@
 #define AST_COMMAND                200
 #define AST_COMMAND_BLOCK          201
 #define AST_FLUX_CONTROL           202
+
 #define AST_PRINT                  203
-#define AST_PRINT_REST             2031
+//#define AST_PRINT_REST             2031
+#define AST_PRINT_STRING           2032
+#define AST_PRINT_EXP              2033
+
 #define AST_RETURN                 204
 #define AST_ATTRIBUITION           205
 #define AST_LABEL                  206
@@ -82,16 +86,7 @@
 
 
 
-#define DATATYPE_UNDEFINED       0
-#define DATATYPE_INT             1
-#define DATATYPE_CHAR            2
-#define DATATYPE_FLOAT           3
-#define DATATYPE_BOOL            4
-#define DATATYPE_STRING          5
 
-#define DATATYPE_ARRAY_INT       10
-#define DATATYPE_ARRAY_CHAR      11
-#define DATATYPE_ARRAY_FLOAT     12
 
 
 typedef struct astnode

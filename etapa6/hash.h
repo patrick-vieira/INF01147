@@ -12,6 +12,17 @@
 
 #define HASH_SIZE 997
 
+#define DATATYPE_UNDEFINED       0
+#define DATATYPE_INT             1
+#define DATATYPE_CHAR            2
+#define DATATYPE_FLOAT           3
+#define DATATYPE_BOOL            4
+#define DATATYPE_STRING          5
+#define DATATYPE_LABEL           6
+
+#define DATATYPE_ARRAY_INT       10
+#define DATATYPE_ARRAY_CHAR      11
+#define DATATYPE_ARRAY_FLOAT     12
 
 #define  SYMBOL_VARIABLE            258
 #define  SYMBOL_FUNCTION            259
@@ -32,6 +43,7 @@ typedef struct hash_node {
     int type;
     int datatype;
     int datavalue;
+    char* datastring;
     char *text;
     struct hash_node * next;
 } HASH_NODE;
@@ -45,6 +57,7 @@ void hashInit(void);
 int hashAddress(char *text);
 
 HASH_NODE *hashFind(char *text);
+HASH_NODE *hashFindLabel(char *text);
 HASH_NODE *hashInsert(char *text, int type);
 void hashPrint(void);
 HASH_NODE *getFirstNode();

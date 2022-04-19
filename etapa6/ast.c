@@ -53,7 +53,9 @@ void astPrint(AST *node, int level) {
         case AST_COMMAND_BLOCK: fprintf(stderr, "AST_COMMAND_BLOCK"); break;
         case AST_FLUX_CONTROL:  fprintf(stderr, "AST_FLUX_CONTROL"); break;
         case AST_PRINT:             fprintf(stderr, "AST_PRINT"); break;
-        case AST_PRINT_REST:        fprintf(stderr, "AST_PRINT_REST"); break;
+        //case AST_PRINT_REST:        fprintf(stderr, "AST_PRINT_REST"); break;
+        case AST_PRINT_STRING:        fprintf(stderr, "AST_PRINT_STRING"); break;
+        case AST_PRINT_EXP:        fprintf(stderr, "AST_PRINT_EXP"); break;
         case AST_RETURN:        fprintf(stderr, "AST_RETURN"); break;
         case AST_ATTRIBUITION:  fprintf(stderr, "AST_ATTRIBUITION"); break;
         
@@ -339,8 +341,10 @@ char* astToCodePrint(AST* node, int level) {
             return buffer;
             break;
         }   
-        case AST_PRINT_REST: {
-            fprintf(stderr, "AST_PRINT_REST\n");
+        //case AST_PRINT_REST:
+        case AST_PRINT_STRING:
+        case AST_PRINT_EXP: {
+            fprintf(stderr, "AST_PRINT_STRING || AST_PRINT_EXP //AST_PRINT_REST\n");
 
             char* stringContent1 = astToCode(node->son[0],level);
             char* stringContent2 = astToCode(node->son[1],level);
@@ -986,7 +990,9 @@ char* astToCode(AST* node, int level) {
             return buffer;
             break;
         }
-        case AST_PRINT_REST: {
+        //case AST_PRINT_REST:
+        case AST_PRINT_STRING:
+        case AST_PRINT_EXP: {
 
 
             char* stringContent1 = astToCode(node->son[0],level);
@@ -1443,7 +1449,9 @@ void printType(AST* node){
         case AST_COMMAND_BLOCK: fprintf(stderr, "AST_COMMAND_BLOCK"); break;
         case AST_FLUX_CONTROL:  fprintf(stderr, "AST_FLUX_CONTROL"); break;
         case AST_PRINT:             fprintf(stderr, "AST_PRINT"); break;
-        case AST_PRINT_REST:        fprintf(stderr, "AST_PRINT_REST"); break;
+        //case AST_PRINT_REST:        fprintf(stderr, "AST_PRINT_REST"); break;
+        case AST_PRINT_STRING:        fprintf(stderr, "AST_PRINT_STRING"); break;
+        case AST_PRINT_EXP:        fprintf(stderr, "AST_PRINT_EXP"); break;
         case AST_RETURN:        fprintf(stderr, "AST_RETURN"); break;
         case AST_ATTRIBUITION:  fprintf(stderr, "AST_ATTRIBUITION"); break;
 
