@@ -67,6 +67,9 @@ HASH_NODE *hashFindLabel(char *text) {
 //TODO add line??
 HASH_NODE *hashInsert(char *text, int type) {
     HASH_NODE *newnode;
+
+    text = dash_replace(text);
+
     int address = hashAddress(text);
     
     if(first_node < 0)
@@ -132,12 +135,26 @@ void hashPrintAsm(FILE* fout) {
 //                fprintf(fout, "_%s: .long\t%s\n", node->text, node->text);
 //            if(node->type == SYMBOL_STRING)
 //                fprintf(fout, "_%s: .string\t\"%s\"\n", node->text, node->text);
-            if(node->type == SYMBOL_VARIABLE)
-                fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
+//            if(node->type == SYMBOL_VARIABLE)
+//                fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
+
+            if(node->type == SYMBOL_FUNCTION_ARGS || node->type == SYMBOL_VARIABLE){
+                if(node->datatype == DATATYPE_CHAR)
+                    fprintf(fout, "_%s: .byte\t%d\n", node->text, node->datavalue);
+
+                if(node->datatype == DATATYPE_FLOAT)
+                    fprintf(fout, "_%s: "
+                                  "\t.long\t%d\n"
+                                  "\t.long\t%s\n", node->text, node->datavalue,  node->datastring[0]?node->datastring:"0");
+
+                if(node->datatype == DATATYPE_INT)
+                    fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
+            }
+
 
             if(node->type == SYMBOL_TEMP) {
                 if(node->datatype == DATATYPE_STRING)
-                    fprintf(fout, "_%s: .string\t\"%s\"\n", node->text, node->datastring);
+                    fprintf(fout, "_%s: .string\t\"%s\"\n", node->text, dash_replace_back(node->datastring));
 
                 if(node->datatype != DATATYPE_STRING)
                     fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);

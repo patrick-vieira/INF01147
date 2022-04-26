@@ -1,0 +1,22 @@
+int input: 0;
+int n:0;
+
+int factorial(int n) {
+    if( n == 0 ) then {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+int main() {
+
+    print "Factorial calc: ", "\n";
+    print "Enter the value to  calc: ";
+    input = read;
+
+
+    print "Factorial of ", input, "is: ", factorial(input));
+
+    print "\n", "nice!";
+}

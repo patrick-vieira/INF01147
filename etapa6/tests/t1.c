@@ -10,18 +10,25 @@
 int a = 1;
 int b = 2;
 int c = 1111;
-int d = 2222;
 
-int main() {
+char ch = 'a';
 
-    printf("ahoy");
-    //printf("%d maior q %d e %d e %d e %d e %d  \n", a, b, a, b,a, b);
+float d = 2.3;
+float e = 2.4;
+float f = 3.4;
+float g = 3.4;
+float h = 3.41;
 
-    /*scanf("%d", &a);
+int fn2(int a1, int a2) {
+}
 
-    if(a > b) {
-        printf("%d maior q %d\n", a, b);
-    } else {
-        printf("%d menor q %d\n", a, b);
-    }*/
+#include<stdio.h>
+
+int fat, n;
+
+int main()
+{
+
+    printf("\n%d/%d", a, b);
+    return 0;
 }

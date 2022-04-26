@@ -81,7 +81,27 @@ void check_and_set_declarations(AST* node) {
 
 
         case AST_DECLARATION_FUNCTION_ARGS_INT:
+            if (node->symbol)
+                if(node->symbol->type != TK_IDENTIFIER) {
+                    fprintf(stderr, "Semantic ERROR: function args or variable name [%s] already declared \n", node->symbol->text);
+                    ++SemanticErrors;
+                } else{
+                    node->symbol->type = SYMBOL_FUNCTION_ARGS;
+                    set_datatype(node);
+                }
+
+            break;
         case AST_DECLARATION_FUNCTION_ARGS_CHAR:
+            if (node->symbol)
+                if(node->symbol->type != TK_IDENTIFIER) {
+                    fprintf(stderr, "Semantic ERROR: function args or variable name [%s] already declared \n", node->symbol->text);
+                    ++SemanticErrors;
+                } else{
+                    node->symbol->type = SYMBOL_FUNCTION_ARGS;
+                    set_datatype(node);
+                }
+
+            break;
         case AST_DECLARATION_FUNCTION_ARGS_FLOAT:
             if (node->symbol)
                 if(node->symbol->type != TK_IDENTIFIER) {
@@ -195,6 +215,7 @@ void check_attibuition(AST* node){
         case AST_ATTRIBUITION:
             switch (node->symbol->type) {
                 case SYMBOL_VARIABLE:
+                case SYMBOL_FUNCTION_ARGS:
                     if(!is_number(node->son[0]) && is_boolean(node->son[0])){
                         fprintf(stderr,"Semantic ERROR: [ATTIBUITION]: Invalid assignment block [%s] \n", astToCode(node, 0));
                         ++SemanticErrors;
@@ -211,19 +232,24 @@ void check_attibuition(AST* node){
 
             //AST* arrEl = node->son[0];
             //AST* val = node->son[1];
-
-            switch (node->son[0]->symbol->type) {
-                case SYMBOL_VECTOR:
-                    if(!is_valid_array_index(node->son[0]) || !is_number(node->son[1])){
-                        fprintf(stderr,"Semantic ERROR: [ARRAY ATTIBUITION]: Invalid assignment block [%s] \n", astToCode(node, 0));
-                        ++SemanticErrors;
-                    }
-                    break;
-                default:
-                    fprintf(stderr,"Semantic ERROR: [ARRAY TYPE ATTIBUITION]: Invalid assignment block [%s] \n", astToCode(node, 0));
-                    ++SemanticErrors;
-                    break;
+            if(!is_valid_array_index(node) || !is_number(node->son[0])) {
+            //if(!is_valid_array_index(node->son[0]) || !is_number(node->son[1])){
+                fprintf(stderr,"Semantic ERROR: [ARRAY ATTIBUITION]: Invalid assignment block [%s] \n", astToCode(node, 0));
+                ++SemanticErrors;
             }
+
+//            switch (node->son[0]->symbol->type) {
+//                case SYMBOL_VECTOR:
+//                    if(!is_valid_array_index(node->son[0]) || !is_number(node->son[1])){
+//                        fprintf(stderr,"Semantic ERROR: [ARRAY ATTIBUITION]: Invalid assignment block [%s] \n", astToCode(node, 0));
+//                        ++SemanticErrors;
+//                    }
+//                    break;
+//                default:
+//                    fprintf(stderr,"Semantic ERROR: [ARRAY TYPE ATTIBUITION]: Invalid assignment block [%s] \n", astToCode(node, 0));
+//                    ++SemanticErrors;
+//                    break;
+//            }
             break;
         default:
             break;
@@ -307,7 +333,9 @@ int get_func_args_size(char* func_name, AST* node) {
                 args_node = node->son[0]; // 1200 AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY
                 body_node = node->son[1]; // 1300
 
-                while (args_node && args_node->son[0] != 0) {
+//                while (args_node && args_node->son[0] != 0) {
+//                while (args_node && args_node->symbol->type == SYMBOL_FUNCTION_ARGS) {
+                while (args_node) {
                     size += 1;
                     args_node = args_node->son[0];
                 }
@@ -509,11 +537,15 @@ void set_datatype(AST* node){
         }
 
 
-        case AST_DECLARATION_GLOBAL_CHAR:           node->symbol->datatype = DATATYPE_CHAR          ; break;
-        case AST_DECLARATION_GLOBAL_FLOAT:          node->symbol->datatype = DATATYPE_FLOAT         ; break; //TODO pode ser int?
-        case AST_DECLARATION_GLOBAL_INT:            node->symbol->datatype = DATATYPE_INT           ; node->symbol->datavalue = atoi(node->son[0]->symbol->text); break;
+        case AST_DECLARATION_FUNCTION_ARGS_CHAR:
+        case AST_DECLARATION_GLOBAL_CHAR:           node->symbol->datatype = DATATYPE_CHAR          ; node->symbol->datavalue = node->son[0]?(int)node->son[0]->symbol->text[1]:0; node->symbol->datastring = node->son[0]->symbol->text; break;
+
+        case AST_DECLARATION_FUNCTION_ARGS_FLOAT:
+        case AST_DECLARATION_GLOBAL_FLOAT:          node->symbol->datatype = DATATYPE_FLOAT         ; node->symbol->datavalue = atoi(node->son[0]?node->son[0]->symbol->text:""); node->symbol->datastring = node->son[1]?node->son[1]->symbol->text:"";  break;
 
         case AST_DECLARATION_FUNCTION_ARGS_INT:
+        case AST_DECLARATION_GLOBAL_INT:            node->symbol->datatype = DATATYPE_INT           ; node->symbol->datavalue = atoi(node->son[0]->symbol->text); break;
+
         case AST_DECLARATION_FUNCTION_INT:          node->symbol->datatype = DATATYPE_INT           ; break;
         case AST_DECLARATION_FUNCTION_CHAR:         node->symbol->datatype = DATATYPE_CHAR          ; break;
         case AST_DECLARATION_FUNCTION_FLOAT:        node->symbol->datatype = DATATYPE_FLOAT         ; break;
@@ -713,7 +745,7 @@ int is_expression_of_type(AST* node, int of_type){
 
 int is_valid_array_index(AST* node){
     if(node->symbol
-       && node->symbol->type == SYMBOL_VECTOR
+        && node->symbol->type == SYMBOL_VECTOR
        && is_integer(node->son[0])
        && node->symbol->datavalue > node->son[0]->symbol->datavalue)
         return 1;

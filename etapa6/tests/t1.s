@@ -19,19 +19,45 @@ b:
 	.size	c, 4
 c:
 	.long	1111
+	.globl	ch
+	.type	ch, @object
+	.size	ch, 1
+ch:
+	.byte	97
 	.globl	d
 	.align 4
 	.type	d, @object
 	.size	d, 4
 d:
-	.long	2222
-	.section	.rodata
-.LC0:
-	.string	"ahoy"
+	.long	1075000115
+	.globl	e
+	.align 4
+	.type	e, @object
+	.size	e, 4
+e:
+	.long	1075419546
+	.globl	f
+	.align 4
+	.type	f, @object
+	.size	f, 4
+f:
+	.long	1079613850
+	.globl	g
+	.align 4
+	.type	g, @object
+	.size	g, 4
+g:
+	.long	1079613850
+	.globl	h
+	.align 4
+	.type	h, @object
+	.size	h, 4
+h:
+	.long	1079655793
 	.text
-	.globl	main
-	.type	main, @function
-main:
+	.globl	fn2
+	.type	fn2, @function
+fn2:
 .LFB0:
 	.cfi_startproc
 	endbr64
@@ -40,6 +66,35 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
+	movl	%edi, -4(%rbp)
+	movl	%esi, -8(%rbp)
+	nop
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	fn2, .-fn2
+	.comm	fat,4,4
+	.comm	n,4,4
+	.section	.rodata
+.LC0:
+	.string	"\n%d/%d"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB1:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	b(%rip), %edx
+	movl	a(%rip), %eax
+	movl	%eax, %esi
 	leaq	.LC0(%rip), %rdi
 	movl	$0, %eax
 	call	printf@PLT
@@ -48,7 +103,7 @@ main:
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE0:
+.LFE1:
 	.size	main, .-main
 	.ident	"GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
 	.section	.note.GNU-stack,"",@progbits

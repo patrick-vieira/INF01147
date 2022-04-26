@@ -35,6 +35,8 @@
 #define TAC_PRINT           601
 #define TAC_PRINT_STRING    602
 #define TAC_PRINT_INT       603
+#define TAC_PRINT_CHAR      604
+#define TAC_PRINT_FLOAT      605
 #define TAC_READ            702
 
 #define TAC_BEGINFUN         810

@@ -39,6 +39,7 @@
 //#define AST_PRINT_REST             2031
 #define AST_PRINT_STRING           2032
 #define AST_PRINT_EXP              2033
+#define AST_PRINT_CHAR             2034
 
 #define AST_RETURN                 204
 #define AST_ATTRIBUITION           205
@@ -100,7 +101,6 @@ typedef struct astnode
 AST *astCreate(int type, HASH_NODE *symbol, AST* s0, AST* s1, AST* s2, AST* s3);
 void astPrint(AST *node, int level);
 char* testtt();
-char* astToCodePrint(AST *node, int level);
 char* astToCode(AST *node, int level);
 void printType(AST* node);
 #endif

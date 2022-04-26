@@ -1,0 +1,23 @@
+int t-one: 0;
+int t-two: 1;
+
+int next:0;
+int n:0;
+int count:0;
+
+
+int main() {
+
+    print "Fibonacci Series: ", t-one, " ", t-two, "... \nContinue until which sequence number?";
+    print "\nEnter the number of terms: ";
+    n = read;
+
+    while(count < n) {
+        print next, " ";
+        t-one = t-two;
+        t-two = next;
+        next = t-one + t-two;
+        count = count + 1;
+    };
+    print "\n", "nice!";
+}

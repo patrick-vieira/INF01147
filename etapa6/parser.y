@@ -19,21 +19,6 @@
     AST *ast;
 }
 
-//%token<symbol> SYMBOL_VARIABLE
-//%token<symbol> SYMBOL_FUNCTION
-//%token<symbol> SYMBOL_FUNCTION_ARGS
-//%token<symbol> SYMBOL_VECTOR
-//
-//%token<symbol> SYMBOL_LIT_INT
-//%token<symbol> SYMBOL_LIT_CHAR
-//%token<symbol> SYMBOL_STRING
-//%token<symbol> SYMBOL_LABEL
-//%token<symbol> SYMBOL_RETURN
-//
-//%token<symbol> SYMBOL_EXPRESSION_BLOCK
-
-
-
 %token<symbol> KW_CHAR           
 %token<symbol> KW_INT
 %token<symbol> KW_FLOAT
@@ -59,7 +44,7 @@
 %token<symbol> OPERATOR_EQ       
 %token<symbol> OPERATOR_DIF   
 
-%token<symbol> TK_IDENTIFIER     
+%token<symbol> TK_IDENTIFIER
 
 %token<symbol> LIT_INTEGER      
 %token<symbol> LIT_CHAR          
@@ -82,8 +67,6 @@
 %type<ast> declaration_global_float
 
 %type<ast> array_val
-%type<ast> array_element
-
 
 %type<ast> declaration_function
 %type<ast> declaration_function_args
@@ -170,7 +153,7 @@ declaration_function: KW_INT TK_IDENTIFIER '(' declaration_function_args_or_empt
     | KW_FLOAT TK_IDENTIFIER '(' declaration_function_args_or_empty ')' declaration_function_body                   { $$ = astCreate(AST_DECLARATION_FUNCTION_FLOAT, $2, $4,$6,0,0); }
     ;
 
-declaration_function_args_or_empty: declaration_function_args                                                       { $$ = astCreate(AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY, 0, $1,0,0,0); }
+declaration_function_args_or_empty: declaration_function_args                                                       { $$ = $1; } //astCreate(AST_DECLARATION_FUNCTION_ARGS_OR_EMPTY, 0, $1,0,0,0); }
     |                                                                                                               { $$ = 0; }
     ;
 
@@ -218,7 +201,7 @@ command_list:   command ';' command_list        { $$ = astCreate(AST_COMMAND_LIS
 
 
 attribution: TK_IDENTIFIER '=' expression       {  $$ = astCreate(AST_ATTRIBUITION, $1, $3,0,0,0); }
-    | array_element '=' expression              {  $$ = astCreate(AST_ARRAY_ATTRIBUITION, 0, $1,$3,0,0); }
+    | TK_IDENTIFIER '[' expression ']' '=' expression              {  $$ = astCreate(AST_ARRAY_ATTRIBUITION, $1, $3,$6,0,0); }
     ;
 
 
@@ -226,7 +209,7 @@ expression: LIT_INTEGER                         { $$ = astCreate(AST_SYMBOL, $1,
     | LIT_CHAR                                  { $$ = astCreate(AST_SYMBOL, $1, 0,0,0,0); }
     | TK_IDENTIFIER                             { $$ = astCreate(AST_SYMBOL, $1, 0,0,0,0); }
     | KW_READ                                   { $$ = astCreate(AST_READ, 0, 0,0,0,0); }
-    | array_element                             { $$ = $1; }
+    | TK_IDENTIFIER '[' expression ']'     	{ $$ = astCreate(AST_ARRAY_ELEMENT, $1, $3,0,0,0); }
     | expression OPERATOR_ADD expression        { $$ = astCreate(AST_ADD, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_EXPRESSION_BINARY_ARITHMETIC, $2, $1,$3,0,0); } //
     | expression OPERATOR_SUB expression        { $$ = astCreate(AST_SUB, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_EXPRESSION_BINARY_ARITHMETIC, $2, $1,$3,0,0); } //
     | expression OPERATOR_MULT expression       { $$ = astCreate(AST_MULT, $2, $1,$3,0,0); } //{ $$ = astCreate(AST_EXPRESSION_BINARY_ARITHMETIC, $2, $1,$3,0,0); } //
@@ -242,9 +225,6 @@ expression: LIT_INTEGER                         { $$ = astCreate(AST_SYMBOL, $1,
     | '(' expression ')'                        { $$ = astCreate(AST_EXPRESSION_BLOCK, 0, $2,0,0,0); }
     | function_call                             { $$ = $1;}
     ; 
-
-array_element: TK_IDENTIFIER '[' expression ']'     { $$ = astCreate(AST_ARRAY_ELEMENT, $1, $3,0,0,0); }
-    ;
 
 print: KW_PRINT print_rest              { $$ = astCreate(AST_PRINT, 0, $2,0,0,0); }
     ;

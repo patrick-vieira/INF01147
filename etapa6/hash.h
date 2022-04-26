@@ -2,9 +2,11 @@
 **** UFRGS - INF01147 - COMPILADORES - TURMA B - Marcelo Johann - 2021/2 - Etapa 1
 ***/
 
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "commons.h"
 
 #ifndef HASH_HEADER
 #define HASH_HEADER
