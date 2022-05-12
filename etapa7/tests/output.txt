@@ -1,0 +1,10 @@
+char char__dash__arr[2]: 'a' 'b';
+int res: 0;
+int fun(char a){
+print "char arr value: ", a, "\n";
+
+}
+int main(){
+print "char arr value: ", char__dash__arr[0], char__dash__arr[1], "\n";
+
+}

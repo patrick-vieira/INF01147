@@ -1,0 +1,24 @@
+int a: 10;
+
+int fn(int argsa, int argsb, int argsc) {
+    a = argsa + argsc;
+
+    if(a > 0) then {
+        print "\n a > 0: a = ", a, "";
+        a = fn(0, a, 0);
+    } else {
+        print "\n a <= 0: a = ", a, "";
+    };
+
+    return a + argsb;
+}
+
+int main() {
+    a = fn(1, 2, 3);
+    print "\n a = 1 + 3 * 2 = ", a;
+    a = fn(2, 2, 3);
+    print "\n a = 2 + 3 * 2 = ", a;
+    a = fn(3, 2, 6);
+    print "\n a = 3 + 6 * 2 = ", a;
+    print "\n\n";
+}

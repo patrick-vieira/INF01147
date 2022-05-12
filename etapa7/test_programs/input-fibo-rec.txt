@@ -1,0 +1,27 @@
+int input: 0;
+int res: 0;
+int temp_result: 0;
+
+int factorial(int n) {
+    print "\n n = ", n;
+    if( n == 0 ) then {
+        n = 1;
+        return n;
+    } else {
+        temp_result = n * factorial(n - 1);
+        print "\n temp res: ", temp_result, " - n value: ", n;
+        return temp_result;
+    };
+}
+
+int main() {
+
+    print "Factorial calc: ", "\n";
+    print "Enter the value to  calc: ";
+    input = read;
+
+    res = factorial(input);
+    print "\nFactorial of ", input, " is: ", res;
+
+    print "\n", "nice!";
+}

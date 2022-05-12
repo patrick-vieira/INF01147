@@ -1,0 +1,83 @@
+int input-one: 0;
+int input-two: 0;
+
+int result-fac: 0;
+
+int a: 0;
+int b: 1;
+
+int result-fib: 0;
+
+int result: 0;
+int n: 0;
+
+int fatorial(int argsa) {
+    n = argsa;
+    result = 1;
+    while(n > 1){
+        result = result * n;
+        n = n - 1;
+    };
+
+    return result;
+}
+
+
+int fibonacci(int argsb) {
+    n = argsb;
+
+    if(n == 0) then {
+        return 0;
+    };
+
+    if(n == 1) then {
+        return 1;
+    };
+
+    result = 1;
+    while(n > 1){
+        result = a + b;
+        a = b;
+        b = result;
+        n = n - 1;
+    };
+
+    return result;
+}
+
+int main() {
+    print "Teste 1:";
+
+    print "Calculo fatorial e fubinacci, [read, while, if, function call] \n";
+
+    print "\n", "Enter the first value: ";
+    input-one = read;
+    print "Enter the second value: ";
+    input-two = read;
+
+    result-fac = fatorial(input-one);
+    result-fib = fibonacci(input-two);
+
+    print "\nO valor de ", input-one, "! é ", result-fac;
+
+    if(result-fac > result-fib) then {
+        print " que é maior do que o ";
+    } else {
+        print " que é menor do que o ";
+    };
+
+    print input-two, "º numero de fibonacci, que é ", result-fib, "\n";
+
+    a = result-fac - result-fib;
+    b = 0;
+
+    while(a > 0) {
+        b = b + 1;
+        a = a - result-fib;
+    };
+
+    if(0 < b) then {
+        print "\nO fatorial de ", input-one, " é, pelo menos, ", b, "x maior que o ", input-two, "º numero de fibonacci.\n";
+    };
+
+}

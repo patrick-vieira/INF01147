@@ -1,0 +1,76 @@
+
+int input: 0;
+
+int result: 0;
+int n: 0;
+int a: 0;
+int b: 0;
+
+int total_n: 30;
+int arr[20];
+
+int columns: 6;
+int count: 0;
+
+int fibonacci(int argsb) {
+
+    a = 0;
+    b = 1;
+
+    if(argsb == 0) then {
+        return 0;
+    };
+
+    if(argsb == 1) then {
+        return 1;
+    };
+
+    result = 1;
+    while(argsb > 1){
+        result = a + b;
+        a = b;
+        b = result;
+        argsb = argsb - 1;
+    };
+
+    return result;
+}
+
+int main() {
+    print "Teste 3:";
+
+    print "Arrays \n";
+    print "\n", "Enter a number: ";
+    input = read;
+
+    n = 0;
+
+    while(n < total_n) {
+        arr[n] = fibonacci(n);
+        \\print "\n", n, ": ", arr[n];
+        n = n+1;
+    };
+
+    n = 0;
+
+    print "\nOs ",total_n, " primeiros numeros da sequencia de fibonacci são: \n";
+    while(n < total_n) {
+        arr[n] = fibonacci(n);
+
+        if input == arr[n] then print "[->", arr[n], "<-] " else print arr[n], "\t";
+
+        if input > arr[n] then if input < arr[n+1] then print "[*] ";
+
+        n = n+1;
+
+        if(count >= columns) then {
+            print "\n";
+            count = 0;
+        } else {
+            count = count + 1;
+        };
+    };
+
+    print "\n";
+
+}

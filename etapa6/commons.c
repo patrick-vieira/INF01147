@@ -2,9 +2,8 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include "commons.h"
 
-char *str_replace(char *orig, char *rep, char *with);
-int replacechar(char *str, char orig, char rep);
 
 char *dash_replace(char* text) {
     return str_replace(text, "-", "__dash__");

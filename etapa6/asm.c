@@ -44,10 +44,13 @@ int BL = 0;
 int CMP_LBL_TEMP = 0;
 
 
-void generateAsm(TAC* first) {
+void generateAsm(TAC* first, char* outpath) {
 
     FILE *fout;
-    fout = fopen("tests/out.s", "w");
+
+    char* out_path = str_replace(outpath, ".txt", ".s");
+
+    fout = fopen(out_path, "w");
 
     // globals
     hashPrintAsm(fout);

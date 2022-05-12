@@ -1,0 +1,73 @@
+int a: 10;
+int arr[3]: 11 22 33;
+
+int fn(int argsa, int argsb, int argsc) {
+    a = argsa;
+
+    print a;
+    return a;
+}
+
+int main() {
+
+    a = fn(11, 22, 33);
+    print "\n", a;
+}
+\*
+    \\print "\n arr 0: ", arr[0], "\n";
+    arr[1+1] = 2*4;
+    print "\n arr 0: ", arr[0], "\n";
+    print "\n arr 1: ", arr[1], "\n";
+    print "\n arr 2: ", arr[2], "\n";
+    a = arr[1*5-3];
+    print "\n arr 0: ", arr[0], "\n";
+
+    print "\n", arr[1], "\n";
+    print "\n", a, "\n";
+    print "\n", "arr: ", arr[0] , " ", arr[0] + 1, " ", arr[1] * 2, " ",a, "\n";
+
+    arr[1] = arr[2];
+    arr[1] = 333 + 444;
+    print arr[0], " ", arr[1], " ", arr[2];
+
+
+}
+
+    \*
+
+    print "\n pppp \n";
+
+
+
+    print "antes goto \n";
+
+    label-goto:
+
+    print "depois goto \n";
+
+    a = read;
+    b = read;
+
+    if(a == b) then {
+        print "d";
+    };
+
+    if(a != b) then {
+        print "pulando com o goto \n";
+
+        goto label-goto;
+    };
+
+}
+\*
+int b: 10;
+int x: 11;
+
+int main() {
+    a = 5;
+    b=777;
+    x=a+b+99;
+    print x;
+
+    return 1 + 1;
+}

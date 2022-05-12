@@ -1,0 +1,11 @@
+char char-arr[2]: 'a' 'b';
+
+int res: 0;
+
+int fun(char a) {
+    print "char arr value: ", a, "\n";
+}
+int main() {
+    print "char arr value: ", char-arr[0],  char-arr[1], "\n";
+
+}

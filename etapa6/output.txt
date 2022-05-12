@@ -1,32 +1,26 @@
-int in__dash__repeat: 0;
-char in__dash__char: 'a';
-int result: 0;
-int n: 0;
-int a: 0;
-int b: 0;
-float fa: 2/3;
-float fb: 5/6;
-int total_n: 30;
-int arr[20];
-int columns: 6;
-int count: 0;
-int repeatchar(int repeat, char caracter, float argsfa, float argsfA){
-print "O caracter [", , "] vai ser incrementado ", , " vezes: \n";
-while (count<) {
-print , ", ";
-count=count+1;
-caracter=+1;
+int input: 0;
+int res: 0;
+int temp_result: 0;
+int factorial(int n){
+print "\n n = ", n;
+if (n==0) then {
+n=1;
+return n;
+
+} else {
+temp_result=n*factorial(n - 1);
+print "\n temp res: ", temp_result, " __dash__ n value: ", n;
+return temp_result;
 
 };
-print "\Args float a", , " Args float b", , "\n";
-return result;
 
 }
 int main(){
-print "Teste 4:";
-print "tipos de dados e chamadas com multiplos argumentos [int, char, float] \n";
-print "\n", "Digite o numero de letras: ";
-in__dash__repeat=read;
-a=repeatchar(in__dash__repeat, in__dash__char, fa, fb);
+print "Factorial calc: ", "\n";
+print "Enter the value to  calc: ";
+input=read;
+res=factorial(input);
+print "\nFactorial of ", input, " is: ", res;
+print "\n", "nice!";
 
 }

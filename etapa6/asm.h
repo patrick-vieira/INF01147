@@ -9,7 +9,7 @@
 
 
 
-void generateAsm(TAC* first);
+void generateAsm(TAC* first, char* outpath);
 
 #endif
 

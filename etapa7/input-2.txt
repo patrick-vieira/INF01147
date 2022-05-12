@@ -1,0 +1,41 @@
+\*
+int a: 1;
+
+int fn-a(int aa) {
+
+    a = fn-a(a);
+
+    return a;
+}
+*\
+
+int a: 1;
+\\int b: 2;
+\\char c: 'Z';
+\\float d: 7/9;
+
+int arr[3]: 4 5 6;
+\\int aarv[3]: 'e' 'd' 'f';
+
+\\int fn-b(int arga, int argb, int argc){
+int fn-b(){
+    a = arr[2+2];
+
+    arr[2] = 8;
+}
+\*
+int fn-a(int aa, char cc, int bb) {
+\\int fn-a() {
+    a = fn-b(a,b,c);
+
+    while(a>b){
+        a = b;
+    };
+
+    b = 4;
+
+    print "ahoy1", "ahoy2", "ahoy3", "ahoy4", 1+3;
+    print "ahoy", 1, 's', 1, "ssd", 4, 5;
+
+    return a + 10;
+}

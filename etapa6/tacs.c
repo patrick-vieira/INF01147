@@ -522,7 +522,7 @@ TAC* tacReverseTAC(TAC* tac) {
     TAC* t;
 
     for(t=tac; t->prev; t = t->prev) {
-        printf("tac type [%d] - res type [%d] - res text [%s]\n", t->type, t->res->type, t->res->text);
+        //printf("tac type [%d] - res type [%d] - res text [%s]\n", t->type, t->res->type, t->res->text);
         t->prev->next = t;
     }
 
