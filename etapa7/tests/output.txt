@@ -8,5 +8,6 @@ print "char var value: ", v, 'c', z, "\n";
 int main(){
 print "char arr value: ", char__dash__arr[0], " __dash__ ", char__dash__arr[1], "\n";
 res=fun(char__dash__x, 113);
+return 1;
 
 }

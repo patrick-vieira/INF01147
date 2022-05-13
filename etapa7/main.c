@@ -14,6 +14,7 @@ int yyparse(void);
 int getLineNumber(void);
 
 AST *getRootNode(void);
+int getErrorCount(void);
 
 
 int main(int argc, char **argv) {
@@ -35,19 +36,25 @@ int main(int argc, char **argv) {
     }
 
     int i = yyparse();
+    int semantic_error_count = getErrorCount();
+
+    if(semantic_error_count != 0) {
+        fprintf(stderr, "Semantic errors found: %d.\n", semantic_error_count);
+        exit(3);
+    }
 
     AST *rootNode = getRootNode();
     int semanticErrors = get_semantic_errors(rootNode);
 
     // TACS
-    astPrint(rootNode, 0);
+    //astPrint(rootNode, 0);
     TAC* code = tacGenerateCode(rootNode);
 
-    fprintf(stderr, "\nhash after tacGenerateCode\n\n");
-    hashPrint();
-    fprintf(stderr, "\n\n");
+    //fprintf(stderr, "\nhash after tacGenerateCode\n\n");
+    //hashPrint();
+    //fprintf(stderr, "\n\n");
 
-    tacPrintBackwards(code);
+    //tacPrintBackwards(code);
     generateAsm(tacReverseTAC(code), argv[1]);
 
     if (semanticErrors > 0) {
@@ -71,7 +78,7 @@ int main(int argc, char **argv) {
 
 
     printf("Numero de linhas: %d.\n", getLineNumber());
-    printf("Compilation Success.\n");
+    printf("Compilation Success.\n\n Output Program: \n\n");
 
     exit(0);
 }

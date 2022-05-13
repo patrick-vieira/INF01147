@@ -5,8 +5,37 @@ int res: 0;
 
 int fun(char v, char z) {
     print "char var value: ", v, 'c', z, "\n";
+
+    return 10;
 }
 int main() {
     print "char arr value: ", char-arr[0], " - ",  char-arr[1], "\n";
     res = fun(char-x, 113);
+
+    if(res > 0) then {
+        print res * 12, "\n";
+    };
+
+    while((res * 5) > 12) {
+        print "ahoy: ", res, "\n";
+        res = res - 1;
+    };
+    return 1;
 }
+
+
+\* Erros
+    ;
+    print sem ,
+    argumentos de função sem ,
+    argumentos de função sem identificador
+    argumentos de função sem typo
+    retorno de função sem valor
+    declaração de função sem tipo
+    array sem tamanho (conflita com erro do tipo da função)
+    if sem expressão
+    while sem expressão
+    expressão invalidas
+
+
+*\
