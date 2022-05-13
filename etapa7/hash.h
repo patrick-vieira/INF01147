@@ -46,6 +46,7 @@ typedef struct hash_node {
     int datatype;
     int datavalue;
     char* datastring;
+    char datachar;
     char *text;
     struct hash_node * next;
 } HASH_NODE;

@@ -8,4 +8,5 @@ int fun(char a) {
 int main() {
     print "char arr value: ", char-arr[0],  char-arr[1], "\n";
 
+    res = fun('a');
 }

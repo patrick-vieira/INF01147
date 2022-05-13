@@ -3,12 +3,15 @@ __TMP_VAR_4: .string	"\n"
 _0: .long	0
 _1: .long	1
 _2: .long	2
-_a: .byte	0
+_a: .long	0
 __TMP_VAR_3: .long	0
 __TMP_VAR_2: .long	0
 __TMP_VAR_1: .string	"char arr value: "
 __TMP_VAR_0: .string	"\n"
+__TMP_VAR_7: .long	0
+_char_a: .long	'a'
 _res: .long	0
+__TMP_VAR_6: .long	0
 __TMP_VAR_5: .string	"char arr value: "
 
  # PRINT
@@ -55,12 +58,12 @@ fun:
     movl	$0, %eax
 
 
+
 # TAC_PRINT_CHAR 
-    movzbl	_a(%rip), %eax   # mov a to reg
-    movsbl	%al, %eax
-    movl	%eax, %esi
-    leaq	print_string_char(%rip), %rdi
-	call	printf@PLT
+    leaq	_a(%rip), %rdi
+    movl	$0, %eax
+    call	printf@PLT
+    movl	$0, %eax
 
 
 
@@ -127,6 +130,25 @@ main:
     movl	$0, %eax
     call	printf@PLT
     movl	$0, %eax
+
+
+
+# TAC_TAC_FUN_CALL_ARGS
+ # LIT CHAR 
+	movl	_char_a(%rip), %r10d
+	pushq	%r10
+
+	# TAC_TAC_FUN_CALL
+	call	fun
+	addq	$8, %rsp
+	movl	%eax, __TMP_VAR_7(%rip) #move return to tempvar
+
+
+# TAC_MOVE //ASSIGN 
+    movl	__TMP_VAR_7(%rip), %eax
+    movl	%eax, _res(%rip)
+    movl	$0, %eax
+
 
 
 

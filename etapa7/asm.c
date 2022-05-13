@@ -197,26 +197,39 @@ void asm_TAC_ENDFUN(FILE* fout, TAC* tac){
 
 
 TAC* asm_TAC_FUN_CALL_ARGS(FILE* fout, TAC* tac) {
-//    movl	f10(%rip), %r10d
-//    pushq	%r10
     TAC* tac_temp = 0;
     tac_temp = tac;
     int args_count = 0;
 
     fprintf(fout, "\n\n# TAC_TAC_FUN_CALL_ARGS\n");
     while(tac_temp->type == TAC_FUNC_CALL_ARGS) {
-//        if(0) {
-        if(tac_temp->op1->datatype == DATATYPE_FLOAT) {
-            fprintf(fout, "\n"
-                          "\tmovl\t4+_%s(%%rip), %%r10d\n"
-                          "\tpushq\t%%r10\n"
-                          "\tmovl\t_%s(%%rip), %%r10d\n"
-                          "\tpushq\t%%r10\n", tac_temp->op1->text, tac_temp->op1->text);
-            args_count+=1;
-        } else {
-            fprintf(fout, "\n"
-                          "\tmovl\t_%s(%%rip), %%r10d\n"
-                          "\tpushq\t%%r10\n", tac_temp->op1->text);
+
+        switch (tac_temp->op1->datatype) {
+            case DATATYPE_FLOAT:
+                fprintf(fout, "\n"
+                              "\tmovl\t4+_%s(%%rip), %%r10d\n"
+                              "\tpushq\t%%r10\n"
+                              "\tmovl\t_%s(%%rip), %%r10d\n"
+                              "\tpushq\t%%r10\n", tac_temp->op1->text, tac_temp->op1->text);
+                args_count+=1;
+
+                break;
+            case DATATYPE_CHAR:
+                if(tac_temp->op1->type == SYMBOL_LIT_CHAR) {
+                    fprintf(fout, " # LIT CHAR \n"
+                                  "\tmovl\t_char_%c(%%rip), %%r10d\n"
+                                  "\tpushq\t%%r10\n", tac_temp->op1->datachar);
+                } else {
+                    fprintf(fout, " # VAR CHAR \n"
+                                  "\tmovl\t_%s(%%rip), %%r10d\n"
+                                  "\tpushq\t%%r10\n", tac_temp->op1->text);
+                }
+
+                break;
+            default:
+                fprintf(fout, "\n"
+                              "\tmovl\t_%s(%%rip), %%r10d\n"
+                              "\tpushq\t%%r10\n", tac_temp->op1->text);
         }
 
         args_count+=1;
@@ -271,12 +284,20 @@ void asm_TAC_PRINT_FLOAT(FILE* fout, TAC* tac){
                   "\tcall\tprintf@PLT\n\n", tac->res->text, tac->res->text);
 }
 void asm_TAC_PRINT_CHAR(FILE* fout, TAC* tac){
-    fprintf(fout, "\n# TAC_PRINT_CHAR \n"
-                  "    movzbl\t_%s(%%rip), %%eax   # mov a to reg\n"
-                  "    movsbl\t%%al, %%eax\n"
-                  "    movl\t%%eax, %%esi\n"
-                  "    leaq\tprint_string_char(%%rip), %%rdi\n"
-                  "\tcall\tprintf@PLT\n\n", tac->res->text);
+    if(tac->res->type == SYMBOL_LIT_CHAR) {
+        fprintf(fout, "\n\n# TAC_PRINT_CHAR \n"
+                      "    leaq\t_char_%c(%%rip), %%rdi\n"
+                      "    movl\t$0, %%eax\n"
+                      "    call\tprintf@PLT\n"
+                      "    movl\t$0, %%eax\n\n", tac->res->datachar);
+    } else {
+        fprintf(fout, "\n\n# TAC_PRINT_CHAR \n"
+                      "    leaq\t_%s(%%rip), %%rdi\n"
+                      "    movl\t$0, %%eax\n"
+                      "    call\tprintf@PLT\n"
+                      "    movl\t$0, %%eax\n\n", tac->res->text);
+    }
+
 }
 void asm_TAC_PRINT(FILE* fout, TAC* tac){
     // ignore, all in tac_print_string and tac_print_int

@@ -3,13 +3,22 @@ __TMP_VAR_4: .string	"\n"
 _0: .long	0
 _1: .long	1
 _2: .long	2
-_a: .byte	0
 __TMP_VAR_3: .long	0
+_v: .long	0
+_z: .long	0
 __TMP_VAR_2: .long	0
-__TMP_VAR_1: .string	"char arr value: "
+_char__dash__x: .long	112
+__TMP_VAR_1: .string	"char var value: "
+_char_p: .long	'p'
 __TMP_VAR_0: .string	"\n"
+_113: .long	113
+__TMP_VAR_9: .long	0
+__TMP_VAR_8: .long	0
+__TMP_VAR_7: .long	0
 _res: .long	0
-__TMP_VAR_5: .string	"char arr value: "
+__TMP_VAR_6: .string	"char arr value: "
+_char_c: .long	'c'
+__TMP_VAR_5: .string	" - "
 
  # PRINT
 print_string_int:
@@ -32,7 +41,7 @@ read:
 
 # TAC_ARRAY
 _char__dash__arr:
-	 .long 'a' 	# char__dash__arr[0]
+	 .long 'r' 	# char__dash__arr[0]
 	 .long 'b' 	# char__dash__arr[1]
 
 # TAC_BEGINFUN
@@ -46,7 +55,9 @@ fun:
     movl	$0, %edx
 
 	movl	16(%rbp), %eax
-	movl	%eax, _a(%rip)
+	movl	%eax, _v(%rip)
+	movl	24(%rbp), %eax
+	movl	%eax, _z(%rip)
 
 # TAC_PRINT_STRING 
     leaq	__TMP_VAR_1(%rip), %rdi
@@ -55,12 +66,28 @@ fun:
     movl	$0, %eax
 
 
+
 # TAC_PRINT_CHAR 
-    movzbl	_a(%rip), %eax   # mov a to reg
-    movsbl	%al, %eax
-    movl	%eax, %esi
-    leaq	print_string_char(%rip), %rdi
-	call	printf@PLT
+    leaq	_v(%rip), %rdi
+    movl	$0, %eax
+    call	printf@PLT
+    movl	$0, %eax
+
+
+
+# TAC_PRINT_CHAR 
+    leaq	_char_c(%rip), %rdi
+    movl	$0, %eax
+    call	printf@PLT
+    movl	$0, %eax
+
+
+
+# TAC_PRINT_CHAR 
+    leaq	_z(%rip), %rdi
+    movl	$0, %eax
+    call	printf@PLT
+    movl	$0, %eax
 
 
 
@@ -87,7 +114,7 @@ main:
 
 
 # TAC_PRINT_STRING 
-    leaq	__TMP_VAR_5(%rip), %rdi
+    leaq	__TMP_VAR_6(%rip), %rdi
     movl	$0, %eax
     call	printf@PLT
     movl	$0, %eax
@@ -105,6 +132,14 @@ main:
     #movl	%eax, %esi
     leaq	print_string_int(%rip), %rdi
 	call	printf@PLT
+
+
+
+# TAC_PRINT_STRING 
+    leaq	__TMP_VAR_5(%rip), %rdi
+    movl	$0, %eax
+    call	printf@PLT
+    movl	$0, %eax
 
 
 
@@ -127,6 +162,28 @@ main:
     movl	$0, %eax
     call	printf@PLT
     movl	$0, %eax
+
+
+
+# TAC_TAC_FUN_CALL_ARGS
+
+	movl	_113(%rip), %r10d
+	pushq	%r10
+ # VAR CHAR 
+	movl	_char__dash__x(%rip), %r10d
+	pushq	%r10
+
+	# TAC_TAC_FUN_CALL
+	call	fun
+	addq	$16, %rsp
+	movl	%eax, __TMP_VAR_9(%rip) #move return to tempvar
+
+
+# TAC_MOVE //ASSIGN 
+    movl	__TMP_VAR_9(%rip), %eax
+    movl	%eax, _res(%rip)
+    movl	$0, %eax
+
 
 
 

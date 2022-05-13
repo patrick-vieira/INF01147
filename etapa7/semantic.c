@@ -537,7 +537,7 @@ void set_datatype(AST* node){
         }
 
 
-        case AST_DECLARATION_FUNCTION_ARGS_CHAR:
+        case AST_DECLARATION_FUNCTION_ARGS_CHAR:    node->symbol->datatype = DATATYPE_CHAR          ; break;
         case AST_DECLARATION_GLOBAL_CHAR:           node->symbol->datatype = DATATYPE_CHAR          ; node->symbol->datavalue = node->son[0]?(int)node->son[0]->symbol->text[1]:0; node->symbol->datastring = node->son[0]?node->son[0]->symbol->text:""; break;
 
         case AST_DECLARATION_FUNCTION_ARGS_FLOAT:
@@ -564,6 +564,7 @@ void set_datatype(AST* node){
                 if (node->symbol->type == LIT_CHAR) {
                     node->symbol->datatype = DATATYPE_CHAR;
                     node->symbol->type = SYMBOL_LIT_CHAR;
+                    node->symbol->datachar = node->symbol->text[1];
                 }
                 if (node->symbol->type == LIT_STRING) {
                     node->symbol->datatype = DATATYPE_STRING;

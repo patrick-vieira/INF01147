@@ -131,8 +131,8 @@ void hashPrintAsm(FILE* fout) {
 //            printf("Table[%d] \t has %s    \t type %d    \t datatype %d \n", i, node->text, node->type, node->datatype);
             if(node->type == SYMBOL_LIT_INT)
                 fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
-//            if(node->type == SYMBOL_LIT_CHAR)
-//                fprintf(fout, "_%s: .long\t%s\n", node->text, node->text);
+            if(node->type == SYMBOL_LIT_CHAR)
+                fprintf(fout, "_char_%c: .long\t%s\n", node->datachar, node->text);
 //            if(node->type == SYMBOL_STRING)
 //                fprintf(fout, "_%s: .string\t\"%s\"\n", node->text, node->text);
 //            if(node->type == SYMBOL_VARIABLE)
@@ -140,7 +140,7 @@ void hashPrintAsm(FILE* fout) {
 
             if(node->type == SYMBOL_FUNCTION_ARGS || node->type == SYMBOL_VARIABLE){
                 if(node->datatype == DATATYPE_CHAR)
-                    fprintf(fout, "_%s: .byte\t%d\n", node->text, node->datavalue);
+                    fprintf(fout, "_%s: .long\t%d\n", node->text, node->datavalue);
 
                 if(node->datatype == DATATYPE_FLOAT)
                     fprintf(fout, "_%s: "

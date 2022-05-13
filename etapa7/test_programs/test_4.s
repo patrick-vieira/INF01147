@@ -1,5 +1,5 @@
 	.data
-_first__dash__char: .byte	97
+_first__dash__char: .long	97
 _fa: 	.long	2
 	.long	3
 __TMP_VAR_11: .string	"tipos de dados e chamadas com multiplos argumentos [int, char, float] \n"
@@ -31,10 +31,11 @@ __TMP_VAR_8: .string	"\n"
 _result: .long	0
 __TMP_VAR_10: .string	"Teste 4:"
 __TMP_VAR_7: .string	"\n\n O terceiro argumento é um float com valor: "
+_char_a: .long	'a'
 __TMP_VAR_14: .long	0
 _argsfb: 	.long	0
 	.long	0
-_caracter: .byte	114
+_caracter: .long	0
 __TMP_VAR_6: .long	0
 __TMP_VAR_18: .long	0
 _argsfa: 	.long	0
@@ -105,12 +106,12 @@ repeatchar:
     movl	$0, %eax
 
 
+
 # TAC_PRINT_CHAR 
-    movzbl	_caracter(%rip), %eax   # mov a to reg
-    movsbl	%al, %eax
-    movl	%eax, %esi
-    leaq	print_string_char(%rip), %rdi
-	call	printf@PLT
+    leaq	_caracter(%rip), %rdi
+    movl	$0, %eax
+    call	printf@PLT
+    movl	$0, %eax
 
 
 
@@ -148,12 +149,12 @@ CMP_LBL_TEMP_1:	#final do bloco
 	cmpl	%eax, %edx 	# Se condicional anterior for 0 pula o trecho a baixo
     jz __TMP_LABEL_1
 
+
 # TAC_PRINT_CHAR 
-    movzbl	_caracter(%rip), %eax   # mov a to reg
-    movsbl	%al, %eax
-    movl	%eax, %esi
-    leaq	print_string_char(%rip), %rdi
-	call	printf@PLT
+    leaq	_caracter(%rip), %rdi
+    movl	$0, %eax
+    call	printf@PLT
+    movl	$0, %eax
 
 
 
@@ -322,7 +323,7 @@ main:
 	pushq	%r10
 	movl	_fa(%rip), %r10d
 	pushq	%r10
-
+ # VAR CHAR 
 	movl	_first__dash__char(%rip), %r10d
 	pushq	%r10
 
